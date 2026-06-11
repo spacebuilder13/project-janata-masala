@@ -1,0 +1,7 @@
+{
+  "name": "project-janata-masala",
+  "private": true,
+  "devDependencies": {
+    "@vercel/node": "^5.0.0"
+  }
+}
