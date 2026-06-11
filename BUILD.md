@@ -1,7 +1,8 @@
 # BUILD — Janata Masala M1
 
-Status: **M1 harness complete**
+Status: **M1 harness complete — deployed**
 
+**Live:** https://project-janata-masala.vercel.app  
 **Deploy:** Vercel (`vercel.json` at repo root)  
 **Handoff:** `docs/SESSION-HANDOFF.md`
 

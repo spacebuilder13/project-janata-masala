@@ -4,7 +4,8 @@ Login-gated engagement workspace for modernizing Janata Masala through agentic c
 
 ## Live
 
-Deploy target: `https://project-janata-masala.vercel.app` (after Vercel link)
+**Live:** https://project-janata-masala.vercel.app  
+**Repo:** https://github.com/spacebuilder13/project-janata-masala
 
 ## Quick start
 

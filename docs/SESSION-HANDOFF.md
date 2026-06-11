@@ -1,7 +1,10 @@
 # Session Handoff — Janata Masala
 
 **Last updated:** 2026-06-11  
-**Status:** M1 harness complete — repo scaffolded, all routes stubbed with content
+**Status:** M1 harness complete — deployed  
+**Live:** https://project-janata-masala.vercel.app  
+**Repo:** https://github.com/spacebuilder13/project-janata-masala  
+**Login:** `masala2026` (dev fallback; set `DEMO_PASSWORD` in Vercel for production)
 
 ## What's done
 
