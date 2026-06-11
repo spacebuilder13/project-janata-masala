@@ -13,53 +13,62 @@ export type ScopeItem = {
   area: string
   status: 'planned' | 'in-progress' | 'done'
   description: string
+  phase?: string
 }
 
 export const meetings: Meeting[] = [
   {
     id: 'm1',
-    date: '2026-06-01',
-    title: 'Kickoff — Modernizing Janata Masala',
-    attendees: ['S&A Team', 'JM Leadership'],
-    summary: 'Aligned on vision: agentic commerce for spice retail — WhatsApp campaigns, voice ordering, integrated back-office.',
+    date: '2026-06-09',
+    title: 'Discovery — Modernizing Janata Masala',
+    attendees: ['Jay', 'Sohum', 'Neyomi', 'Utsav'],
+    summary: 'Aligned on three strategic pillars: business-led growth, premium positioning, agentic CRM. Identified founder dependence as core constraint. WhatsApp-first over website for target demographic.',
     decisions: [
-      'Start with explorations demos before production integrations',
-      'WhatsApp Business API as primary customer channel',
-      'Voice agent for order-taking and enquiries as Phase 1 demo',
+      'Phase 1 focuses on branding + Instagram + WhatsApp operator (not full tech stack yet)',
+      'Mini brand revamp within ~50k: branding book, packaging template, workshop videos',
+      'Benchmark Janta Stores (channel), CDS WPI (brand), Rupsub (tech destination)',
+      'Performance marketing to Ghatkopar Gujarati/Kachchi belt',
     ],
     actions: [
-      { owner: 'S&A', item: 'Set up engagement workspace and NLM grounding' },
-      { owner: 'JM', item: 'Share product catalog and order flow context' },
+      { owner: 'Jay', item: 'Share product spreadsheet (pricing, categories, margins)' },
+      { owner: 'Utsav', item: 'Branding case studies + ballpark estimate (2 days)' },
+      { owner: 'Neel', item: 'Explore Agentic CRM tools (ChatGPT/Claude)' },
     ],
   },
   {
     id: 'm2',
-    date: '2026-06-08',
-    title: 'Explorations scope — WhatsApp & Voice',
-    attendees: ['S&A Team', 'JM Operations'],
-    summary: 'Defined demo scenarios: bulk order enquiry, retail customer callback, inventory check on popular SKUs.',
+    date: '2026-06-10',
+    title: 'Creative & channel strategy',
+    attendees: ['Sohum', 'Neyomi', 'Utsav', 'TQi team'],
+    summary: 'Workshop approach for phone videos. Sensory content (spice crush, 13mm kaju). WhatsApp channels for moms. List-dump ordering as primary commerce flow.',
     decisions: [
-      'Demo structured output to Inventory, Orders, CRM, Finance',
-      'Use Claude for post-conversation orchestration',
+      'TQi provides video templates; Jay\'s team shoots at store',
+      'WhatsApp Channels for new arrivals (older demographic)',
+      'Curated bundles: Monthly Essentials, Navratri Essentials',
+      'One packaging template included in Phase 1 budget',
     ],
     actions: [
-      { owner: 'S&A', item: 'Build WhatsApp campaign gallery in JM context' },
-      { owner: 'S&A', item: 'Configure ElevenLabs voice persona for JM' },
+      { owner: 'Neyomi', item: 'Packaging template concept' },
+      { owner: 'S&A', item: 'WhatsApp Business portfolio setup scope' },
+      { owner: 'S&A', item: 'Engagement workspace with explorations demos' },
     ],
   },
 ]
 
 export const openQuestions = [
-  'Which ERP/inventory system does JM use today?',
-  'WhatsApp Business API — existing WABA or new setup?',
-  'Priority SKUs for voice demo scenarios?',
-  'CRM tool preference for customer notes?',
+  'Which ERP/inventory system does JM use today? (pen-and-paper → digital)',
+  'Existing WhatsApp Business account or new WABA setup?',
+  'Priority SKUs for list-dump demo scenarios?',
+  'Jay\'s product spreadsheet — pricing tiers for bulk vs retail?',
+  'Private label expansion timeline?',
 ]
 
 export const scopeItems: ScopeItem[] = [
-  { id: 's1', area: 'Engagement workspace', status: 'done', description: 'Login-gated hub with Adventure + Explorations' },
-  { id: 's2', area: 'WhatsApp campaigns', status: 'in-progress', description: 'JM-context campaign slides + ChatAgent' },
-  { id: 's3', area: 'Voice order-taking', status: 'in-progress', description: 'ElevenLabs demo with structured Claude output' },
-  { id: 's4', area: 'System integration', status: 'planned', description: 'Live hooks to Inventory, Orders, CRM, Finance' },
-  { id: 's5', area: 'NLM grounding', status: 'planned', description: 'Replace placeholder content with NLM exports' },
+  { id: 's1', area: 'Engagement workspace', status: 'done', description: 'Login-gated hub with Adventure + Explorations', phase: 'M1' },
+  { id: 's2', area: 'Branding book + mockups', status: 'in-progress', description: 'Logo, palettes, 10 touchpoint mockups', phase: 'Phase 1' },
+  { id: 's3', area: 'Instagram + workshop videos', status: 'in-progress', description: 'Semi-aesthetic phone video system at store', phase: 'Phase 1' },
+  { id: 's4', area: 'WhatsApp Business setup', status: 'in-progress', description: 'Dedicated number, operator, campaign patterns', phase: 'Phase 1' },
+  { id: 's5', area: 'Inventory + order systems', status: 'planned', description: 'Integrated back-end replacing pen-and-paper', phase: 'Phase 2' },
+  { id: 's6', area: 'Agentic CRM + voice', status: 'planned', description: 'Personalization, AI order intake, payment links', phase: 'Phase 3' },
+  { id: 's7', area: 'NLM content grounding', status: 'done', description: 'Strategy, benchmarks, playbook from notebook', phase: 'M2' },
 ]

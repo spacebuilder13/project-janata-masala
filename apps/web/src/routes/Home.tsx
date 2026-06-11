@@ -9,7 +9,7 @@ const sections = [
     eyebrow: '01 — The journey',
     title: 'Getting ready for an adventure of a lifetime',
     subtitle: 'Moderning Janata Masala',
-    description: 'Meetings, discussion points, decisions, and scope — your shared modernization journey with the S&A team.',
+    description: 'Founder liberation north star, strategic pillars, 3-phase roadmap, benchmarks, meetings, and action tracker.',
     accent: 'var(--color-jm-spice)',
   },
   {

@@ -1,6 +1,6 @@
 # BUILD — Janata Masala M1
 
-Status: **M1 harness complete — deployed**
+Status: **M2 content complete — deployed**
 
 **Live:** https://project-janata-masala.vercel.app  
 **Deploy:** Vercel (`vercel.json` at repo root)  
@@ -17,6 +17,11 @@ Status: **M1 harness complete — deployed**
 | `/home/explorations/whatsapp` | ExplorationsWhatsapp | WA campaigns + ChatAgent |
 | `/home/explorations/voice` | ExplorationsVoice | VoiceAgent + system flow |
 | `/home/explorations/architecture` | ExplorationsArchitecture | Agentic commerce diagram |
+| `/home/explorations/brand` | ExplorationsBrand | Brand & content direction |
+
+## Offline mode (default)
+
+ChatAgent uses `chat-memory.ts` keyword router. Voice uses `ConversationSimulator` + hardcoded JSON. Set `VITE_ENABLE_LIVE_CHAT=true` + `ANTHROPIC_API_KEY` for live Claude.
 
 ## Stack
 

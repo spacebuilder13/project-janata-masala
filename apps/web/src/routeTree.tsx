@@ -7,6 +7,7 @@ import ExplorationsIndex from '@/routes/ExplorationsIndex'
 import ExplorationsWhatsapp from '@/routes/ExplorationsWhatsapp'
 import ExplorationsVoice from '@/routes/ExplorationsVoice'
 import ExplorationsArchitecture from '@/routes/ExplorationsArchitecture'
+import ExplorationsBrand from '@/routes/ExplorationsBrand'
 import { isAuthed } from '@/lib/auth'
 
 const rootRoute = createRootRoute({
@@ -79,6 +80,15 @@ const explorationsArchitectureRoute = createRoute({
   component: ExplorationsArchitecture,
 })
 
+const explorationsBrandRoute = createRoute({
+  getParentRoute: () => layoutRoute,
+  path: '/home/explorations/brand',
+  beforeLoad: () => {
+    if (!isAuthed()) throw redirect({ to: '/' })
+  },
+  component: ExplorationsBrand,
+})
+
 const routeTree = rootRoute.addChildren([
   layoutRoute.addChildren([
     indexRoute,
@@ -88,6 +98,7 @@ const routeTree = rootRoute.addChildren([
     explorationsWhatsappRoute,
     explorationsVoiceRoute,
     explorationsArchitectureRoute,
+    explorationsBrandRoute,
   ]),
 ])
 

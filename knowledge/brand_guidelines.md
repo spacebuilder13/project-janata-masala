@@ -4,7 +4,9 @@
 
 - **Category:** Indian spices and masala — trusted household name
 - **Tone:** Warm, authentic, rooted in tradition, forward-looking on commerce
-- **Audience:** Retail customers, distributors, and internal JM team
+- **Audience:** Retail customers, distributors, Gujarati-Kachchi communities (Ghatkopar belt), housewives, internal JM team
+- **Framing:** Heritage authority — Sabyasachi not Zara. "Janta" as asset: where serious buyers come for originality, not aspiration alone.
+- **North star:** Brand as operating system — can JM run without Jay physically present?
 
 ## Visual direction (Sandy system, JM accent)
 

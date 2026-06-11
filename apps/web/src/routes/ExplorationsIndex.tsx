@@ -3,9 +3,10 @@ import { motion } from 'framer-motion'
 import { fadeRise, stagger } from '@/components/sandy/motion'
 
 const modules = [
-  { to: '/home/explorations/whatsapp' as const, title: 'WhatsApp + ChatAgent', desc: 'Campaign slides in JM context, powered by Claude' },
-  { to: '/home/explorations/voice' as const, title: 'VoiceAgent + System Flow', desc: 'Order-taking demo with structured back-office output' },
-  { to: '/home/explorations/architecture' as const, title: 'Agentic Commerce Architecture', desc: 'Multi-agent system diagram for JM' },
+  { to: '/home/explorations/brand' as const, title: 'Brand & Content', desc: 'Heritage authority, workshop system, sensory storytelling, performance marketing' },
+  { to: '/home/explorations/whatsapp' as const, title: 'WhatsApp + ChatAgent', desc: '11 campaign patterns + offline knowledge agent' },
+  { to: '/home/explorations/voice' as const, title: 'VoiceAgent + System Flow', desc: 'Scripted conversations with structured back-office output' },
+  { to: '/home/explorations/architecture' as const, title: 'Agentic Commerce Architecture', desc: 'Benchmark stack, phase overlay, multi-agent diagram' },
 ]
 
 export default function ExplorationsIndex() {
