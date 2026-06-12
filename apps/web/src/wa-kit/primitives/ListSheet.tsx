@@ -39,7 +39,7 @@ export default function ListSheet({
         <button type="button" className="wa-list-trigger" onClick={() => setOpen(true)}>
           ☰ {triggerLabel}
         </button>
-        <div className="wa-bubble__meta" style={{ padding: '0 10px 4px' }}>
+        <div className="wa-bubble__meta wa-bubble__meta--inset">
           <span>9:41</span>
         </div>
       </Bubble>

@@ -17,3 +17,11 @@ Learnings to batch-merge into `vibe-coding-stack` at milestones.
 - Adventure anchor nav + 8 sections; Explorations brand route added
 - WAChatFrame for authentic WhatsApp mockups; 11 JM campaign patterns
 - Architecture: benchmark stack, phase overlay, DiagramQuadrant
+
+## 2026-06-12 — M2.3–M2.4 UI + WA kit
+
+- Ported findow-phase1 shell CSS (PageShell, tags, slide primitives) + Sandy Lab stage rhythm
+- WhatsApp page: Zen 3-col gallery with 260×460 mini-frames + sticky ChatAgent moved below gallery (M2.3)
+- Extracted `wa-kit/` — canonical class-based WhatsApp chrome; hex only in `tokens.css`
+- Frame-safe carousel (single-card snap); `lint:wa` + Playwright `qa:wa-frames` for interior QA
+- Reference: zen-money-manager Sandy Lab WhatsApp; sync procedure in `docs/WA_KIT.md`

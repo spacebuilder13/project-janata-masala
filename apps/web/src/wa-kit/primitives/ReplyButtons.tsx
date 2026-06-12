@@ -32,7 +32,7 @@ export default function ReplyButtons({ prompt, buttons, followup, chooseLabel = 
               </button>
             ))}
           </div>
-          <div className="wa-bubble__meta" style={{ padding: '0 10px 4px' }}>
+          <div className="wa-bubble__meta wa-bubble__meta--inset">
             <span>9:41</span>
           </div>
         </Bubble>

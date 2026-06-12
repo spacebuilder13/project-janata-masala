@@ -17,6 +17,14 @@ B2B engagement pod for modernizing Janata Masala through agentic commerce.
 - "query NLM for X"
 - "update adventure module"
 - "update explorations"
+- "update whatsapp" / "wa-kit" → load `docs/WA_KIT.md` + `docs/VISUAL_QA.md`
+
+## WhatsApp / wa-kit
+
+- Kit lives in `apps/web/src/wa-kit/` — **no hex outside `tokens.css`**
+- JM demos are thin wrappers in `apps/web/src/components/explorations/wa/demos/`
+- New pattern: add primitive to wa-kit first, then JM copy wrapper
+- Frame-safe: one carousel card visible; composer always in frame
 
 ## NLM
 

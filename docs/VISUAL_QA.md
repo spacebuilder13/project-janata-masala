@@ -93,11 +93,13 @@ QA_BASE_URL=http://localhost:4173 DEMO_PASSWORD=masala2026 npm run qa:wa-frames
 
 **Interior frame pass (blocking — human 5 min):**
 
-- [ ] `v4-frame-catalog-carousel.png` — **one full card** visible, dots below, no hard clip at bezel
+- [ ] `v4-frame-catalog-carousel.png` — one full card visible, dots below, no hard clip at bezel
 - [ ] `v4-frame-list-dump.png` — outgoing bubble + bill visible without scrolling thread
 - [ ] `v4-frame-festival-list.png` — list sheet fits inside frame
-- [ ] Side-by-side Zen pal for carousel, reply buttons, list picker
+- [ ] Side-by-side [Zen Sandy Lab WhatsApp](https://zen-design-pal.lovable.app/sandy-lab/whatsapp) for carousel, reply buttons, list picker
 - [ ] `npm run lint:wa` PASS
+
+**2026-06-12 signed:** catalog carousel, list-dump, festival-list — PASS on prod; see `v4-frame-*.png`.
 
 **375px:** single column gallery; no page-level horizontal overflow
 

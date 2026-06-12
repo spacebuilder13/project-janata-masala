@@ -3,7 +3,7 @@
 **Client:** Janata Masala  
 **Partner:** Spaceships & Atoms (S&A)  
 **Engagement:** Modernizing Janata Masala — agentic commerce, WhatsApp campaigns, voice order-taking  
-**Status:** M1 harness — landing + home hub + explorations demos
+**Status:** M2.4 — Sandy shell + wa-kit WhatsApp gallery (see `docs/SESSION-HANDOFF.md`)
 
 ---
 

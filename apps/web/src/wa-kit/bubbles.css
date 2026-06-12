@@ -56,6 +56,10 @@
   color: var(--wa-read-tick);
 }
 
+.wa-bubble__meta--inset {
+  padding: 0 10px 4px;
+}
+
 .wa-bubble__sub {
   color: var(--wa-bubble-meta);
   font-size: 10px;

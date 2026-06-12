@@ -46,7 +46,7 @@ export default function FlowSheet({
         >
           ⚙ {triggerLabel}
         </button>
-        <div className="wa-bubble__meta" style={{ padding: '0 10px 4px' }}>
+        <div className="wa-bubble__meta wa-bubble__meta--inset">
           <span>9:41</span>
         </div>
       </Bubble>

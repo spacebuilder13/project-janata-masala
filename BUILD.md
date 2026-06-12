@@ -1,6 +1,6 @@
-# BUILD — Janata Masala M1
+# BUILD — Janata Masala
 
-Status: **M2.2 full UI/UX revamp — deployed**
+Status: **M2.4 WA kit + interior frame QA — deployed**
 
 **Live:** https://project-janata-masala.vercel.app  
 **Deploy:** Vercel (`vercel.json` at repo root)  
@@ -14,7 +14,7 @@ Status: **M2.2 full UI/UX revamp — deployed**
 | `/home` | Home | Hub — Adventure + Explorations cards |
 | `/home/adventure` | Adventure | Meetings, decisions, scope tracker |
 | `/home/explorations` | ExplorationsIndex | Explorations hub |
-| `/home/explorations/whatsapp` | ExplorationsWhatsapp | WA campaigns + ChatAgent |
+| `/home/explorations/whatsapp` | ExplorationsWhatsapp | WA gallery (wa-kit) + ChatAgent |
 | `/home/explorations/voice` | ExplorationsVoice | VoiceAgent + system flow |
 | `/home/explorations/architecture` | ExplorationsArchitecture | Agentic commerce diagram |
 | `/home/explorations/brand` | ExplorationsBrand | Brand & content direction |
@@ -34,16 +34,24 @@ ChatAgent uses `chat-memory.ts` keyword router. Voice uses `ConversationSimulato
 
 See `knowledge/brand_guidelines.md`. Graph paper background with vignette, JM spice accent on Sandy base.
 
-Design system CSS: `apps/web/src/styles/tokens.css`, `apps/web/src/styles/auth.css`.
+| Layer | Path |
+|-------|------|
+| Sandy tokens | `apps/web/src/styles/tokens.css`, `shell.css`, `slides.css` |
+| Auth gate | `apps/web/src/styles/auth.css` |
+| WhatsApp kit | `apps/web/src/wa-kit/` — see `docs/WA_KIT.md` |
+| Gallery layout | `apps/web/src/styles/wa.css` |
+
+Reference: [Sandy Lab WhatsApp](https://zen-design-pal.lovable.app/sandy-lab/whatsapp), findow-phase1 login/stage patterns.
 
 ## Pre-deploy (blocking for UI changes)
 
 Run the checklist in [`docs/VISUAL_QA.md`](docs/VISUAL_QA.md) before every UI deploy:
 
-1. `cd apps/web && npm run build`
-2. Screenshot `/`, `/home`, `/home/adventure`, `/home/explorations` at 375px + 1280px
-3. Log pass/fail in `docs/VISUAL_QA.md`
-4. Deploy only on PASS
+1. `cd apps/web && npm run build && npm run lint:wa`
+2. WhatsApp route: `npm run preview &` then `QA_BASE_URL=http://localhost:4173 npm run qa:wa-frames`
+3. Screenshot key routes at 375px + 1280px
+4. Log pass/fail in `docs/VISUAL_QA.md`
+5. Deploy only on PASS
 
 ## Knowledge
 
@@ -59,13 +67,3 @@ ELEVENLABS_API_KEY=
 ELEVENLABS_AGENT_ID=
 NOTEBOOKLM_NOTEBOOK_ID=b5db93de-0a0e-49ea-9cd9-6009beabf6ed
 ```
-
-## Build commands
-
-```bash
-cd apps/web && npm install && npm run build
-```
-
-## Deploy
-
-Vercel root: repo root. Build command in `vercel.json`.

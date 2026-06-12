@@ -1,17 +1,25 @@
 # Session Handoff — Janata Masala
 
-**Last updated:** 2026-06-11  
-**Status:** M2 complete — NLM-grounded content, offline demos, full Adventure + Explorations  
+**Last updated:** 2026-06-12  
+**Status:** M2.4 complete — WA kit, interior frame QA, Sandy shell revamp  
 **Live:** https://project-janata-masala.vercel.app  
 **Repo:** https://github.com/spacebuilder13/project-janata-masala  
 **Login:** `masala2026`
+
+## What's done (M2.4)
+
+- [x] Canonical `wa-kit/` — class-based WhatsApp chrome + primitives (ported from zen-money-manager)
+- [x] WhatsApp gallery: 11 frame-safe demos, 3-col layout, ChatAgent below gallery
+- [x] WA QA: `npm run lint:wa`, `npm run qa:wa-frames`, `docs/qa-screenshots/v4-frame-*.png`
+- [x] Sandy shell: PageShell, PageIntro, tokens/shell/slides CSS from findow-phase1
+- [x] Adventure anchor nav + list-row polish; Visual QA checklist in `docs/VISUAL_QA.md`
 
 ## What's done (M2)
 
 - [x] NLM queries Q1–Q3 (verbatim); Q4–Q6 synthesis; knowledge layer expanded
 - [x] Typed data layer: strategy, roadmap, benchmarks, actions, chat-memory, voice-scripts, brand-mockups
-- [x] Adventure: north star, pillars, roadmap, benchmarks, meetings, actions, scope, anchor nav
-- [x] Explorations: brand route, 11 WhatsApp patterns + WAChatFrame, offline ChatAgent
+- [x] Adventure: north star, pillars, roadmap, benchmarks, meetings, actions, scope
+- [x] Explorations: brand route, 11 WhatsApp patterns + offline ChatAgent
 - [x] Voice: ConversationSimulator (B2B + B2C list-dump), hardcoded structured JSON + flow diagram
 - [x] Architecture: benchmark stack, phase overlay, DiagramQuadrant, agent tooltips
 - [x] Offline-first: no API keys required for demos
@@ -22,6 +30,15 @@
 - [ ] Retry NLM Q4/Q5 if CLI timeout resolves
 - [ ] Optional: `VITE_ENABLE_LIVE_CHAT=true` + `ANTHROPIC_API_KEY` for live Claude
 - [ ] ElevenLabs agent when configured
+- [ ] Backport `wa-kit` primitives to zen-money-manager when Sandy Lab adds new surfaces
+
+## Key docs
+
+| Doc | Purpose |
+|-----|---------|
+| `docs/WA_KIT.md` | WhatsApp kit structure, tokens, frame-safe rules |
+| `docs/VISUAL_QA.md` | Pre-deploy checklist (interior frame pass blocking for WhatsApp) |
+| `BUILD.md` | Routes, stack, deploy commands |
 
 ## NLM notebook
 
@@ -33,6 +50,6 @@
 |-------|--------|
 | `/home/adventure` | Strategy, roadmap, benchmarks, meetings, actions |
 | `/home/explorations/brand` | Heritage, workshop, sensory, packaging |
-| `/home/explorations/whatsapp` | 11 patterns + offline ChatAgent |
+| `/home/explorations/whatsapp` | 11 patterns (wa-kit gallery) + offline ChatAgent |
 | `/home/explorations/voice` | 2 scripted scenarios + system flow |
 | `/home/explorations/architecture` | Benchmark stack + agent diagram |
