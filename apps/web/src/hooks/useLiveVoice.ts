@@ -121,76 +121,102 @@ export function useLiveVoice() {
 
   const endCall = useCallback(async () => {
     setStatus('extracting')
-    setHint('Processing your order…')
+    setHint('Processing your order… (~10s)')
     const durationSecs = stopTimer()
-
-    if (conversationRef.current) {
-      try {
-        await conversationRef.current.endSession()
-      } catch (e) {
-        console.warn('endSession', e)
-      }
-      conversationRef.current = null
-    }
-
     const transcript = transcriptRef.current.join('\n')
+    const conversationId = conversationIdRef.current
     const sessionUsage: SessionUsage = {}
 
-    const extractRes = await fetch('/api/post-call-extract', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ transcript, session_id: sessionIdRef.current }),
-    })
-    const extractData = await extractRes.json()
+    const session = conversationRef.current
+    conversationRef.current = null
+    if (session) {
+      void Promise.race([
+        session.endSession().catch((e) => console.warn('endSession', e)),
+        new Promise((resolve) => setTimeout(resolve, 2500)),
+      ])
+    }
 
-    Object.assign(sessionUsage, {
-      claude: extractData.usage?.claude,
-      estimated_cost_usd: extractData.usage?.estimated_cost_usd,
-      estimated_cost_inr: extractData.usage?.estimated_cost_inr,
-    })
+    try {
+      const extractRes = await fetch('/api/post-call-extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ transcript, session_id: sessionIdRef.current }),
+      })
+      const extractData = await extractRes.json()
 
-    if (conversationIdRef.current) {
-      try {
-        const usageRes = await fetch(
-          `/api/usage-snapshot?conversation_id=${encodeURIComponent(conversationIdRef.current)}`,
-        )
-        const usageData = await usageRes.json()
-        if (usageRes.ok) {
-          sessionUsage.elevenlabs = {
-            credits_used: usageData.credits_used,
-            duration_secs: usageData.duration_secs ?? durationSecs,
-            charging: usageData.charging,
-          }
-        }
-      } catch (e) {
-        console.warn('usage snapshot', e)
+      if (!extractRes.ok) {
+        throw new Error(extractData.error || 'post-call-extract failed')
       }
-    }
 
-    let parsed: StructuredOutput | null = null
-    let validation: ValidationResult = { ok: false, errors: ['No data'] }
+      Object.assign(sessionUsage, {
+        claude: extractData.usage?.claude,
+        estimated_cost_usd: extractData.usage?.estimated_cost_usd,
+        estimated_cost_inr: extractData.usage?.estimated_cost_inr,
+      })
 
-    if (extractData.structured && typeof extractData.structured === 'object') {
-      parsed = extractData.structured as StructuredOutput
-      validation = extractData.validation ?? { ok: false, errors: [] }
-      setStructured(parsed)
-      setStatus('done')
-      setHint(parsed ? 'Order ready — see summary below.' : 'Could not parse order.')
-    } else {
+      let parsed: StructuredOutput | null = null
+      let validation: ValidationResult = { ok: false, errors: ['No data'] }
+
+      if (extractData.structured && typeof extractData.structured === 'object') {
+        parsed = extractData.structured as StructuredOutput
+        validation = extractData.validation ?? { ok: false, errors: [] }
+        setStructured(parsed)
+        setStatus('done')
+        setHint('Order ready — see summary below.')
+      } else {
+        setStatus('error')
+        setHint("Couldn't parse order — try again.")
+      }
+
+      setDevin({
+        sessionId: sessionIdRef.current,
+        conversationId,
+        transcript,
+        structured: parsed,
+        validation,
+        usage: sessionUsage,
+        meta: extractData.meta ?? {},
+        balance: balanceRef.current,
+      })
+
+      if (conversationId) {
+        fetch(`/api/usage-snapshot?conversation_id=${encodeURIComponent(conversationId)}`)
+          .then(async (r) => ({ ok: r.ok, data: await r.json() }))
+          .then(({ ok, data: usageData }) => {
+            if (!ok) return
+            setDevin((prev) =>
+              prev
+                ? {
+                    ...prev,
+                    usage: {
+                      ...prev.usage,
+                      elevenlabs: {
+                        credits_used: usageData.credits_used,
+                        duration_secs: usageData.duration_secs ?? durationSecs,
+                        charging: usageData.charging,
+                      },
+                    },
+                  }
+                : prev,
+            )
+          })
+          .catch((e) => console.warn('usage snapshot', e))
+      }
+    } catch (e) {
+      console.error('endCall', e)
       setStatus('error')
-      setHint("Couldn't parse order — try again.")
+      setHint('Processing failed — try again.')
+      setDevin({
+        sessionId: sessionIdRef.current,
+        conversationId,
+        transcript,
+        structured: null,
+        validation: { ok: false, errors: [String(e)] },
+        usage: sessionUsage,
+        meta: {},
+        balance: balanceRef.current,
+      })
     }
-
-    setDevin({
-      sessionId: sessionIdRef.current,
-      conversationId: conversationIdRef.current,
-      transcript,
-      structured: parsed,
-      validation,
-      usage: sessionUsage,
-      meta: extractData.meta ?? {},
-      balance: balanceRef.current,
-    })
   }, [stopTimer])
 
   const reset = useCallback(() => {

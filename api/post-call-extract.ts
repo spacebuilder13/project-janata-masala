@@ -29,7 +29,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'transcript required' })
   }
 
-  const model = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514'
+  const model =
+    process.env.ANTHROPIC_EXTRACT_MODEL || process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514'
   const prompt = `${buildExtractionPrompt(transcript)}
 
 Return ONLY valid JSON matching this shape (no markdown):
@@ -45,7 +46,7 @@ ${JSON.stringify(STRUCTURED_SCHEMA.properties, null, 0)}`
       },
       body: JSON.stringify({
         model,
-        max_tokens: 2048,
+        max_tokens: 1024,
         messages: [{ role: 'user', content: prompt }],
       }),
     })

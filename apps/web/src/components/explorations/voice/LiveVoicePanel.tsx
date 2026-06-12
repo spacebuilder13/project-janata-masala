@@ -45,7 +45,7 @@ export default function LiveVoicePanel({
         <span className="text-sm capitalize" style={{ color: 'var(--color-sandy-ink-soft)' }}>
           {status === 'checking' ? 'Checking…' : status.replace('_', ' ')}
         </span>
-        {(isLive || isBusy) && (
+        {isLive && (
           <span className="ml-auto mono text-xs" style={{ color: 'var(--color-sandy-ink-faint)' }}>
             {timer}
           </span>
