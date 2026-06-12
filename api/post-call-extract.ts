@@ -5,6 +5,7 @@ import { fetchConversationTranscript } from './_lib/elevenlabs'
 import { buildExtractionPrompt } from './_lib/prompts'
 import { STRUCTURED_SCHEMA, validateStructured, type StructuredOutput } from './_lib/schema'
 import { estimateClaudeCostUsd, toInr, type ClaudeUsage } from './_lib/usage'
+import { logVoiceRunAttempt } from './_lib/voice-run-logger'
 import { VOICE_AGENTS, resolveAgentId, resolveVoiceAgentKey } from './_lib/voice-agents'
 
 loadLocalEnv()
@@ -22,16 +23,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     })
   }
 
-  const { transcript, session_id, conversation_id, agent_key } = req.body as {
+  const { transcript, session_id, conversation_id, agent_key, duration_secs } = req.body as {
     transcript?: string
     session_id?: string
     conversation_id?: string
     agent_key?: string
+    duration_secs?: number
   }
 
   const agentKey = resolveVoiceAgentKey(agent_key)
   const agentDef = VOICE_AGENTS[agentKey]
   const resolvedAgentId = resolveAgentId(agentKey)
+  const sid = session_id ?? `jm-unknown-${Date.now()}`
 
   let resolvedTranscript = transcript?.trim() ?? ''
   let transcriptSource: 'client' | 'elevenlabs' = 'client'
@@ -45,6 +48,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   if (!resolvedTranscript) {
+    await logVoiceRunAttempt({
+      session_id: sid,
+      agent_key: agentKey,
+      conversation_id,
+      transcript: '',
+      structured: null,
+      validation: { ok: false, errors: ['empty transcript'] },
+      usage: {},
+      meta: { agent_id: resolvedAgentId, prompt_version: agentDef.promptVersion },
+      duration_secs,
+      status: 'error',
+    })
     return res.status(400).json({ error: 'transcript required (client and ElevenLabs both empty)' })
   }
 
@@ -54,6 +69,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 Return ONLY valid JSON matching this shape (no markdown):
 ${JSON.stringify(STRUCTURED_SCHEMA.properties, null, 0)}`
+
+  const baseMeta = {
+    model,
+    session_id: sid,
+    conversation_id: conversation_id ?? null,
+    transcript_source: transcriptSource,
+    catalog_version: process.env.JM_CATALOG_VERSION || 'demo-v2',
+    prompt_version: agentDef.promptVersion,
+    agent_key: agentKey,
+    agent_id: resolvedAgentId,
+  }
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -83,29 +109,34 @@ ${JSON.stringify(STRUCTURED_SCHEMA.properties, null, 0)}`
       total_tokens: (data.usage?.input_tokens ?? 0) + (data.usage?.output_tokens ?? 0),
     }
 
+    const sessionUsage = {
+      claude: usage,
+      estimated_cost_usd: estimateClaudeCostUsd(model, usage),
+      estimated_cost_inr: toInr(estimateClaudeCostUsd(model, usage)),
+    }
+
     let structured: StructuredOutput
     try {
       const jsonText = text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim()
       structured = JSON.parse(jsonText) as StructuredOutput
     } catch {
+      await logVoiceRunAttempt({
+        session_id: sid,
+        agent_key: agentKey,
+        conversation_id,
+        transcript: resolvedTranscript,
+        structured: text,
+        validation: { ok: false, errors: ['JSON parse failed'] },
+        usage: sessionUsage,
+        meta: baseMeta,
+        duration_secs,
+        status: 'parse_failed',
+      })
       return res.status(200).json({
         structured: text,
         validation: { ok: false, errors: ['JSON parse failed'] },
-        usage: {
-          claude: usage,
-          estimated_cost_usd: estimateClaudeCostUsd(model, usage),
-          estimated_cost_inr: toInr(estimateClaudeCostUsd(model, usage)),
-        },
-        meta: {
-          model,
-          session_id,
-          conversation_id: conversation_id ?? null,
-          transcript_source: transcriptSource,
-          catalog_version: process.env.JM_CATALOG_VERSION || 'demo-v2',
-          agent_key: agentKey,
-          prompt_version: agentDef.promptVersion,
-          agent_id: resolvedAgentId,
-        },
+        usage: sessionUsage,
+        meta: baseMeta,
       })
     }
 
@@ -116,28 +147,40 @@ ${JSON.stringify(STRUCTURED_SCHEMA.properties, null, 0)}`
       ...schemaValidation.errors,
       ...(skuValidation.ok ? [] : skuValidation.errors.map((s) => `Unknown SKU: ${s}`)),
     ]
-    const costUsd = estimateClaudeCostUsd(model, usage)
+    const validation = { ok: schemaValidation.ok && skuValidation.ok, errors }
+
+    await logVoiceRunAttempt({
+      session_id: sid,
+      agent_key: agentKey,
+      conversation_id,
+      transcript: resolvedTranscript,
+      structured,
+      validation,
+      usage: sessionUsage,
+      meta: baseMeta,
+      duration_secs,
+      status: validation.ok ? 'done' : 'error',
+    })
 
     return res.status(200).json({
       structured,
-      validation: { ok: schemaValidation.ok && skuValidation.ok, errors },
-      usage: {
-        claude: usage,
-        estimated_cost_usd: costUsd,
-        estimated_cost_inr: toInr(costUsd),
-      },
-      meta: {
-        model,
-        session_id,
-        conversation_id: conversation_id ?? null,
-        transcript_source: transcriptSource,
-        catalog_version: process.env.JM_CATALOG_VERSION || 'demo-v2',
-        prompt_version: agentDef.promptVersion,
-        agent_key: agentKey,
-        agent_id: resolvedAgentId,
-      },
+      validation,
+      usage: sessionUsage,
+      meta: baseMeta,
     })
   } catch (e) {
+    await logVoiceRunAttempt({
+      session_id: sid,
+      agent_key: agentKey,
+      conversation_id,
+      transcript: resolvedTranscript,
+      structured: null,
+      validation: { ok: false, errors: [String(e)] },
+      usage: {},
+      meta: baseMeta,
+      duration_secs,
+      status: 'error',
+    })
     return res.status(500).json({ error: String(e) })
   }
 }

@@ -1,10 +1,19 @@
 # Session Handoff — Janata Masala
 
 **Last updated:** 2026-06-12  
-**Status:** M2.6 — dual voice agents Priya + Meera on `/home/explorations/voice`  
+**Status:** M2.7 — Adventure executive brief + Commerce 101 roadmap + voice run logging  
 **Live:** https://project-janata-masala.vercel.app  
 **Repo:** https://github.com/spacebuilder13/project-janata-masala  
 **Login:** `masala2026`
+
+## What's done (M2.7)
+
+- [x] Adventure restructured — executive brief (north star, today, vision, Crawl/Walk/Run, stores, stories)
+- [x] Removed from Adventure: benchmarks, roadmap, meetings, action/scope trackers, open questions
+- [x] Commerce 101 roadmap in Explorations — CRM, WhatsApp, inward inventory + tech initiatives
+- [x] Explorations hub: voice enabled, brand marked deferred (Walk/Run)
+- [x] Architecture page: CommerceRoadmap + ArchitectureDiagram wired together
+- [x] Voice run logging — Priya/Meera attempts saved to Vercel Blob (`jm-voice-logs`); viewer at `/api/voice-runs?view=html&key=<DEMO_PASSWORD>`
 
 ## What's done (M2.4)
 
@@ -31,7 +40,6 @@
 - [ ] Jay: product spreadsheet → enrich SKU data in voice/WhatsApp demos
 - [ ] Retry NLM Q4/Q5 if CLI timeout resolves
 - [ ] Optional: `VITE_ENABLE_LIVE_CHAT=true` + `ANTHROPIC_API_KEY` for live Claude
-- [x] ElevenLabs: Priya `agent_8101ktx3d3g6ehjr063fhm5yzyr5`, Meera `agent_2901ktxv4jcnemyr47xjfq7g6qmd`
 - [ ] Backport `wa-kit` primitives to zen-money-manager when Sandy Lab adds new surfaces
 
 ## Key docs
@@ -50,8 +58,8 @@
 
 | Route | Module |
 |-------|--------|
-| `/home/adventure` | Strategy, roadmap, benchmarks, meetings, actions |
+| `/home/adventure` | Strategy executive brief, Crawl/Walk/Run storytelling |
 | `/home/explorations/brand` | Heritage, workshop, sensory, packaging |
 | `/home/explorations/whatsapp` | 11 patterns (wa-kit gallery) + offline ChatAgent |
-| `/home/explorations/voice` | 2 scripted scenarios + system flow |
-| `/home/explorations/architecture` | Benchmark stack + agent diagram |
+| `/home/explorations/voice` | Priya + Meera live voice, agent picker, run logging |
+| `/home/explorations/architecture` | Commerce 101 roadmap + agentic architecture |

@@ -85,6 +85,7 @@ export function useLiveVoice(agentKey: VoiceAgentKey) {
             session_id: sessionIdRef.current,
             conversation_id: conversationId || undefined,
             agent_key: agentKeyRef.current,
+            duration_secs: durationSecs,
           }),
         },
         EXTRACT_TIMEOUT_MS,
@@ -151,6 +152,21 @@ export function useLiveVoice(agentKey: VoiceAgentKey) {
                   }
                 : prev,
             )
+            fetch('/api/voice-runs', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                patch_usage: true,
+                session_id: sessionIdRef.current,
+                usage: {
+                  elevenlabs: {
+                    credits_used: usageData.credits_used,
+                    duration_secs: usageData.duration_secs ?? durationSecs,
+                    charging: usageData.charging,
+                  },
+                },
+              }),
+            }).catch((e) => console.warn('voice-runs patch', e))
           })
           .catch((e) => console.warn('usage snapshot', e))
       }

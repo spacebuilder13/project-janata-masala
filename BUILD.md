@@ -1,6 +1,6 @@
 # BUILD — Janata Masala
 
-Status: **M2.6 Dual voice agents — Priya + Meera**
+Status: **M2.7 Adventure brief + Commerce 101 roadmap + voice run logging**
 
 **Live:** https://project-janata-masala.vercel.app  
 **Deploy:** Vercel (`vercel.json` at repo root)  
@@ -12,11 +12,11 @@ Status: **M2.6 Dual voice agents — Priya + Meera**
 |-------|-----------|---------|
 | `/` | Login | S&A × JM co-branding, passcode gate |
 | `/home` | Home | Hub — Adventure + Explorations cards |
-| `/home/adventure` | Adventure | Meetings, decisions, scope tracker |
+| `/home/adventure` | Adventure | Commerce 101 executive brief — north star, today/vision, Crawl/Walk/Run |
 | `/home/explorations` | ExplorationsIndex | Explorations hub |
 | `/home/explorations/whatsapp` | ExplorationsWhatsapp | WA gallery (wa-kit) + ChatAgent |
 | `/home/explorations/voice` | ExplorationsVoice | VoiceAgent + system flow |
-| `/home/explorations/architecture` | ExplorationsArchitecture | Agentic commerce diagram |
+| `/home/explorations/architecture` | ExplorationsArchitecture | Commerce 101 roadmap + agentic architecture diagram |
 | `/home/explorations/brand` | ExplorationsBrand | Brand & content direction |
 
 ## Offline mode (default)
@@ -28,8 +28,18 @@ ChatAgent uses `chat-memory.ts` keyword router. Voice on `/home/explorations/voi
 - Vite 7 + React 19 + TypeScript + TanStack Router
 - Tailwind CSS v4 + Sandy design tokens
 - Framer Motion
-- Vercel API: `api/chat.ts`, `api/voice-token.ts`, `api/post-call-extract.ts`, `api/usage-snapshot.ts`, `api/auth.ts`
+- Vercel API: `api/chat.ts`, `api/voice-token.ts`, `api/post-call-extract.ts`, `api/voice-runs.ts`, `api/usage-snapshot.ts`, `api/auth.ts`
 - ElevenLabs browser SDK (`@elevenlabs/client`) for live voice
+
+### Voice run logging
+
+Every Priya/Meera call is saved to Vercel Blob (`jm-voice-logs`) via `post-call-extract` and patched with EL usage from the client.
+
+| Viewer | URL |
+|--------|-----|
+| HTML table | `/api/voice-runs?view=html&key=<DEMO_PASSWORD>` |
+| JSON list | `/api/voice-runs?key=<DEMO_PASSWORD>` |
+| Single run | `/api/voice-runs?session_id=<id>&key=<DEMO_PASSWORD>` |
 
 ## Design
 
@@ -69,4 +79,6 @@ ELEVENLABS_AGENT_ID=
 ELEVENLABS_AGENT_ID_PRIYA=
 ELEVENLABS_AGENT_ID_MEERA=
 JM_CATALOG_VERSION=demo-v2
+# Voice run log (Vercel Blob — linked store: jm-voice-logs)
+# BLOB_READ_WRITE_TOKEN=
 ```
