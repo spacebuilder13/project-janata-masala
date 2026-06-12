@@ -9,7 +9,7 @@ export default function ExplorationsVoice() {
       <PageIntro
         eyebrow="Explorations · Voice"
         title="Voice order-taking & system flow"
-        sub="Live voice order-taking with Priya at the counter. Speak your list — Claude extracts structured output and the system flow updates in sequence."
+        sub="Try Priya (fast list-dump) or Meera (warm counter expert with inventory, launches, and pairings). Claude extracts structured output after each call."
         accent="spice"
         wide
       />

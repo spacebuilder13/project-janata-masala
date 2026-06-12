@@ -1,39 +1,53 @@
 # Janata Masala Voice Lab
 
-Standalone browser voice agent for B2C list-dump ordering. Does **not** modify `apps/web/`.
+Standalone browser voice agents for B2C ordering. Does **not** modify `apps/web/`.
 
 ## Quick start
 
 ```bash
+# From repo root — sync catalog knowledge
+node scripts/generate-catalog-knowledge.mjs
+
 cd voice-lab
 cp .env.example .env.local
 # Add ELEVENLABS_API_KEY, ANTHROPIC_API_KEY
 
 npm install
-npm run setup-agent    # creates/patches ElevenLabs agent, prints ELEVENLABS_AGENT_ID
-# Add ELEVENLABS_AGENT_ID to .env.local
+node scripts/create-or-patch-agent.js --agent all
+# Add printed agent IDs to .env.local:
+#   ELEVENLABS_AGENT_ID_PRIYA=...
+#   ELEVENLABS_AGENT_ID_MEERA=...
 
 npm run lab            # build + vercel dev → http://localhost:3000
 ```
 
-## 5-minute demo script
+## Agents
 
-1. Open http://localhost:3000 — check ElevenLabs credits balance in header
-2. Click **Start order** — allow microphone
-3. Say (Hinglish): *"1kg kaju 13mm, 500 gram elaichi, do packet garam masala, ek kilo haldi"*
-4. Confirm when agent reads back total (~₹1,560)
-5. Click **End call** — review bill card, credits panel, structured JSON
-6. Thumbs up/down for feedback
+| Agent | Role | Prompt | EL tuning |
+|-------|------|--------|-----------|
+| **Priya** | Fast list-dump (Janta Stores) | v1.2.0-priya | eager, speed 1.08 |
+| **Meera** | Warm counter expert | v2.0.0-meera | normal, speed 0.98 |
 
-### Test matrix
+Both pronounce the brand **"Janta Masala"** when speaking (written: Janata Masala).
 
-| # | Language | Utterance |
-|---|----------|-----------|
-| 1 | Hinglish | Golden list above |
-| 2 | Hindi | "ek kilo kaju 13mm, aadha kilo elaichi, do packet garam" |
-| 3 | Gujarati mix | Same items with Gujarati numbers |
-| 4 | Ambiguity | "kaju" only → agent should ask 13mm vs regular |
-| 5 | English | "one kg turmeric powder, two packets garam masala" |
+```bash
+node scripts/create-or-patch-agent.js --agent priya
+node scripts/create-or-patch-agent.js --agent meera
+node scripts/create-or-patch-agent.js --agent all
+```
+
+## Meera demo script
+
+1. Start call — warm open from Meera
+2. Ask: *"Kya kya hai stock mein?"* — category inventory
+3. Order mirchi + haldi — expect dhaniya pairing suggestion
+4. Say *"bas"* — expect *"aur kuch?"* then bill
+
+## Priya demo script
+
+1. Start call — short open
+2. Dump list fast — no upsell
+3. Confirm bill — end call
 
 ## API routes
 
@@ -48,33 +62,19 @@ npm run lab            # build + vercel dev → http://localhost:3000
 ## Scripts
 
 ```bash
-npm run setup-agent          # create/patch ElevenLabs agent (v1.1: eager turns, Hindi voice)
-npm run test:extract         # offline fixture check
-node scripts/test-extraction.js --live   # needs vercel dev + Anthropic key
+node ../scripts/generate-catalog-knowledge.mjs
+node scripts/create-or-patch-agent.js --agent all
+npm run test:extract
 ```
 
-## Artifacts
+## Voice
 
-Per session: `outputs/runs/{sessionId}/`  
-Ledger: `outputs/analytics/session_ledger.csv`
-
-## Voice (v1.1)
-
-- Hindi voice: `ohvvU75FpBEB8fdaLOMh` (Monika Sogam — added from ElevenLabs library)
-- Persona: Priya, Mumbai counter staff — fast Hinglish, list-dump flow
-- Subjective eval: [VOICE-TUNE-TEST.md](docs/VOICE-TUNE-TEST.md)
+- Hindi voice: `ohvvU75FpBEB8fdaLOMh` (Monika Sogam)
+- Catalog: `data/catalog.demo.json` (demo-v2 with categories, launches, pairings)
+- Generated prompt knowledge: `prompts/jm-catalog-knowledge.generated.md`
 
 ## Docs
 
 - [PRD](docs/PRD.md)
 - [TRD](docs/TRD.md)
-
-## Credits visibility
-
-After each call the UI shows:
-- **ElevenLabs:** credits from conversation charging API
-- **Claude:** input/output tokens + estimated INR
-
-## Integration (later)
-
-Once S1–S9 pass, port to main app `/home/explorations/voice` — UX TBD.
+- [VOICE-TUNE-TEST](docs/VOICE-TUNE-TEST.md)

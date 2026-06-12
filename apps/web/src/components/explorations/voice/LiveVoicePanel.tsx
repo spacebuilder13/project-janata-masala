@@ -3,6 +3,8 @@ import { fadeRise } from '@/components/sandy/motion'
 import type { VoiceCallStatus } from '@/types/voice'
 
 type Props = {
+  agentLabel: string
+  agentTagline: string
   status: VoiceCallStatus
   hint: string
   timer: string
@@ -26,6 +28,8 @@ function statusLabel(status: VoiceCallStatus) {
 }
 
 export default function LiveVoicePanel({
+  agentLabel,
+  agentTagline,
   status,
   hint,
   timer,
@@ -42,10 +46,13 @@ export default function LiveVoicePanel({
 
   return (
     <motion.div variants={fadeRise} initial="hidden" animate="show" className="voice-card">
-      <p className="voice-card__eyebrow">VoiceAgent · Priya · Live</p>
+      <p className="voice-card__eyebrow">
+        VoiceAgent · {agentLabel} · {agentTagline}
+      </p>
       <p className="voice-card__lead">
-        Speak your spice list like at a Mumbai kirana counter. Priya confirms quantities — Claude
-        extracts the order below.
+        {agentLabel === 'Meera'
+          ? 'Warm counter expert at Janta Masala — ask what’s in stock, try new launches, get pairing suggestions, or dump your list.'
+          : 'Fast list-dump at Janta Masala — speak your spice list like at a Mumbai kirana counter. Priya confirms and closes.'}
       </p>
 
       <div className="voice-status-row" style={{ marginTop: 20 }}>

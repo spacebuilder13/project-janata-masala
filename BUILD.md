@@ -1,6 +1,6 @@
 # BUILD — Janata Masala
 
-Status: **M2.5 Live voice — deployed**
+Status: **M2.6 Dual voice agents — Priya + Meera**
 
 **Live:** https://project-janata-masala.vercel.app  
 **Deploy:** Vercel (`vercel.json` at repo root)  
@@ -21,7 +21,7 @@ Status: **M2.5 Live voice — deployed**
 
 ## Offline mode (default)
 
-ChatAgent uses `chat-memory.ts` keyword router. Voice uses live ElevenLabs + Claude post-call extraction when `VITE_ENABLE_LIVE_VOICE=true` + ElevenLabs/Anthropic keys are set. Set `VITE_ENABLE_LIVE_CHAT=true` + `ANTHROPIC_API_KEY` for live Claude chat.
+ChatAgent uses `chat-memory.ts` keyword router. Voice on `/home/explorations/voice` offers **Priya** (fast list-dump) and **Meera** (consultative counter) via agent picker. Requires `VITE_ENABLE_LIVE_VOICE=true` + ElevenLabs/Anthropic keys. Token route: `GET /api/voice-token?agent=priya|meera`.
 
 ## Stack
 
@@ -66,5 +66,7 @@ DEMO_PASSWORD=masala2026
 ANTHROPIC_API_KEY=
 ELEVENLABS_API_KEY=
 ELEVENLABS_AGENT_ID=
-NOTEBOOKLM_NOTEBOOK_ID=b5db93de-0a0e-49ea-9cd9-6009beabf6ed
+ELEVENLABS_AGENT_ID_PRIYA=
+ELEVENLABS_AGENT_ID_MEERA=
+JM_CATALOG_VERSION=demo-v2
 ```

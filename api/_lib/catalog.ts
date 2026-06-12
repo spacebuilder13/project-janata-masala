@@ -8,6 +8,9 @@ export type CatalogItem = {
   unit: string
   price_per_unit: number
   premium?: boolean
+  category?: string
+  new_launch?: boolean
+  pairs_with?: string[]
 }
 
 export type Catalog = {

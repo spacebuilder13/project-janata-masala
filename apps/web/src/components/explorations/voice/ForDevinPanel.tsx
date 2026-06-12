@@ -11,6 +11,7 @@ export default function ForDevinPanel({ devin }: Props) {
   const usd = devin.usage.estimated_cost_usd ?? 0
 
   const metaRows: [string, string][] = [
+    ['Agent persona', String(devin.meta.agent_key ?? '—')],
     ['Session', devin.sessionId],
     ['Conversation', devin.conversationId || '—'],
     ['Agent', String(devin.meta.agent_id ?? '—')],

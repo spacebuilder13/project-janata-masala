@@ -5,6 +5,7 @@ import { fetchConversationTranscript } from './_lib/elevenlabs'
 import { buildExtractionPrompt } from './_lib/prompts'
 import { STRUCTURED_SCHEMA, validateStructured, type StructuredOutput } from './_lib/schema'
 import { estimateClaudeCostUsd, toInr, type ClaudeUsage } from './_lib/usage'
+import { VOICE_AGENTS, resolveAgentId, resolveVoiceAgentKey } from './_lib/voice-agents'
 
 loadLocalEnv()
 
@@ -21,11 +22,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     })
   }
 
-  const { transcript, session_id, conversation_id } = req.body as {
+  const { transcript, session_id, conversation_id, agent_key } = req.body as {
     transcript?: string
     session_id?: string
     conversation_id?: string
+    agent_key?: string
   }
+
+  const agentKey = resolveVoiceAgentKey(agent_key)
+  const agentDef = VOICE_AGENTS[agentKey]
+  const resolvedAgentId = resolveAgentId(agentKey)
 
   let resolvedTranscript = transcript?.trim() ?? ''
   let transcriptSource: 'client' | 'elevenlabs' = 'client'
@@ -95,7 +101,10 @@ ${JSON.stringify(STRUCTURED_SCHEMA.properties, null, 0)}`
           session_id,
           conversation_id: conversation_id ?? null,
           transcript_source: transcriptSource,
-          catalog_version: process.env.JM_CATALOG_VERSION || 'demo-v1',
+          catalog_version: process.env.JM_CATALOG_VERSION || 'demo-v2',
+          agent_key: agentKey,
+          prompt_version: agentDef.promptVersion,
+          agent_id: resolvedAgentId,
         },
       })
     }
@@ -122,9 +131,10 @@ ${JSON.stringify(STRUCTURED_SCHEMA.properties, null, 0)}`
         session_id,
         conversation_id: conversation_id ?? null,
         transcript_source: transcriptSource,
-        catalog_version: process.env.JM_CATALOG_VERSION || 'demo-v1',
-        prompt_version: process.env.JM_PROMPT_VERSION || 'v1.1.0',
-        agent_id: process.env.ELEVENLABS_AGENT_ID ?? null,
+        catalog_version: process.env.JM_CATALOG_VERSION || 'demo-v2',
+        prompt_version: agentDef.promptVersion,
+        agent_key: agentKey,
+        agent_id: resolvedAgentId,
       },
     })
   } catch (e) {

@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { loadLocalEnv } from './_lib/load-env'
+import { resolveAgentId, resolveVoiceAgentKey } from './_lib/voice-agents'
 
 loadLocalEnv()
 
@@ -9,12 +10,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const apiKey = process.env.ELEVENLABS_API_KEY
-  const agentId = process.env.ELEVENLABS_AGENT_ID
-
-  if (!apiKey || !agentId) {
+  if (!apiKey) {
     return res.status(503).json({
       error: 'ElevenLabs not configured',
-      fallback: 'Set ELEVENLABS_API_KEY and ELEVENLABS_AGENT_ID in Vercel env.',
+      fallback: 'Set ELEVENLABS_API_KEY in Vercel env.',
+    })
+  }
+
+  const agentKey = resolveVoiceAgentKey(req.query.agent)
+  const agentId = resolveAgentId(agentKey)
+
+  if (!agentId) {
+    return res.status(503).json({
+      error: `Agent "${agentKey}" not configured`,
+      fallback: `Set env for ${agentKey} (e.g. ELEVENLABS_AGENT_ID_MEERA).`,
     })
   }
 
@@ -32,7 +41,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const data = await response.json()
-    return res.status(200).json({ signedUrl: data.signed_url })
+    return res.status(200).json({
+      signedUrl: data.signed_url,
+      agent_key: agentKey,
+      agent_id: agentId,
+    })
   } catch (e) {
     return res.status(500).json({ error: String(e) })
   }

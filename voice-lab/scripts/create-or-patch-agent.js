@@ -1,33 +1,93 @@
 #!/usr/bin/env node
 /**
- * Create or patch ElevenLabs ConvAI agent for JM Voice Lab.
- * Usage: node scripts/create-or-patch-agent.js
+ * Create or patch ElevenLabs ConvAI agents for JM Voice Lab.
+ * Usage:
+ *   node scripts/create-or-patch-agent.js --agent priya
+ *   node scripts/create-or-patch-agent.js --agent meera
+ *   node scripts/create-or-patch-agent.js --agent all
  */
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import './_load-env.js'
 
-const AGENT_NAME = 'JM Voice Lab B2C v1'
 const JM_HINDI_VOICE_ID = 'ohvvU75FpBEB8fdaLOMh'
-const FIRST_MESSAGE_HI = 'Haan bhai, Janata Masala — boliye, kya chahiye?'
-const FIRST_MESSAGE_EN = 'Janata Masala — what do you need today?'
 
-const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
-const snapshotPath = path.join(root, 'workflows/elevenlabs/agents/jm-v1/agent-config.snapshot.json')
-
-function readPrompt(name) {
-  return fs.readFileSync(path.join(root, 'prompts', name), 'utf8')
+const AGENTS = {
+  priya: {
+    key: 'priya',
+    name: 'JM Priya — List Dump',
+    promptVersion: 'v1.2.0-priya',
+    envKeys: ['ELEVENLABS_AGENT_ID_PRIYA', 'ELEVENLABS_AGENT_ID'],
+    snapshotDir: 'jm-priya',
+    firstMessageHi: 'Janta Masala — boliye, kya chahiye?',
+    firstMessageEn: 'Janta Masala — what do you need today?',
+    turnEagerness: 'eager',
+    ttsSpeed: 1.08,
+    speculativeTurn: true,
+    softTimeoutMessage: 'Haan, sun rahi hoon.',
+    turnTimeout: 5,
+    silenceTimeout: 12,
+    softTimeoutSecs: 4,
+    promptFiles: ['jm-voice-priya-system.md', 'jm-voice-closure.md', 'jm-catalog-rules.md'],
+  },
+  meera: {
+    key: 'meera',
+    name: 'JM Meera — Counter Expert',
+    promptVersion: 'v2.0.0-meera',
+    envKeys: ['ELEVENLABS_AGENT_ID_MEERA'],
+    snapshotDir: 'jm-meera',
+    firstMessageHi:
+      'Namaste! Janta Masala — Meera bol rahi hoon. Aaj kya chahiye, seedha list bhi chalegi.',
+    firstMessageEn: 'Hello! Janta Masala — Meera here. What would you like today?',
+    turnEagerness: 'normal',
+    ttsSpeed: 0.98,
+    speculativeTurn: false,
+    softTimeoutMessage: 'Ji, sun rahi hoon…',
+    turnTimeout: 7,
+    silenceTimeout: 18,
+    softTimeoutSecs: 6,
+    promptFiles: [
+      'jm-voice-meera-system.md',
+      'jm-voice-meera-pairings.md',
+      'jm-voice-meera-closure.md',
+      'jm-catalog-knowledge.generated.md',
+    ],
+  },
 }
 
-function buildSystemPrompt() {
-  return [readPrompt('jm-voice-system.md'), readPrompt('jm-voice-closure.md'), readPrompt('jm-catalog-rules.md')].join(
-    '\n\n---\n\n',
-  )
+const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
+
+function parseAgentArg() {
+  const idx = process.argv.indexOf('--agent')
+  const val = idx >= 0 ? process.argv[idx + 1] : 'priya'
+  if (val === 'all') return Object.keys(AGENTS)
+  if (!AGENTS[val]) {
+    console.error(`Unknown agent "${val}". Use: priya | meera | all`)
+    process.exit(1)
+  }
+  return [val]
+}
+
+function readPrompt(name) {
+  const p = path.join(root, 'prompts', name)
+  if (!fs.existsSync(p)) throw new Error(`Missing prompt file: ${p}`)
+  return fs.readFileSync(p, 'utf8')
+}
+
+function buildSystemPrompt(def) {
+  return def.promptFiles.map(readPrompt).join('\n\n---\n\n')
 }
 
 function resolveVoiceId() {
   return process.env.ELEVENLABS_VOICE_ID || JM_HINDI_VOICE_ID
+}
+
+function resolveAgentId(def) {
+  for (const key of def.envKeys) {
+    if (process.env[key]) return process.env[key]
+  }
+  return null
 }
 
 async function ensureVoiceInAccount(apiKey, voiceId) {
@@ -64,24 +124,24 @@ async function elRequest(apiKey, method, url, body) {
   return text ? JSON.parse(text) : null
 }
 
-function buildBody(systemPrompt, voiceId) {
+function buildBody(def, systemPrompt, voiceId) {
   return {
-    name: AGENT_NAME,
+    name: def.name,
     conversation_config: {
       conversation: { max_duration_seconds: 600 },
       turn: {
-        turn_timeout: 5,
-        silence_end_call_timeout: 12,
-        turn_eagerness: 'eager',
-        speculative_turn: true,
+        turn_timeout: def.turnTimeout,
+        silence_end_call_timeout: def.silenceTimeout,
+        turn_eagerness: def.turnEagerness,
+        speculative_turn: def.speculativeTurn,
         soft_timeout_config: {
-          timeout_seconds: 4,
-          message: 'Haan, sun raha hoon.',
+          timeout_seconds: def.softTimeoutSecs,
+          message: def.softTimeoutMessage,
           use_llm_generated_message: false,
         },
       },
       agent: {
-        first_message: FIRST_MESSAGE_HI,
+        first_message: def.firstMessageHi,
         language: 'hi',
         hinglish_mode: true,
         prompt: {
@@ -100,16 +160,80 @@ function buildBody(systemPrompt, voiceId) {
         },
       },
       language_presets: {
-        hi: { overrides: { agent: { first_message: FIRST_MESSAGE_HI } } },
-        en: { overrides: { agent: { first_message: FIRST_MESSAGE_EN } } },
+        hi: { overrides: { agent: { first_message: def.firstMessageHi } } },
+        en: { overrides: { agent: { first_message: def.firstMessageEn } } },
       },
       tts: {
         model_id: 'eleven_flash_v2_5',
         voice_id: voiceId,
-        speed: 1.08,
+        speed: def.ttsSpeed,
       },
     },
   }
+}
+
+async function setupAgent(apiKey, voiceId, def) {
+  const systemPrompt = buildSystemPrompt(def)
+  const body = buildBody(def, systemPrompt, voiceId)
+
+  let agentId = resolveAgentId(def)
+
+  if (agentId) {
+    console.log(`[${def.key}] Patching existing agent ${agentId}...`)
+    await elRequest(apiKey, 'PATCH', `https://api.elevenlabs.io/v1/convai/agents/${agentId}`, body)
+  } else {
+    const list = await elRequest(
+      apiKey,
+      'GET',
+      `https://api.elevenlabs.io/v1/convai/agents?page_size=100&search=${encodeURIComponent(def.name)}`,
+    )
+    const agents = list?.agents ?? []
+    const existing = agents.find((a) => a.name?.toLowerCase() === def.name.toLowerCase())
+
+    if (existing?.agent_id) {
+      agentId = existing.agent_id
+      console.log(`[${def.key}] Found agent ${agentId}, patching...`)
+      await elRequest(apiKey, 'PATCH', `https://api.elevenlabs.io/v1/convai/agents/${agentId}`, body)
+    } else {
+      console.log(`[${def.key}] Creating new agent...`)
+      const created = await elRequest(apiKey, 'POST', 'https://api.elevenlabs.io/v1/convai/agents/create', body)
+      agentId = created?.agent_id
+      if (!agentId) throw new Error('Create did not return agent_id')
+      console.log(`[${def.key}] Created agent ${agentId}`)
+    }
+  }
+
+  const snapshotPath = path.join(
+    root,
+    'workflows/elevenlabs/agents',
+    def.snapshotDir,
+    'agent-config.snapshot.json',
+  )
+  const snapshot = {
+    agent_id: agentId,
+    agent_key: def.key,
+    agent_name: def.name,
+    voice_id: voiceId,
+    llm: 'claude-sonnet-4',
+    tts_model: 'eleven_flash_v2_5',
+    tts_speed: def.ttsSpeed,
+    turn_eagerness: def.turnEagerness,
+    languages: ['hi', 'en', 'hinglish'],
+    prompt_version: def.promptVersion,
+    catalog_version: process.env.JM_CATALOG_VERSION || 'demo-v2',
+    updated_at: new Date().toISOString(),
+  }
+
+  fs.mkdirSync(path.dirname(snapshotPath), { recursive: true })
+  fs.writeFileSync(snapshotPath, JSON.stringify(snapshot, null, 2), 'utf8')
+
+  console.log(`\n--- ${def.name} ready ---`)
+  console.log(`${def.envKeys[0]}=${agentId}`)
+  if (def.key === 'priya') console.log(`ELEVENLABS_AGENT_ID=${agentId}`)
+  console.log(`Prompt: ${def.promptVersion}`)
+  console.log(`Snapshot: ${snapshotPath}`)
+
+  return agentId
 }
 
 async function main() {
@@ -119,61 +243,19 @@ async function main() {
     process.exit(1)
   }
 
-  const systemPrompt = buildSystemPrompt()
+  const generated = path.join(root, 'prompts/jm-catalog-knowledge.generated.md')
+  if (!fs.existsSync(generated)) {
+    console.error('Run from repo root: node scripts/generate-catalog-knowledge.mjs')
+    process.exit(1)
+  }
+
   const voiceId = resolveVoiceId()
   await ensureVoiceInAccount(apiKey, voiceId)
-  const body = buildBody(systemPrompt, voiceId)
 
-  let agentId = process.env.ELEVENLABS_AGENT_ID
-
-  if (agentId) {
-    console.log(`Patching existing agent ${agentId}...`)
-    await elRequest(apiKey, 'PATCH', `https://api.elevenlabs.io/v1/convai/agents/${agentId}`, body)
-  } else {
-    const list = await elRequest(
-      apiKey,
-      'GET',
-      `https://api.elevenlabs.io/v1/convai/agents?page_size=100&search=${encodeURIComponent(AGENT_NAME)}`,
-    )
-    const agents = list?.agents ?? []
-    const existing = agents.find((a) => a.name?.toLowerCase() === AGENT_NAME.toLowerCase())
-
-    if (existing?.agent_id) {
-      agentId = existing.agent_id
-      console.log(`Found agent ${agentId}, patching...`)
-      await elRequest(apiKey, 'PATCH', `https://api.elevenlabs.io/v1/convai/agents/${agentId}`, body)
-    } else {
-      console.log('Creating new agent...')
-      const created = await elRequest(apiKey, 'POST', 'https://api.elevenlabs.io/v1/convai/agents/create', body)
-      agentId = created?.agent_id
-      if (!agentId) throw new Error('Create did not return agent_id')
-      console.log(`Created agent ${agentId}`)
-    }
+  const keys = parseAgentArg()
+  for (const key of keys) {
+    await setupAgent(apiKey, voiceId, AGENTS[key])
   }
-
-  const promptVersion = process.env.JM_PROMPT_VERSION || 'v1.1.0'
-  const snapshot = {
-    agent_id: agentId,
-    agent_name: AGENT_NAME,
-    voice_id: voiceId,
-    llm: 'claude-sonnet-4',
-    tts_model: 'eleven_flash_v2_5',
-    tts_speed: 1.08,
-    turn_eagerness: 'eager',
-    languages: ['hi', 'en', 'hinglish'],
-    prompt_version: promptVersion,
-    catalog_version: process.env.JM_CATALOG_VERSION || 'demo-v1',
-    updated_at: new Date().toISOString(),
-  }
-
-  fs.mkdirSync(path.dirname(snapshotPath), { recursive: true })
-  fs.writeFileSync(snapshotPath, JSON.stringify(snapshot, null, 2), 'utf8')
-
-  console.log('\n--- Agent ready (v1.1 tune) ---')
-  console.log(`ELEVENLABS_AGENT_ID=${agentId}`)
-  console.log(`ELEVENLABS_VOICE_ID=${voiceId}`)
-  console.log(`Prompt: ${promptVersion}`)
-  console.log(`Snapshot: ${snapshotPath}`)
 }
 
 main().catch((e) => {

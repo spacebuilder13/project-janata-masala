@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Conversation } from '@elevenlabs/client'
+import { getVoiceAgent, type VoiceAgentKey } from '@/data/voice-agents'
 import type {
   DevinPayload,
   SessionUsage,
@@ -27,7 +28,11 @@ function fetchWithTimeout(url: string, init: RequestInit, ms: number) {
   return fetch(url, { ...init, signal: controller.signal }).finally(() => clearTimeout(timer))
 }
 
-export function useLiveVoice() {
+export function useLiveVoice(agentKey: VoiceAgentKey) {
+  const agentKeyRef = useRef(agentKey)
+  agentKeyRef.current = agentKey
+  const agentMeta = getVoiceAgent(agentKey)
+
   const [status, setStatus] = useState<VoiceCallStatus>('checking')
   const [hint, setHint] = useState('Allow microphone when prompted. Speak your spice list naturally.')
   const [timer, setTimer] = useState('0:00')
@@ -79,6 +84,7 @@ export function useLiveVoice() {
             transcript,
             session_id: sessionIdRef.current,
             conversation_id: conversationId || undefined,
+            agent_key: agentKeyRef.current,
           }),
         },
         EXTRACT_TIMEOUT_MS,
@@ -176,11 +182,16 @@ export function useLiveVoice() {
       return
     }
 
-    fetch('/api/voice-token')
+    setStatus('checking')
+    fetch(`/api/voice-token?agent=${encodeURIComponent(agentKey)}`)
       .then((r) => {
         if (r.status === 503) {
           setStatus('unavailable')
-          setHint('Voice agent not configured on this deploy.')
+          setHint(
+            agentKey === 'meera'
+              ? 'Meera agent not configured on this deploy.'
+              : 'Voice agent not configured on this deploy.',
+          )
           return null
         }
         return fetch('/api/usage-snapshot?balance=true')
@@ -195,12 +206,24 @@ export function useLiveVoice() {
           return
         }
         setStatus('ready')
+        setHint(
+          agentKey === 'meera'
+            ? 'Start a call — ask inventory, new items, or give your list.'
+            : 'Allow microphone when prompted. Speak your spice list naturally.',
+        )
       })
       .catch(() => {
         setStatus('unavailable')
         setHint('Could not reach voice API.')
       })
-  }, [])
+  }, [agentKey])
+
+  useEffect(() => {
+    postCallStartedRef.current = false
+    setStructured(null)
+    setDevin(null)
+    setTimer('0:00')
+  }, [agentKey])
 
   const startCall = useCallback(async () => {
     postCallStartedRef.current = false
@@ -212,16 +235,21 @@ export function useLiveVoice() {
     setStatus('connecting')
     setHint('Connecting…')
 
-    const tokenRes = await fetch('/api/voice-token')
+    const tokenRes = await fetch(`/api/voice-token?agent=${encodeURIComponent(agentKeyRef.current)}`)
     const tokenData = await tokenRes.json()
     if (!tokenRes.ok) throw new Error(tokenData.error || 'voice-token failed')
+
+    const liveHint =
+      agentKeyRef.current === 'meera'
+        ? 'Live with Meera — list, inventory, or pairings. Hinglish is fine.'
+        : 'Live — speak your list. Hinglish is fine.'
 
     conversationRef.current = await Conversation.startSession({
       signedUrl: tokenData.signedUrl,
       onConnect: ({ conversationId: cid }) => {
         conversationIdRef.current = cid
         setStatus('live')
-        setHint('Live — speak your list. Hinglish is fine.')
+        setHint(liveHint)
         startTimer()
       },
       onDisconnect: () => {
@@ -258,12 +286,17 @@ export function useLiveVoice() {
     setStructured(null)
     setDevin(null)
     setStatus(LIVE_VOICE ? 'ready' : 'unavailable')
-    setHint('Allow microphone when prompted. Speak your spice list naturally.')
+    setHint(
+      agentKeyRef.current === 'meera'
+        ? 'Start a call — ask inventory, new items, or give your list.'
+        : 'Allow microphone when prompted. Speak your spice list naturally.',
+    )
     setTimer('0:00')
   }, [])
 
   return {
     liveEnabled: LIVE_VOICE,
+    agentMeta,
     status,
     hint,
     timer,

@@ -1,5 +1,69 @@
 /* Voice explorations — live agent controls + results */
 
+.voice-agent-picker {
+  min-width: 0;
+}
+
+.voice-agent-picker__grid {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .voice-agent-picker__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.voice-agent-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  text-align: left;
+  padding: 16px 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-sandy-line);
+  background: var(--color-sandy-surface);
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.voice-agent-card:hover:not(:disabled) {
+  border-color: color-mix(in oklab, var(--color-jm-spice) 35%, var(--color-sandy-line));
+}
+
+.voice-agent-card[data-selected] {
+  border-color: var(--color-jm-spice);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-jm-spice) 25%, transparent);
+  background: color-mix(in oklab, var(--color-jm-spice) 6%, var(--color-sandy-surface));
+}
+
+.voice-agent-card:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.voice-agent-card__label {
+  font-family: var(--font-sandy-display);
+  font-size: 1.15rem;
+  color: var(--color-sandy-ink);
+}
+
+.voice-agent-card__tagline {
+  font-family: var(--font-sandy-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-jm-spice);
+}
+
+.voice-agent-card__desc {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--color-sandy-ink-soft);
+}
+
 .voice-agent {
   display: flex;
   flex-direction: column;

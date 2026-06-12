@@ -1,0 +1,18 @@
+{
+  "agent_id": "agent_8101ktx3d3g6ehjr063fhm5yzyr5",
+  "agent_key": "priya",
+  "agent_name": "JM Priya — List Dump",
+  "voice_id": "ohvvU75FpBEB8fdaLOMh",
+  "llm": "claude-sonnet-4",
+  "tts_model": "eleven_flash_v2_5",
+  "tts_speed": 1.08,
+  "turn_eagerness": "eager",
+  "languages": [
+    "hi",
+    "en",
+    "hinglish"
+  ],
+  "prompt_version": "v1.2.0-priya",
+  "catalog_version": "demo-v1",
+  "updated_at": "2026-06-12T11:58:03.519Z"
+}

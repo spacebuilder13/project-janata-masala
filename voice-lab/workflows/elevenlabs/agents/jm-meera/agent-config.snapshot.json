@@ -1,0 +1,18 @@
+{
+  "agent_id": "agent_2901ktxv4jcnemyr47xjfq7g6qmd",
+  "agent_key": "meera",
+  "agent_name": "JM Meera — Counter Expert",
+  "voice_id": "ohvvU75FpBEB8fdaLOMh",
+  "llm": "claude-sonnet-4",
+  "tts_model": "eleven_flash_v2_5",
+  "tts_speed": 0.98,
+  "turn_eagerness": "normal",
+  "languages": [
+    "hi",
+    "en",
+    "hinglish"
+  ],
+  "prompt_version": "v2.0.0-meera",
+  "catalog_version": "demo-v1",
+  "updated_at": "2026-06-12T11:58:05.314Z"
+}
