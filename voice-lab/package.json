@@ -1,0 +1,19 @@
+{
+  "name": "janata-voice-lab",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-client.mjs",
+    "lab": "npm run build && npx vercel dev --listen 3000 --yes",
+    "setup-agent": "node scripts/create-or-patch-agent.js",
+    "test:extract": "node scripts/test-extraction.js"
+  },
+  "dependencies": {
+    "@elevenlabs/client": "^1.9.0"
+  },
+  "devDependencies": {
+    "@vercel/node": "^5.0.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.8.0"
+  }
+}

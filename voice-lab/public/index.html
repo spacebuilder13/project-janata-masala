@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JM Voice Lab — B2C Order</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <p class="eyebrow">Janata Masala · Voice Lab</p>
+        <h1>Speak your list</h1>
+        <p class="sub">Demo only — not production JM system. B2C list-dump ordering.</p>
+      </header>
+
+      <section class="balance card" id="balance-panel">
+        <p class="label">ElevenLabs credits</p>
+        <p class="value" id="balance-text">Loading…</p>
+      </section>
+
+      <section class="controls card">
+        <div class="status-row">
+          <span class="status-dot" id="status-dot"></span>
+          <span id="status-text">Ready</span>
+          <span class="timer" id="timer"></span>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary" id="btn-start">Start order</button>
+          <button type="button" class="btn btn-secondary" id="btn-end" disabled>End call</button>
+        </div>
+        <p class="hint" id="hint">Allow microphone when prompted. Speak your spice list naturally.</p>
+      </section>
+
+      <section class="card hidden" id="transcript-panel">
+        <p class="label">Transcript</p>
+        <pre class="transcript" id="transcript"></pre>
+      </section>
+
+      <section class="card hidden" id="bill-panel">
+        <p class="label">Order summary</p>
+        <ul class="bill-items" id="bill-items"></ul>
+        <p class="bill-total" id="bill-total"></p>
+      </section>
+
+      <section class="card hidden" id="credits-panel">
+        <p class="label">Credits used this session</p>
+        <p class="credits-line" id="credits-line"></p>
+        <dl class="credits-detail" id="credits-detail"></dl>
+      </section>
+
+      <section class="card hidden" id="feedback-panel">
+        <p class="label">How was this order?</p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-ghost" id="btn-up">👍 Good</button>
+          <button type="button" class="btn btn-ghost" id="btn-down">👎 Needs work</button>
+        </div>
+      </section>
+
+      <section class="card hidden" id="json-panel">
+        <details>
+          <summary>Structured JSON (developer)</summary>
+          <pre class="json" id="json-out"></pre>
+        </details>
+      </section>
+
+      <p class="validation-error hidden" id="validation-error"></p>
+    </div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

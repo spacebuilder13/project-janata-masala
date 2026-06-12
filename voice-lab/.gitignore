@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.local
+.env*.local
+public/app.js
+public/app.js.map
+outputs/runs/
+outputs/analytics/*.csv
+.DS_Store
+.vercel
