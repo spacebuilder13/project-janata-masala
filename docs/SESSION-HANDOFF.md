@@ -1,7 +1,7 @@
 # Session Handoff — Janata Masala
 
 **Last updated:** 2026-06-12  
-**Status:** M2.5 — live voice on `/home/explorations/voice`  
+**Status:** M2.5 — live voice (Priya) on `/home/explorations/voice`, UI polished  
 **Live:** https://project-janata-masala.vercel.app  
 **Repo:** https://github.com/spacebuilder13/project-janata-masala  
 **Login:** `masala2026`

@@ -1,9 +1,7 @@
-import { motion } from 'framer-motion'
-import { fadeRise } from '../sandy/motion'
-import SystemFlowDiagram from './SystemFlowDiagram'
 import LiveVoicePanel from './voice/LiveVoicePanel'
 import OrderBillCard from './voice/OrderBillCard'
 import ForDevinPanel from './voice/ForDevinPanel'
+import SystemFlowDiagram from './SystemFlowDiagram'
 import { useLiveVoice } from '@/hooks/useLiveVoice'
 
 export default function VoiceAgent() {
@@ -30,27 +28,12 @@ export default function VoiceAgent() {
   }
 
   return (
-    <div className="space-y-8">
-      <motion.div
-        variants={fadeRise}
-        initial="hidden"
-        animate="show"
-        className="p-6 rounded-2xl border"
-        style={{ borderColor: 'var(--color-sandy-line)', background: 'var(--color-sandy-surface)' }}
-      >
-        <p className="mono text-[11px]" style={{ color: 'var(--color-jm-spice)' }}>
-          VoiceAgent · Live
+    <div className="voice-agent">
+      {!liveEnabled && (
+        <p className="voice-hint" style={{ margin: 0 }}>
+          Set VITE_ENABLE_LIVE_VOICE=true and configure ElevenLabs + Anthropic keys on Vercel.
         </p>
-        <p className="mt-2 text-sm" style={{ color: 'var(--color-sandy-ink-soft)' }}>
-          Speak your spice list like you would at a Mumbai kirana counter. Priya confirms quantities,
-          then Claude extracts structured output — Inventory, Orders, CRM, and Finance update below.
-        </p>
-        {!liveEnabled && (
-          <p className="mt-2 text-xs" style={{ color: 'var(--color-sandy-ink-faint)' }}>
-            Set VITE_ENABLE_LIVE_VOICE=true and configure ElevenLabs + Anthropic keys on Vercel.
-          </p>
-        )}
-      </motion.div>
+      )}
 
       <LiveVoicePanel
         status={status}
@@ -64,10 +47,10 @@ export default function VoiceAgent() {
       />
 
       {structured && (
-        <>
+        <div className="voice-results">
           <OrderBillCard structured={structured} />
           <SystemFlowDiagram structured={structured} />
-        </>
+        </div>
       )}
 
       {devin && <ForDevinPanel devin={devin} />}

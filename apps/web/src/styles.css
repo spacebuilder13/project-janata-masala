@@ -4,6 +4,7 @@
 @import "./styles/shell.css";
 @import "./styles/auth.css";
 @import "./styles/wa.css";
+@import "./styles/voice.css";
 
 :root {
   --color-sandy-bg: #fbfaf6;
