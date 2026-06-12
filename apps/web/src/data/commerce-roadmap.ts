@@ -1,6 +1,6 @@
-/** Source: knowledge/janata_masala_roadmap.md */
+/** Commerce 101 roadmap — operational three pillars (synthesis, Jun 2026) */
 
-export type SegmentId = 'brand' | 'content' | 'whatsapp' | 'performance'
+export type SegmentId = 'crm' | 'whatsapp' | 'inventory'
 
 export type RoadmapItem = {
   text: string
@@ -23,6 +23,12 @@ export type DirectionalItem = {
   segment?: SegmentId
 }
 
+export type TechInitiative = {
+  title: string
+  description: string
+  status: 'active' | 'planned' | 'future'
+}
+
 export type RoadmapPhase = {
   number: 1 | 2 | 3
   label: string
@@ -32,148 +38,139 @@ export type RoadmapPhase = {
   objective: string
   unlockStatement: string
   segments?: Phase1Segment[]
+  techInitiatives?: TechInitiative[]
   inputGoals?: string[]
   inputGoalsTbd?: boolean
   directionalScope?: DirectionalItem[]
 }
 
 export const segmentMeta: Record<SegmentId, { label: string; colorVar: string }> = {
-  brand: { label: 'Brand identity', colorVar: '--color-rm-brand' },
-  content: { label: 'Content + Instagram', colorVar: '--color-rm-content' },
-  whatsapp: { label: 'WhatsApp CRM + commerce', colorVar: '--color-rm-whatsapp' },
-  performance: { label: 'Performance marketing', colorVar: '--color-rm-performance' },
+  crm: { label: 'CRM', colorVar: '--color-pillar-crm' },
+  whatsapp: { label: 'WhatsApp backbone', colorVar: '--color-pillar-whatsapp' },
+  inventory: { label: 'Inward inventory', colorVar: '--color-pillar-inventory' },
 }
+
+export const techInitiatives: TechInitiative[] = [
+  {
+    title: 'After-hours chatbot',
+    description: 'Rule-based ordering capture 10 PM–10 AM while the store is closed — no leads lost overnight.',
+    status: 'planned',
+  },
+  {
+    title: 'AI voice agent v1',
+    description: 'Handle initial customer inquiries and list-dump orders — see Voice demos (Priya + Meera).',
+    status: 'active',
+  },
+  {
+    title: 'QR / barcode tagging',
+    description: 'Scanner-driven stock updates — reconcile purchase invoices with physical stock. Walk/Run phase.',
+    status: 'future',
+  },
+]
 
 export const roadmapPhases: RoadmapPhase[] = [
   {
     number: 1,
-    label: 'Phase 1',
-    duration: '4 weeks',
+    label: 'Crawl',
+    duration: 'Phase 1',
     scopeBadge: 'active',
-    objective: 'Give Janata Masala its brand, its first content system, and its WhatsApp door',
+    objective:
+      'Establish CRM, WhatsApp commerce backbone, and inward inventory tracking — every customer interaction becomes a data channel.',
     unlockStatement:
-      'Janata Masala has a brand, a content engine, an open WhatsApp door, and its first paid reach into the community.',
+      'Janata Masala has a structured customer database, WhatsApp-led ordering with digital bills, and weeks-of-stock visibility on inbound goods.',
+    techInitiatives,
     segments: [
       {
-        id: 'brand',
-        title: 'Brand identity',
+        id: 'crm',
+        title: 'CRM — structured data',
         intro:
-          'All items below are components of a single deliverable: a comprehensive 50-page branding book. The book is the deliverable — not each item in isolation. Brand identity flows from the branding book.',
-        primaryDeliverable: 'Comprehensive 50-page branding book',
-        bookContentsLabel: 'Contents of the branding book',
+          'Move from pen-and-paper to a database of names, phone numbers, and addresses. The business\'s biggest asset.',
+        primaryDeliverable: '10,000 contact database',
         items: [
-          { text: 'Color palette', note: 'Defined hex values + usage guidelines' },
-          { text: 'Font palette', note: 'Typefaces + typographic hierarchy' },
-          { text: 'Brand voice + tone', note: 'How Janata Masala speaks and feels' },
-          { text: 'Taglines' },
-          { text: '10 brand use case mockups', note: 'Brand shown in real-world contexts' },
-          {
-            text: 'Reusable packaging template',
-            note: 'Example format: dry fruits — Jay replicates the template across other product categories himself',
-          },
+          { text: 'Digitize existing customer records', note: 'Names, phones, addresses from order history' },
+          { text: 'Mandatory data on every interaction', note: 'Phone + address required for delivery' },
+          { text: 'Funnel marketing readiness', note: 'Target segments for seasonal launches (e.g. mango pickles)' },
+          { text: 'Re-engagement triggers', note: 'Identify gaps — e.g. haldi buyer who hasn\'t returned in a year' },
         ],
-        footnote: 'Logo is not in scope. Client has explicitly signalled no logo change.',
-      },
-      {
-        id: 'content',
-        title: 'Content + Instagram',
-        intro:
-          "Phase 1 scope is intentionally narrow here. The goal is to give Jay's team the tools to create content independently — not to create content for them at scale yet.",
-        items: [
-          {
-            text: 'In-store shoot workshop',
-            note: "TQi teaches Jay's team to shoot semi-aesthetic videos on their phones",
-          },
-          {
-            text: 'Hook, transition + cut templates',
-            note: 'Consistent format for anyone on the team to use',
-          },
-        ],
-        movedToPhase2: [
-          'TQi editing raw footage into reels',
-          'Sensory-first content direction (spices being crushed, 13mm cashews, purity cues)',
-          'Testimonial videos from housewife demographic',
-          'Populating Instagram with testimonial content',
-        ],
+        footnote: 'Goal: 1% conversion on 10,000 beats 1% on 100 — back-of-napkin math that scales.',
       },
       {
         id: 'whatsapp',
-        title: 'WhatsApp CRM + commerce',
-        intro: 'Goal for Phase 1: completely functional for human-operator-led usage. No automation yet.',
+        title: 'WhatsApp backbone',
+        intro:
+          'Replace phone-call ordering with WhatsApp — share inventory, confirm orders, send digital bills.',
+        primaryDeliverable: 'WhatsApp Business commerce flow',
         items: [
-          { text: 'WhatsApp Business account setup' },
-          {
-            text: 'Full product portfolio loaded into WA catalog',
-            note: 'Every SKU browsable + shareable from WhatsApp',
-          },
-          {
-            text: 'WhatsApp Channels configured',
-            note: 'New arrival updates — built for moms + older generation',
-          },
+          { text: 'Product catalog in WhatsApp', note: 'Every SKU browsable and shareable' },
+          { text: 'List-dump order flow', note: 'Customer sends list → bill + payment link in chat' },
+          { text: 'Digital bills force data capture', note: 'Number and address mandatory for delivery' },
+          { text: 'WhatsApp Channels', note: 'Seasonal updates for moms and older generation' },
         ],
       },
       {
-        id: 'performance',
-        title: 'Performance marketing',
+        id: 'inventory',
+        title: 'Inward inventory (Phase 1)',
         intro:
-          'Strategy: Push mid-quality videos — the kind created via the in-store phone-video workshop — repeatedly to target segments to encourage them to try placing an order via WhatsApp. A portion of the budget is allocated to performance marketing to drive immediate trials during this initial phase.',
+          'Track goods the moment they arrive from suppliers — move from counting cans to knowing weeks of stock.',
+        primaryDeliverable: 'Supplier inward tracking',
         items: [
-          {
-            text: 'Meta + IG ad targeting setup',
-            note: 'Affluent Gujarati + Kachchi community, Ghatkopar belt',
-          },
-          {
-            text: 'Initial campaigns on low-stake items',
-            note: 'Drive WhatsApp trial, not just reach or impressions',
-          },
+          { text: 'Log goods on arrival', note: 'Reconcile purchase invoices with physical receipt' },
+          { text: 'Weeks-of-stock calculation', note: 'Owner knows when to reorder before running out' },
+          { text: 'Low-stock alerts', note: 'D-Mart level — system flags reorder points' },
+          { text: 'QR/barcode tagging', note: 'Future — scanner automation in Walk/Run phase' },
         ],
+        footnote: 'Follow the money through the inventory lifecycle — inward first, outward later.',
       },
     ],
   },
   {
     number: 2,
-    label: 'Phase 2',
-    duration: '4–6 weeks',
+    label: 'Walk',
+    duration: 'Phase 2',
     flexibleScope: true,
-    objective: 'Every order can be placed and tracked without Jay on the phone. The store runs without him in the room.',
-    unlockStatement: 'Every order can be placed and tracked without Jay on the phone. The store runs without him in the room.',
+    objective:
+      'Hyper-local growth — founder-led content, funnel marketing on the CRM, and after-hours capture.',
+    unlockStatement:
+      'Revenue grows through loyalists within 1 km — founder-led reels build community trust without agency spend.',
     inputGoals: [
-      'Content reaches a defined number of people',
-      'A defined number of WhatsApp conversations initiated directly from the campaign',
-      'Begin experimenting with voice agents for inbound order intake',
+      'Utsav teaches Jay to shoot and edit authentic reels',
+      'Target 40–65 Gujarati/Kachchi women within 1 km of each store',
+      'After-hours chatbot captures orders 10 PM–10 AM',
+      'Voice agent handles inbound list-dump during peak hours',
     ],
-    inputGoalsTbd: true,
     directionalScope: [
-      { text: 'TQi editing raw footage → high-quality reels with trending music', segment: 'content' },
-      { text: 'Sensory-first content (spices crushed, unique product USPs, purity cues)', segment: 'content' },
-      { text: 'Testimonial video production + Instagram cadence', segment: 'content' },
-      { text: 'Conversational order flow (customer dumps list → immediate bill + payment link)', segment: 'whatsapp' },
-      { text: 'CRM setup — links customers to order history + preferences', segment: 'whatsapp' },
-      { text: 'CRM-linked ad pushing (right content to right segment at right time)', segment: 'performance' },
-      { text: 'Audience segmentation: housewives, bulk buyers, gifting occasion', segment: 'whatsapp' },
+      { text: 'Founder-led Instagram — community tone over fancy production', segment: 'crm' },
+      { text: 'Heeraben-style testimonial cadence', segment: 'crm' },
+      { text: 'Personalized WhatsApp re-engagement (haldi reminders)', segment: 'crm' },
+      { text: 'Conversational order flow with payment links', segment: 'whatsapp' },
+      { text: 'CRM-linked seasonal campaigns', segment: 'whatsapp' },
+      { text: 'Outbound inventory tracking — dispatch and fulfillment', segment: 'inventory' },
     ],
   },
   {
     number: 3,
-    label: 'Phase 3',
-    duration: '4–6 weeks',
+    label: 'Run',
+    duration: 'Phase 3',
     flexibleScope: true,
-    objective: 'Janata Masala serves and grows customers autonomously. Jay is free to open Store 2.',
-    unlockStatement: 'Janata Masala serves and grows customers autonomously. Jay is free to open Store 2.',
+    objective:
+      'Premium brand investment and autonomous growth — only after Commerce 101 drives top-line profit.',
+    unlockStatement:
+      'Janata Masala serves and grows autonomously. Jay is free to scale — branding book, agency marketing, multi-store expansion.',
     inputGoals: [
-      'Voice agents integrated with inventory + order management systems',
-      'CRM-personalized content running at scale',
+      '50-page brand book and packaging system (deferred from Crawl)',
+      'Agency-managed production at scale',
+      'Full agentic CRM — AI-assisted order intake and personalization',
       'Multi-store brand system ready for expansion',
     ],
     directionalScope: [
-      { text: 'Agentic CRM — AI-assisted autonomous order intake (ChatGPT / Claude powered)', segment: 'whatsapp' },
-      { text: 'Refined customer experience: WhatsApp, website, or hybrid model', segment: 'whatsapp' },
-      { text: 'Recurring order management', segment: 'whatsapp' },
-      { text: 'Full Meta + IG campaigns with CRM-push and retargeting', segment: 'performance' },
-      { text: "Full retainer: CRM + videography (TQi\u2019s long-term engagement model)", segment: 'content' },
+      { text: 'Comprehensive branding book — palette, voice, mockups, packaging templates', segment: 'crm' },
+      { text: 'Agentic CRM — birthdays, preferences, product affinity at scale', segment: 'crm' },
+      { text: 'QR/barcode scanners — automated stock lifecycle', segment: 'inventory' },
+      { text: 'Voice agents integrated with inventory + order management', segment: 'whatsapp' },
+      { text: 'Full Meta + IG campaigns with CRM retargeting', segment: 'whatsapp' },
     ],
   },
 ]
 
 export const flexibleScopeNote =
-  'Directional scope is flexible — items may shift between phases based on outcomes.'
+  'Walk and Run scope is flexible — items shift based on Crawl outcomes and top-line growth.'

@@ -6,16 +6,18 @@ import StagePanel from '@/components/sandy/StagePanel'
 const sections = [
   {
     to: '/home/adventure' as const,
-    eyebrow: '01 — The journey',
-    title: 'The journey',
-    description: 'Modernizing Janata Masala — north star, pillars, roadmap, benchmarks, and action tracker.',
+    eyebrow: '01 — Adventure',
+    title: 'Adventure',
+    description:
+      'A living workspace for modernizing Janata Masala — grounded in our conversations, powered by agentic commerce vision.',
     accent: 'var(--color-jm-spice)',
   },
   {
     to: '/home/explorations' as const,
     eyebrow: '02 — Explorations',
     title: 'Explorations',
-    description: 'WhatsApp campaigns, voice order-taking, and agentic commerce architecture — demos in JM context.',
+    description:
+      'Commerce 101 roadmap, WhatsApp campaigns, voice order-taking, and agentic commerce demos.',
     accent: 'var(--color-sandy-gold)',
   },
 ]

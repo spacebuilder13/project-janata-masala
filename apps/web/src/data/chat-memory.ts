@@ -5,65 +5,57 @@ export type ChatMemoryEntry = {
 
 export const suggestedPrompts = [
   'How does list-dump ordering work?',
-  'Explain the benchmark stack',
-  'What is Phase 1 deliverables?',
+  'What is Commerce 101?',
+  'Explain the three pillars',
   'WhatsApp channels for moms?',
-  'Workshop video approach?',
+  'Crawl Walk Run strategy?',
   'Agentic CRM for JM?',
 ]
 
 export const chatMemory: ChatMemoryEntry[] = [
   {
     keywords: ['list-dump', 'list dump', 'ordering', 'order', 'whatsapp order'],
-    response: 'List-dump ordering (Janta Stores model): housewives send a plain list in WhatsApp → staff parses items → itemized bill + payment link in chat. No website needed. This is the lowest-hanging fruit for JM\'s Ghatkopar demographic.',
+    response: 'List-dump ordering: housewives send a plain list in WhatsApp → staff parses items → itemized bill + payment link in chat. Digital bills force phone + address capture into CRM. Primary channel for JM\'s Ghatkopar demographic.',
   },
   {
-    keywords: ['benchmark', 'stack', 'janta', 'cds', 'rupsub', 'compare'],
-    response: 'Benchmark stack: CDS WPI (brand — premium feel, sensory content) + Janta Stores Borivali (channel — WhatsApp list-dump) in Phase 1. Rupsub (tech — CRM, AI voice, multi-location) is the Phase 2–3 destination.',
+    keywords: ['commerce 101', 'crawl', 'walk', 'run', 'three pillar'],
+    response: 'Commerce 101 (Crawl): three operational pillars — CRM (10k contacts), WhatsApp backbone (orders + digital bills), inward inventory (weeks-of-stock). Walk = hyper-local growth + founder-led reels. Run = premium branding (deferred until top-line profit).',
   },
   {
-    keywords: ['phase 1', 'phase one', 'branding', 'instagram', 'deliverable'],
-    response: 'Phase 1 (~4 weeks): branding book, Instagram launch, workshop for phone videos, WhatsApp number with operator, one packaging template. Evaluated against: does this reduce Jay\'s physical presence?',
+    keywords: ['phase 1', 'phase one', 'crawl', 'deliverable'],
+    response: 'Crawl / Phase 1: structured CRM, WhatsApp commerce flow, inward inventory tracking. Every interaction is a data channel. Branding book intentionally deferred to Run phase.',
   },
   {
-    keywords: ['phase 2', 'inventory', 'systems', 'integration'],
-    response: 'Phase 2 (4–6 weeks): inventory, order intake, logistics modules. All systems talk to each other — replace pen-and-paper. Document goods lifecycle storage → dispatch.',
+    keywords: ['phase 2', 'walk', 'inventory', 'outward'],
+    response: 'Walk / Phase 2: founder-led Instagram, hyper-local targeting (40–65 Gujarati/Kachchi women, 1km radius), after-hours chatbot, outbound inventory tracking, voice agent for peak hours.',
   },
   {
-    keywords: ['phase 3', 'crm', 'agentic', 'voice', 'digital interface'],
-    response: 'Phase 3 (4–6 weeks): WhatsApp-led or hybrid interface, full Agentic CRM, automated billing + payment links, real-time inventory. AI voice agents for peak demand (Rupsub model).',
+    keywords: ['phase 3', 'run', 'crm', 'agentic', 'voice', 'brand book'],
+    response: 'Run / Phase 3: premium brand book, agency marketing, full agentic CRM, QR/barcode automation, voice agents integrated with inventory. Only after Commerce 101 drives profit.',
   },
   {
     keywords: ['channel', 'channels', 'moms', 'older', 'broadcast'],
-    response: 'WhatsApp Channels: new arrivals and seasonal updates for moms and older generation. More trusted than website. Complements 1:1 list-dump ordering in chat.',
+    response: 'WhatsApp Channels: seasonal updates and new arrivals for moms and older generation. Complements 1:1 list-dump ordering — more trusted than a website for this demographic.',
   },
   {
-    keywords: ['workshop', 'video', 'reel', 'instagram', 'phone'],
-    response: 'Workshop approach: TQi teaches Jay\'s staff to shoot semi-aesthetic videos on phones. Templates for hooks, transitions, cuts. TQi edits raw footage into reels. Sustainable vs full production crew every post.',
+    keywords: ['workshop', 'video', 'reel', 'instagram', 'phone', 'utsav'],
+    response: 'Founder-led content: Utsav teaches Jay to shoot and edit authentic reels on phone — community tone (Heeraben testimonials) over agency production. Deferred fancy branding to Run phase.',
   },
   {
-    keywords: ['packaging', 'template', 'dry fruit', '50k', 'budget'],
-    response: 'Within 50k budget: one templatized dry-fruit packaging design Jay can duplicate across product lines. Part of mini brand revamp alongside branding book and 10 mockups.',
+    keywords: ['crm', 'contact', '10000', '10,000', 'database', 'haldi'],
+    response: 'CRM is JM\'s biggest asset — move from pen-and-paper to 10,000 structured contacts. 1% on 10k = 100 sales vs 1 on 100. Enables re-engagement (e.g. haldi buyer who hasn\'t returned in a year).',
   },
   {
-    keywords: ['brand', 'janta', 'heritage', 'premium', 'sabyasachi'],
-    response: '"Janta" as heritage authority — Sabyasachi not Zara. Serious buyers come for originality. Sensory content (spice crush, 13mm kaju USP) justifies premium. Gujarati-Kachchi Ghatkopar audience demands quality.',
-  },
-  {
-    keywords: ['performance', 'marketing', 'meta', 'ghatkopar', 'ads'],
-    response: 'Performance marketing: Meta/Instagram ads targeting affluent Gujarati-Kachchi in Ghatkopar belt. Drive 30% revenue on low-stake items → justify larger CRM/videography retainer.',
-  },
-  {
-    keywords: ['crm', 'segment', 'personal', 'birthday', 'kaju'],
-    response: 'Agentic CRM: track birthdays, preferences, product affinity. Push kaju content to kaju buyers. Satisfy "customer ego" through personalization — the familiarity they expect from Jay, at scale.',
+    keywords: ['inventory', 'inward', 'stock', 'qr', 'barcode'],
+    response: 'Inward inventory (Crawl): track goods on arrival, weeks-of-stock visibility, low-stock reorder alerts. QR/barcode tagging deferred to Walk/Run — follow the money through inventory lifecycle.',
   },
   {
     keywords: ['founder', 'jay', 'liberation', 'north star', 'present'],
-    response: 'North star: Can Janata Masala run without Jay physically present? Every Phase 1 deliverable is brand as operating system — infrastructure for multi-store, multi-staff scale.',
+    response: 'North star: Can Janata Masala run without Jay physically present? Commerce 101 first — CRM, WhatsApp backbone, inward inventory. Systems and data before premium branding.',
   },
   {
     keywords: ['default'],
-    response: 'Ask about list-dump ordering, the benchmark stack (CDS/Janta/Rupsub), phase deliverables, WhatsApp channels, workshop videos, or Agentic CRM. All grounded in JM\'s modernization plan.',
+    response: 'Ask about Commerce 101, the three pillars (CRM/WhatsApp/inventory), Crawl/Walk/Run, list-dump ordering, or agentic CRM. Grounded in JM\'s modernization plan.',
   },
 ]
 

@@ -16,11 +16,11 @@ Pre-deploy checklist for UI changes. **Blocking** for any polish or layout PR.
 |-------|---------|
 | `/` | Login gate |
 | `/home` | Hub — hybrid intro + stage panel |
-| `/home/adventure` | Adventure scroll shell |
+| `/home/adventure` | Adventure scroll shell — executive brief |
 | `/home/explorations` | Explorations index |
 | `/home/explorations/whatsapp` | WhatsApp + ChatAgent |
 | `/home/explorations/voice` | Voice + system flow |
-| `/home/explorations/architecture` | Agentic commerce diagram |
+| `/home/explorations/architecture` | Commerce 101 roadmap + agent diagram |
 | `/home/explorations/brand` | Brand & content |
 
 ## Checklist
@@ -55,19 +55,24 @@ Pre-deploy checklist for UI changes. **Blocking** for any polish or layout PR.
 
 ### Adventure anchor pass (1280px)
 
-For each anchor pill on `/home/adventure`: North star, Pillars, Roadmap, Benchmarks, Meetings, **Actions**, **Scope**, Questions:
+For each anchor pill on `/home/adventure`: North star, **Today**, **Vision**, **Crawl/Walk/Run**, **Stores**, **Stories**:
 
 1. Click anchor link (or navigate to `#id`)
 2. Verify section **heading fully visible** — no clipped serif ascenders under topbar + anchor nav
 3. Verify first content row has ≥18px internal padding
-4. Screenshot at 1280px → `docs/qa-screenshots/v3-adventure-{section}-1280.png`
+4. Screenshot at 1280px → `docs/qa-screenshots/v5-adventure-{section}-1280.png`
 
-### List row pass (1280px)
+### Adventure visual pass (1280px)
 
-- **Actions:** `.status-chip` compact mono pills; `.list-row` 18–20px padding; 12px stack gap
-- **Scope:** phase label under title via `.list-row-meta`; not floating outside card
-- **Meetings:** `.surface-card` rhythm; decision tags use `.tag`
-- **Open questions:** same row height/padding as actions
+- **Today:** 4-stat grid + bullet list; stat values readable at mobile
+- **Vision:** 2×2 goal cards + conversion bar chart; chart bars visible at 375px
+- **Crawl/Walk/Run:** 3-column step strip; active step spice border
+- **Stores:** hyperlocal banner + 2 store cards
+- **Stories:** 3 quote cards with serif pull quotes
+
+### List row pass (1280px) — superseded
+
+- ~~Actions, Scope, Meetings, Open questions~~ — removed from Adventure in M2.7
 
 ### WhatsApp pass (v4 — Zen gallery + interior frames)
 
@@ -112,6 +117,15 @@ QA_BASE_URL=http://localhost:4173 DEMO_PASSWORD=masala2026 npm run qa:wa-frames
 ---
 
 ## Log
+
+### 2026-06-12 — Adventure restructure (M2.7)
+
+**Build:** `npm run build` — PASS  
+**Routes verified:** `/home`, `/home/adventure`, `/home/explorations`, `/home/explorations/architecture` at 1280px  
+**Adventure anchors:** North star, Today, Vision, Crawl/Walk/Run, Stores, Stories — all present  
+**Artifacts:** `docs/qa-screenshots/v5-home-1280.png`, `v5-adventure-1280.png`, `v5-architecture-1280.png`
+
+**Overall: PASS** — Adventure executive brief + Commerce 101 roadmap restructure.
 
 ### 2026-06-12 — WA interior frame fix (M2.4)
 

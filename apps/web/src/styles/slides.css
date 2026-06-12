@@ -375,6 +375,10 @@
   .rm-matrix {
     grid-template-columns: repeat(4, 1fr);
   }
+
+  .rm-matrix--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .rm-segment-col {
@@ -755,4 +759,210 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+/* Adventure executive brief */
+.adv-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+@media (min-width: 768px) {
+  .adv-stat-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.adv-stat-card {
+  padding: 18px 20px;
+}
+
+.adv-stat-value {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.1;
+  margin-top: 8px;
+}
+
+.adv-bullet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+}
+
+.adv-bullet-item {
+  padding-left: 16px;
+  border-left: 3px solid var(--color-jm-spice);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--color-sandy-ink-soft);
+}
+
+.adv-chart {
+  padding: 22px 24px;
+}
+
+.adv-chart-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.adv-chart-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(80px, 2fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+@media (max-width: 640px) {
+  .adv-chart-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+.adv-chart-label {
+  font-size: 13px;
+  color: var(--color-sandy-ink-soft);
+}
+
+.adv-chart-track {
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--color-sandy-elevated);
+  overflow: hidden;
+}
+
+.adv-chart-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  min-width: 4px;
+  transition: width 0.6s ease;
+}
+
+.adv-chart-value {
+  font-family: var(--font-sandy-mono);
+  font-size: 12px;
+  color: var(--color-sandy-ink);
+  white-space: nowrap;
+}
+
+.adv-cwr-strip {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 900px) {
+  .adv-cwr-strip {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.adv-cwr-step {
+  padding: 22px 24px;
+  border-top: 3px solid var(--color-sandy-line);
+}
+
+.adv-cwr-step--active {
+  border-top-color: var(--color-jm-spice);
+}
+
+.adv-cwr-step--planned {
+  border-top-color: var(--color-sandy-gold);
+}
+
+.adv-cwr-step--deferred {
+  border-top-color: var(--color-sandy-ink-faint);
+  opacity: 0.85;
+}
+
+.adv-cwr-items {
+  margin-top: 14px;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-sandy-ink-soft);
+}
+
+.adv-cwr-items li + li {
+  margin-top: 6px;
+}
+
+.adv-hyperlocal-banner {
+  padding: 20px 22px;
+}
+
+.adv-story-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.adv-story-quote {
+  font-size: 1.05rem;
+  line-height: 1.4;
+  color: var(--color-sandy-ink);
+  font-style: italic;
+}
+
+/* Roadmap tech initiatives */
+.rm-tech-section {
+  margin-top: 8px;
+}
+
+.rm-tech-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 768px) {
+  .rm-tech-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.rm-tech-card {
+  padding: 18px 20px;
+}
+
+.rm-tech-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.rm-tech-status {
+  font-family: var(--font-sandy-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-sandy-line);
+}
+
+.rm-tech-status--active {
+  color: var(--color-jm-spice);
+  border-color: color-mix(in oklab, var(--color-jm-spice) 35%, var(--color-sandy-line));
+  background: color-mix(in oklab, var(--color-jm-spice) 8%, var(--color-sandy-surface));
+}
+
+.rm-tech-status--planned {
+  color: var(--color-sandy-gold);
+  border-color: color-mix(in oklab, var(--color-sandy-gold) 35%, var(--color-sandy-line));
+  background: var(--color-sandy-gold-wash);
+}
+
+.rm-tech-status--future {
+  color: var(--color-sandy-ink-faint);
+}
+
+.cp-seq-badge--defer {
+  color: var(--color-sandy-signal-warn);
+  border-color: color-mix(in oklab, var(--color-sandy-signal-warn) 35%, var(--color-sandy-line));
+  background: color-mix(in oklab, var(--color-sandy-signal-warn) 8%, var(--color-sandy-surface));
 }

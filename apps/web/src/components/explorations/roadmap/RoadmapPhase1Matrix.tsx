@@ -2,6 +2,7 @@ import type { RoadmapPhase } from '@/data/commerce-roadmap'
 import RoadmapUnlockHeadline from './RoadmapUnlockHeadline'
 import RoadmapScopeBadge from './RoadmapScopeBadge'
 import RoadmapSegmentColumn from './RoadmapSegmentColumn'
+import RoadmapTechInitiatives from './RoadmapTechInitiatives'
 
 type Props = {
   phase: RoadmapPhase
@@ -9,6 +10,9 @@ type Props = {
 
 export default function RoadmapPhase1Matrix({ phase }: Props) {
   if (!phase.segments) return null
+
+  const matrixClass =
+    phase.segments.length === 3 ? 'rm-matrix rm-matrix--3' : 'rm-matrix'
 
   return (
     <div className="rm-phase-panel" role="tabpanel">
@@ -21,11 +25,15 @@ export default function RoadmapPhase1Matrix({ phase }: Props) {
 
       <p className="rm-objective">{phase.objective}</p>
 
-      <div className="rm-matrix">
+      <div className={matrixClass}>
         {phase.segments.map((segment) => (
           <RoadmapSegmentColumn key={segment.id} segment={segment} />
         ))}
       </div>
+
+      {phase.techInitiatives && phase.techInitiatives.length > 0 && (
+        <RoadmapTechInitiatives initiatives={phase.techInitiatives} />
+      )}
     </div>
   )
 }

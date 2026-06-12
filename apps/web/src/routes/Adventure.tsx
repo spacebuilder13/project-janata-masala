@@ -1,25 +1,19 @@
 import PageShell from '@/components/sandy/PageShell'
 import PageIntro from '@/components/sandy/PageIntro'
-import SectionHead from '@/components/sandy/SectionHead'
 import NorthStarBanner from '@/components/adventure/NorthStarBanner'
-import PillarCards from '@/components/adventure/PillarCards'
-import RoadmapTimeline from '@/components/adventure/RoadmapTimeline'
-import BenchmarkStack from '@/components/adventure/BenchmarkStack'
-import ActionTracker from '@/components/adventure/ActionTracker'
-import MeetingCard from '@/components/adventure/MeetingCard'
-import ScopeTracker from '@/components/adventure/ScopeTracker'
-import OpenQuestions from '@/components/adventure/OpenQuestions'
-import { meetings } from '@/data/adventure'
+import TodaySnapshot from '@/components/adventure/TodaySnapshot'
+import VisionGoals from '@/components/adventure/VisionGoals'
+import CrawlWalkRunStrip from '@/components/adventure/CrawlWalkRunStrip'
+import StoreContextCards from '@/components/adventure/StoreContextCards'
+import CommunityStories from '@/components/adventure/CommunityStories'
 
 const sections = [
   { id: 'north-star', label: 'North star' },
-  { id: 'pillars', label: 'Pillars' },
-  { id: 'roadmap', label: 'Roadmap' },
-  { id: 'benchmarks', label: 'Benchmarks' },
-  { id: 'meetings', label: 'Meetings' },
-  { id: 'actions', label: 'Actions' },
-  { id: 'scope', label: 'Scope' },
-  { id: 'questions', label: 'Questions' },
+  { id: 'today', label: 'Today' },
+  { id: 'vision', label: 'Vision' },
+  { id: 'crawl-walk-run', label: 'Crawl/Walk/Run' },
+  { id: 'stores', label: 'Stores' },
+  { id: 'stories', label: 'Stories' },
 ]
 
 export default function Adventure() {
@@ -28,7 +22,7 @@ export default function Adventure() {
       <PageIntro
         eyebrow="01 — Adventure"
         title="Modernizing Janata Masala"
-        sub="Founder liberation through brand as operating system — strategy, roadmap, and shared decisions with the S&A team."
+        sub="An executive brief — where Janata Masala is today, where we're going, and the Crawl/Walk/Run path to get there."
         accent="spice"
         wide
       />
@@ -36,20 +30,21 @@ export default function Adventure() {
       <div className="jm-section">
         <NorthStarBanner sectionId="north-star" />
       </div>
-      <div className="jm-section"><PillarCards sectionId="pillars" /></div>
-      <div className="jm-section"><RoadmapTimeline sectionId="roadmap" /></div>
-      <div className="jm-section"><BenchmarkStack sectionId="benchmarks" /></div>
-
       <div className="jm-section">
-        <SectionHead id="meetings" eyebrow="Meetings" title="Discovery sessions" />
-        <div className="flex flex-col gap-6">
-          {meetings.map((m) => <MeetingCard key={m.id} meeting={m} />)}
-        </div>
+        <TodaySnapshot sectionId="today" />
       </div>
-
-      <div className="jm-section"><ActionTracker sectionId="actions" /></div>
-      <div className="jm-section"><ScopeTracker sectionId="scope" /></div>
-      <div className="jm-section"><OpenQuestions sectionId="questions" /></div>
+      <div className="jm-section">
+        <VisionGoals sectionId="vision" />
+      </div>
+      <div className="jm-section">
+        <CrawlWalkRunStrip sectionId="crawl-walk-run" />
+      </div>
+      <div className="jm-section">
+        <StoreContextCards sectionId="stores" />
+      </div>
+      <div className="jm-section">
+        <CommunityStories sectionId="stories" />
+      </div>
     </PageShell>
   )
 }

@@ -4,22 +4,42 @@ import PageIntro from '@/components/sandy/PageIntro'
 
 type ModuleLink = {
   kind: 'link'
-  to: '/home/explorations/architecture' | '/home/explorations/whatsapp' | '/home/explorations/brand'
+  to:
+    | '/home/explorations/architecture'
+    | '/home/explorations/whatsapp'
+    | '/home/explorations/voice'
+    | '/home/explorations/brand'
   title: string
   desc: string
+  badge?: string
 }
 
-type ModuleSoon = {
-  kind: 'soon'
-  title: string
-  desc: string
-}
-
-const modules: (ModuleLink | ModuleSoon)[] = [
-  { kind: 'link', to: '/home/explorations/architecture', title: 'Agentic Commerce Roadmap', desc: 'Three-phase modernization — brand, systems, and agentic commerce target state' },
-  { kind: 'link', to: '/home/explorations/whatsapp', title: 'Whatsapp Commerce', desc: '11 campaign patterns + offline knowledge agent' },
-  { kind: 'link', to: '/home/explorations/brand', title: 'Brand Foundations', desc: 'Heritage authority, workshop system, sensory storytelling, performance marketing' },
-  { kind: 'soon', title: 'Voice Agents', desc: 'Live voice order-taking with structured back-office output' },
+const modules: ModuleLink[] = [
+  {
+    kind: 'link',
+    to: '/home/explorations/architecture',
+    title: 'Commerce 101 Roadmap',
+    desc: 'Three operational pillars — CRM, WhatsApp backbone, inward inventory — plus tech initiatives',
+  },
+  {
+    kind: 'link',
+    to: '/home/explorations/whatsapp',
+    title: 'WhatsApp Commerce',
+    desc: '11 campaign patterns + offline knowledge agent',
+  },
+  {
+    kind: 'link',
+    to: '/home/explorations/voice',
+    title: 'Voice Order-Taking',
+    desc: 'Live voice agents Priya + Meera with structured post-call output',
+  },
+  {
+    kind: 'link',
+    to: '/home/explorations/brand',
+    title: 'Brand Foundations',
+    desc: 'Heritage, workshop, sensory storytelling — intentionally deferred to Walk/Run phase',
+    badge: 'Deferred — Walk/Run',
+  },
 ]
 
 export default function ExplorationsIndex() {
@@ -28,28 +48,21 @@ export default function ExplorationsIndex() {
       <PageIntro
         eyebrow="02 — Explorations"
         title="What can we find during the adventure"
-        sub="Demos and prototypes — WhatsApp commerce, brand foundations, and the roadmap to agentic commerce for Janata Masala."
+        sub="Commerce 101 roadmap, WhatsApp campaigns, voice demos, and the agentic commerce target state."
         accent="gold"
         wide
       />
       <div className="jm-seq-list">
-        {modules.map((m) =>
-          m.kind === 'link' ? (
-            <Link key={m.to} to={m.to} className="cp-seq-item">
+        {modules.map((m) => (
+          <Link key={m.to} to={m.to} className="cp-seq-item">
+            <div className="cp-seq-soon-row">
               <h2 className="cp-seq-title">{m.title}</h2>
-              <p className="cp-seq-desc">{m.desc}</p>
-              <span className="cp-seq-cta">Open →</span>
-            </Link>
-          ) : (
-            <div key={m.title} className="cp-seq-item cp-seq-item--soon" aria-disabled="true">
-              <div className="cp-seq-soon-row">
-                <h2 className="cp-seq-title">{m.title}</h2>
-                <span className="cp-seq-badge">Coming soon</span>
-              </div>
-              <p className="cp-seq-desc">{m.desc}</p>
+              {m.badge && <span className="cp-seq-badge cp-seq-badge--defer">{m.badge}</span>}
             </div>
-          ),
-        )}
+            <p className="cp-seq-desc">{m.desc}</p>
+            <span className="cp-seq-cta">Open →</span>
+          </Link>
+        ))}
       </div>
     </PageShell>
   )
