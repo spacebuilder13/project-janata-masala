@@ -1,0 +1,147 @@
+@import './tokens.css';
+
+.wa-chrome {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: var(--wa-bezel);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.wa-chrome__status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px 2px;
+  background: var(--wa-header);
+  color: white;
+  font-size: 10px;
+}
+
+.wa-chrome__status-time {
+  font-weight: 600;
+}
+
+.wa-chrome__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--wa-header);
+  color: white;
+}
+
+.wa-chrome__back {
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+.wa-chrome__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--font-sandy-display);
+  background: var(--wa-avatar-bg);
+  color: var(--color-sandy-gold-soft);
+  box-shadow: inset 0 0 0 1px rgba(231, 204, 133, 0.45);
+}
+
+.wa-chrome__id {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.wa-chrome__name {
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wa-chrome__sub {
+  font-size: 9.5px;
+  opacity: 0.8;
+}
+
+.wa-chrome__icons {
+  font-size: 12px;
+  opacity: 0.9;
+  flex-shrink: 0;
+}
+
+.wa-chrome__thread-wrap {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  background: var(--wa-wallpaper);
+}
+
+.wa-chrome__thread-wrap--jm {
+  background: var(--wa-wallpaper-jm);
+}
+
+.wa-chrome__unread {
+  text-align: center;
+  font-size: 9px;
+  padding: 4px 0;
+  color: var(--wa-unread-text);
+}
+
+.wa-chrome__unread span {
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--wa-unread-bg);
+}
+
+.wa-chrome__thread {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: var(--wa-thread-max);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.wa-chrome__composer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  background: var(--wa-composer-bg);
+}
+
+.wa-chrome__input {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--wa-composer-input);
+  color: var(--wa-composer-placeholder);
+  font-size: 11px;
+}
+
+.wa-chrome__mic {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--wa-header);
+  color: white;
+  font-size: 12px;
+  flex-shrink: 0;
+}

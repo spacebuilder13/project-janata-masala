@@ -46,3 +46,13 @@ B2B engagement pod for modernizing Janata Masala through agentic commerce.
 | Stack learnings | append `docs/STACK_DELTA.md` |
 
 Knowledge hub: see vibe-coding-stack `registry/hubs.json` entry `janata-masala`.
+
+## WhatsApp QA discipline
+
+Never mark WhatsApp PASS on DOM refs or accessibility tree alone. Require:
+
+1. `npm run lint:wa` — hex guard
+2. `npm run qa:wa-frames` — per-pattern `.wa-mini-frame` screenshots + overflow asserts
+3. Human review of `docs/qa-screenshots/v4-frame-*.png` against [Sandy Lab WhatsApp](https://zen-design-pal.lovable.app/sandy-lab/whatsapp)
+
+See [`docs/WA_KIT.md`](docs/WA_KIT.md) for kit structure and frame-safe rules.

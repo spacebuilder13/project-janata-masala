@@ -69,17 +69,39 @@ For each anchor pill on `/home/adventure`: North star, Pillars, Roadmap, Benchma
 - **Meetings:** `.surface-card` rhythm; decision tags use `.tag`
 - **Open questions:** same row height/padding as actions
 
-### WhatsApp pass (v4 — Zen gallery)
+### WhatsApp pass (v4 — Zen gallery + interior frames)
 
-Reference: [Sandy Lab WhatsApp](https://zen-design-pal.lovable.app/sandy-lab/whatsapp)
+Reference: [Sandy Lab WhatsApp](https://zen-design-pal.lovable.app/sandy-lab/whatsapp) · Kit docs: [`docs/WA_KIT.md`](WA_KIT.md)
 
-- **1280px:** 3-col `.wa-gallery-grid`; each `.wa-gallery-card` has Sandy surface + elevated stage
-- **1280px:** Each card contains `.wa-mini-frame` (260×460 black bezel) with status bar + composer
-- **1280px:** Carousel pattern (02) renders swipe cards — not text fallback
-- **1280px:** All 11 patterns visible under "all"; filter tags include `catalog`, `seasonal`, `engagement`
-- **1280px:** ChatAgent below gallery in `.wa-chat-section` (not sticky sidebar)
-- **375px:** single column gallery; no horizontal overflow
-- Screenshot: `docs/qa-screenshots/v4-whatsapp-gallery-1280.png`
+**Automated (blocking):**
+
+```bash
+cd apps/web && npm run build && npm run lint:wa
+npm run preview &
+QA_BASE_URL=http://localhost:4173 DEMO_PASSWORD=masala2026 npm run qa:wa-frames
+```
+
+- `lint:wa` — zero hex outside `wa-kit/tokens.css`
+- `qa:wa-frames` — 11× `v4-frame-{id}.png` + `v4-whatsapp-gallery-1280.png`; no horizontal overflow in `.wa-mini-frame`; composer visible
+
+**Page chrome (1280px):**
+
+- 3-col `.wa-gallery-grid`; Sandy surface cards + elevated stage
+- Each card: `.wa-mini-frame` (260×460) with status bar + composer
+- All 11 patterns under "all"; tags include `catalog`, `seasonal`, `engagement`
+- ChatAgent below gallery in `.wa-chat-section`
+
+**Interior frame pass (blocking — human 5 min):**
+
+- [ ] `v4-frame-catalog-carousel.png` — **one full card** visible, dots below, no hard clip at bezel
+- [ ] `v4-frame-list-dump.png` — outgoing bubble + bill visible without scrolling thread
+- [ ] `v4-frame-festival-list.png` — list sheet fits inside frame
+- [ ] Side-by-side Zen pal for carousel, reply buttons, list picker
+- [ ] `npm run lint:wa` PASS
+
+**375px:** single column gallery; no page-level horizontal overflow
+
+**Note:** WA interior font sizes (`text-[10px]` etc.) exempt from body-font rule — **layout inside frame is NOT exempt**.
 
 ### WhatsApp pass (v3 — superseded)
 
@@ -88,6 +110,22 @@ Reference: [Sandy Lab WhatsApp](https://zen-design-pal.lovable.app/sandy-lab/wha
 ---
 
 ## Log
+
+### 2026-06-12 — WA interior frame fix (M2.4)
+
+**Build:** `npm run build` — PASS  
+**lint:wa:** PASS (hex only in `wa-kit/tokens.css`)  
+**qa:wa-frames:** PASS (11 frame interiors + gallery screenshot)
+
+**Fixes:**
+- Extracted canonical `wa-kit/` from zen patterns with CSS classes + tokens
+- Frame-safe carousel: single-card snap (no 3×110px clip)
+- JM demos rewired as thin wrappers; `data-wa-pattern` for automated QA
+- Added `lint:wa`, `qa:wa-frames`, `docs/WA_KIT.md`
+
+**Artifacts:** `docs/qa-screenshots/v4-frame-*.png`, `v4-whatsapp-gallery-1280.png`
+
+**Overall: PASS** — cleared for deploy.
 
 ### 2026-06-12 — List row fix (M2.3)
 
