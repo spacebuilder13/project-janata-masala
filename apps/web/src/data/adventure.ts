@@ -65,7 +65,7 @@ export const openQuestions = [
 
 export const scopeItems: ScopeItem[] = [
   { id: 's1', area: 'Engagement workspace', status: 'done', description: 'Login-gated hub with Adventure + Explorations', phase: 'M1' },
-  { id: 's2', area: 'Branding book + mockups', status: 'in-progress', description: 'Logo, palettes, 10 touchpoint mockups', phase: 'Phase 1' },
+  { id: 's2', area: 'Branding book + mockups', status: 'in-progress', description: 'Palette, fonts, voice, 10 touchpoint mockups, packaging template', phase: 'Phase 1' },
   { id: 's3', area: 'Instagram + workshop videos', status: 'in-progress', description: 'Semi-aesthetic phone video system at store', phase: 'Phase 1' },
   { id: 's4', area: 'WhatsApp Business setup', status: 'in-progress', description: 'Dedicated number, operator, campaign patterns', phase: 'Phase 1' },
   { id: 's5', area: 'Inventory + order systems', status: 'planned', description: 'Integrated back-end replacing pen-and-paper', phase: 'Phase 2' },

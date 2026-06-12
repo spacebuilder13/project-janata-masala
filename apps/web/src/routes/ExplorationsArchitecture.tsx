@@ -1,19 +1,19 @@
 import PageShell from '@/components/sandy/PageShell'
 import PageIntro from '@/components/sandy/PageIntro'
-import ArchitectureDiagram from '@/components/explorations/ArchitectureDiagram'
+import CommerceRoadmap from '@/components/explorations/CommerceRoadmap'
 
 export default function ExplorationsArchitecture() {
   return (
     <PageShell variant="wide">
       <PageIntro
-        eyebrow="Explorations · Architecture"
-        title="Agentic commerce for Janata Masala"
-        sub="Multiple specialized agents — voice intake, catalogue, inventory, orders, CRM, finance — orchestrated by Claude."
+        eyebrow="Explorations · Roadmap"
+        title="Agentic commerce roadmap"
+        sub="Phase 1 lays out four segments — brand, content, WhatsApp, and paid reach. Phases 2 and 3 evolve flexibly based on what Phase 1 unlocks."
         accent="spice"
         wide
       />
       <div className="jm-section">
-        <ArchitectureDiagram />
+        <CommerceRoadmap />
       </div>
     </PageShell>
   )

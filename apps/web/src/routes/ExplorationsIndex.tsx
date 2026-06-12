@@ -2,11 +2,24 @@ import { Link } from '@tanstack/react-router'
 import PageShell from '@/components/sandy/PageShell'
 import PageIntro from '@/components/sandy/PageIntro'
 
-const modules = [
-  { to: '/home/explorations/brand' as const, title: 'Brand & Content', desc: 'Heritage authority, workshop system, sensory storytelling, performance marketing' },
-  { to: '/home/explorations/whatsapp' as const, title: 'WhatsApp + ChatAgent', desc: '11 campaign patterns + offline knowledge agent' },
-  { to: '/home/explorations/voice' as const, title: 'VoiceAgent + System Flow', desc: 'Scripted conversations with structured back-office output' },
-  { to: '/home/explorations/architecture' as const, title: 'Agentic Commerce Architecture', desc: 'Benchmark stack, phase overlay, multi-agent diagram' },
+type ModuleLink = {
+  kind: 'link'
+  to: '/home/explorations/architecture' | '/home/explorations/whatsapp' | '/home/explorations/brand'
+  title: string
+  desc: string
+}
+
+type ModuleSoon = {
+  kind: 'soon'
+  title: string
+  desc: string
+}
+
+const modules: (ModuleLink | ModuleSoon)[] = [
+  { kind: 'link', to: '/home/explorations/architecture', title: 'Agentic Commerce Roadmap', desc: 'Three-phase modernization — brand, systems, and agentic commerce target state' },
+  { kind: 'link', to: '/home/explorations/whatsapp', title: 'Whatsapp Commerce', desc: '11 campaign patterns + offline knowledge agent' },
+  { kind: 'link', to: '/home/explorations/brand', title: 'Brand Foundations', desc: 'Heritage authority, workshop system, sensory storytelling, performance marketing' },
+  { kind: 'soon', title: 'Voice Agents', desc: 'Live voice order-taking with structured back-office output' },
 ]
 
 export default function ExplorationsIndex() {
@@ -15,18 +28,28 @@ export default function ExplorationsIndex() {
       <PageIntro
         eyebrow="02 — Explorations"
         title="What can we find during the adventure"
-        sub="Demos and prototypes — WhatsApp, voice, and the architecture that powers agentic commerce for Janata Masala."
+        sub="Demos and prototypes — WhatsApp commerce, brand foundations, and the roadmap to agentic commerce for Janata Masala."
         accent="gold"
         wide
       />
       <div className="jm-seq-list">
-        {modules.map((m) => (
-          <Link key={m.to} to={m.to} className="cp-seq-item">
-            <h2 className="cp-seq-title">{m.title}</h2>
-            <p className="cp-seq-desc">{m.desc}</p>
-            <span className="cp-seq-cta">Open →</span>
-          </Link>
-        ))}
+        {modules.map((m) =>
+          m.kind === 'link' ? (
+            <Link key={m.to} to={m.to} className="cp-seq-item">
+              <h2 className="cp-seq-title">{m.title}</h2>
+              <p className="cp-seq-desc">{m.desc}</p>
+              <span className="cp-seq-cta">Open →</span>
+            </Link>
+          ) : (
+            <div key={m.title} className="cp-seq-item cp-seq-item--soon" aria-disabled="true">
+              <div className="cp-seq-soon-row">
+                <h2 className="cp-seq-title">{m.title}</h2>
+                <span className="cp-seq-badge">Coming soon</span>
+              </div>
+              <p className="cp-seq-desc">{m.desc}</p>
+            </div>
+          ),
+        )}
       </div>
     </PageShell>
   )

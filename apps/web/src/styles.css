@@ -25,6 +25,12 @@
   --color-jm-spice: #c45a1a;
   --color-jm-turmeric: #e8b84b;
 
+  /* Roadmap segment colors — knowledge/janata_masala_roadmap.md */
+  --color-rm-brand: #7f77dd;
+  --color-rm-content: #d85a30;
+  --color-rm-whatsapp: #1d9e75;
+  --color-rm-performance: #ba7517;
+
   --grid-line: rgba(27, 26, 23, 0.07);
   --grid-line-strong: rgba(27, 26, 23, 0.13);
 
