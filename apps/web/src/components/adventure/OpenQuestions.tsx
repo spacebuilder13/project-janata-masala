@@ -1,14 +1,16 @@
 import SectionHead from '../sandy/SectionHead'
 import { openQuestions } from '@/data/adventure'
 
-export default function OpenQuestions() {
+export default function OpenQuestions({ sectionId }: { sectionId?: string }) {
   return (
     <section>
-      <SectionHead eyebrow="Open" title="Open questions" />
-      <ul className="space-y-2">
+      <SectionHead id={sectionId} eyebrow="Open" title="Open questions" />
+      <ul className="list-stack">
         {openQuestions.map((q) => (
-          <li key={q} className="text-sm px-4 py-3 rounded-xl border" style={{ borderColor: 'var(--color-sandy-line)', color: 'var(--color-sandy-ink-soft)' }}>
-            ? {q}
+          <li key={q} className="list-row">
+            <div className="list-row-body">
+              <p className="list-row-text">? {q}</p>
+            </div>
           </li>
         ))}
       </ul>

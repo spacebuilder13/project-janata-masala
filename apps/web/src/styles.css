@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@import "./styles/tokens.css";
+@import "./styles/slides.css";
+@import "./styles/shell.css";
+@import "./styles/auth.css";
+@import "./styles/wa.css";
 
 :root {
   --color-sandy-bg: #fbfaf6;
@@ -13,6 +18,10 @@
   --color-sandy-gold-soft: #e7cc85;
   --color-sandy-gold-wash: #faf1d8;
   --color-sandy-tea: #5c7c6e;
+  --color-sandy-signal-ok: #2f7a4d;
+  --color-sandy-signal-warn: #b27510;
+  --color-sandy-signal-gap: #a0413b;
+  --color-sandy-spatial-deep: #1f2b3a;
   --color-jm-spice: #c45a1a;
   --color-jm-turmeric: #e8b84b;
 
@@ -49,14 +58,17 @@
 html {
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
+  scroll-padding-top: calc(56px + 58px + 32px);
 }
 
 body {
   font-family: var(--font-sandy-sans);
+  font-size: 14px;
+  line-height: 1.55;
   background: var(--color-sandy-bg);
   color: var(--color-sandy-ink);
-  line-height: 1.5;
   min-height: 100dvh;
+  overflow-x: clip;
 }
 
 #root {
@@ -72,8 +84,18 @@ body {
 .mono {
   font-family: var(--font-sandy-mono);
   font-size: 11px;
-  letter-spacing: 0.06em;
+}
+
+.mono-caps {
+  font-family: var(--font-sandy-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.text-secondary {
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 /* Graph paper */
@@ -133,4 +155,12 @@ body {
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 0 0 rgba(196, 90, 26, 0.3); }
   50% { box-shadow: 0 0 20px 4px rgba(196, 90, 26, 0.2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

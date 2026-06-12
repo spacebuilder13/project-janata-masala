@@ -1,11 +1,25 @@
-type Props = { eyebrow: string; title: string; blurb?: string }
+type Accent = 'default' | 'spice' | 'gold'
 
-export default function SectionHead({ eyebrow, title, blurb }: Props) {
+type Props = {
+  id?: string
+  eyebrow: string
+  title: string
+  blurb?: string
+  accent?: Accent
+}
+
+const eyebrowClass: Record<Accent, string> = {
+  default: 'slide-eyebrow',
+  spice: 'slide-eyebrow slide-eyebrow--spice',
+  gold: 'slide-eyebrow slide-eyebrow--gold',
+}
+
+export default function SectionHead({ id, eyebrow, title, blurb, accent = 'spice' }: Props) {
   return (
-    <div className="mb-6">
-      <p className="mono" style={{ color: 'var(--color-jm-spice)' }}>{eyebrow}</p>
+    <header id={id} className={`slide-head${id ? ' jm-section-anchor' : ''}`}>
+      <p className={eyebrowClass[accent]}>{eyebrow}</p>
       <h2 className="serif text-2xl md:text-3xl mt-2">{title}</h2>
-      {blurb && <p className="mt-2 text-sm max-w-2xl" style={{ color: 'var(--color-sandy-ink-soft)' }}>{blurb}</p>}
-    </div>
+      {blurb && <p className="caption-text mt-2 max-w-2xl">{blurb}</p>}
+    </header>
   )
 }

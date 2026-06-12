@@ -3,11 +3,11 @@ import StatusChip from '../sandy/StatusChip'
 import SectionHead from '../sandy/SectionHead'
 import { phases } from '@/data/roadmap'
 
-export default function RoadmapTimeline() {
+export default function RoadmapTimeline({ sectionId }: { sectionId?: string }) {
   return (
     <section>
-      <SectionHead eyebrow="Roadmap" title="Three-phase modernization" blurb="NLM-grounded timeline from discovery sessions." />
-      <div className="space-y-3">
+      <SectionHead id={sectionId} eyebrow="Roadmap" title="Three-phase modernization" blurb="NLM-grounded timeline from discovery sessions." />
+      <div className="flex flex-col gap-4">
         {phases.map((p) => (
           <ExpandableCard
             key={p.id}

@@ -3,10 +3,10 @@ import { fadeRise, stagger } from '../sandy/motion'
 import { pillars } from '@/data/strategy'
 import SectionHead from '../sandy/SectionHead'
 
-export default function PillarCards() {
+export default function PillarCards({ sectionId }: { sectionId?: string }) {
   return (
     <section>
-      <SectionHead eyebrow="Strategic pillars" title="Three pillars of modernization" />
+      <SectionHead id={sectionId} eyebrow="Strategic pillars" title="Three pillars of modernization" />
       <motion.div
         className="grid md:grid-cols-3 gap-4"
         initial="hidden"
@@ -18,12 +18,11 @@ export default function PillarCards() {
           <motion.article
             key={p.id}
             variants={fadeRise}
-            className="p-6 rounded-2xl border"
-            style={{ background: 'var(--color-sandy-surface)', borderColor: 'var(--color-sandy-line)' }}
+            className="surface-card"
           >
-            <span className="mono text-[10px]" style={{ color: 'var(--color-jm-spice)' }}>{p.tag}</span>
+            <span className="caption-label caption-label--spice">{p.tag}</span>
             <h3 className="serif text-xl mt-2">{p.title}</h3>
-            <p className="mt-3 text-sm" style={{ color: 'var(--color-sandy-ink-soft)' }}>{p.description}</p>
+            <p className="caption-text mt-2">{p.description}</p>
           </motion.article>
         ))}
       </motion.div>

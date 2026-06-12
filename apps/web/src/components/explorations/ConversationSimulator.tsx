@@ -40,15 +40,15 @@ export default function ConversationSimulator({ scenario, onComplete }: Props) {
     <div className="rounded-2xl border overflow-hidden" style={{ borderColor: 'var(--color-sandy-line)', background: 'var(--color-sandy-surface)' }}>
       <div className="px-4 py-3 border-b flex justify-between items-center" style={{ borderColor: 'var(--color-sandy-line)' }}>
         <div>
-          <p className="mono text-[10px]" style={{ color: 'var(--color-jm-spice)' }}>Conversation simulator</p>
+          <p className="caption-label caption-label--spice">Conversation simulator</p>
           <p className="text-sm font-medium">{scenario.title}</p>
           <p className="text-xs" style={{ color: 'var(--color-sandy-ink-faint)' }}>{scenario.subtitle}</p>
         </div>
         <div className="flex gap-2">
           {!playing ? (
-            <button type="button" className="px-4 py-2 rounded-xl mono text-[10px]" style={{ background: 'var(--color-sandy-ink)', color: 'var(--color-sandy-bg)' }} onClick={start}>Play →</button>
+            <button type="button" className="tag tag--active" onClick={start}>Play →</button>
           ) : (
-            <button type="button" className="px-4 py-2 rounded-xl border mono text-[10px]" style={{ borderColor: 'var(--color-sandy-line)' }} onClick={reset}>Reset</button>
+            <button type="button" className="tag" onClick={reset}>Reset</button>
           )}
         </div>
       </div>
@@ -65,13 +65,13 @@ export default function ConversationSimulator({ scenario, onComplete }: Props) {
                 color: m.role === 'customer' ? 'var(--color-sandy-bg)' : 'var(--color-sandy-ink-soft)',
               }}
             >
-              <span className="mono text-[9px] block mb-1 opacity-60">{m.role}</span>
+              <span className="caption-label block mb-1 opacity-60">{m.role}</span>
               {m.text}
             </motion.div>
           ))}
         </AnimatePresence>
         {typing && (
-          <p className="mono text-[10px]" style={{ color: 'var(--color-sandy-ink-faint)' }}>Agent typing…</p>
+          <p className="caption-label" style={{ color: 'var(--color-sandy-ink-faint)' }}>Agent typing…</p>
         )}
       </div>
     </div>

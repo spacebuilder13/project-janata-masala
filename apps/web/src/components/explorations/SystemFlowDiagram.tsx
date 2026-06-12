@@ -39,7 +39,7 @@ export default function SystemFlowDiagram({ structured }: Props) {
 
   return (
     <div className="p-6 rounded-2xl border" style={{ borderColor: 'var(--color-sandy-line)', background: 'var(--color-sandy-surface)' }}>
-      <p className="mono text-[10px] mb-6" style={{ color: 'var(--color-jm-spice)' }}>
+      <p className="caption-label caption-label--spice mb-6">
         Real-time system flow
       </p>
       <DiagramFlow phases={phases} animateActive />

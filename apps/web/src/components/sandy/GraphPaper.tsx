@@ -8,7 +8,7 @@ type Props = {
 
 export default function GraphPaper({
   size = 28,
-  major = true,
+  major = false,
   vignette = true,
   className = '',
   style,

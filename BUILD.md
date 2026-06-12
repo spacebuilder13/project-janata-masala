@@ -1,6 +1,6 @@
 # BUILD — Janata Masala M1
 
-Status: **M2 content complete — deployed**
+Status: **M2.2 full UI/UX revamp — deployed**
 
 **Live:** https://project-janata-masala.vercel.app  
 **Deploy:** Vercel (`vercel.json` at repo root)  
@@ -32,7 +32,18 @@ ChatAgent uses `chat-memory.ts` keyword router. Voice uses `ConversationSimulato
 
 ## Design
 
-See `knowledge/brand_guidelines.md`. Graph paper background, JM spice accent on Sandy base.
+See `knowledge/brand_guidelines.md`. Graph paper background with vignette, JM spice accent on Sandy base.
+
+Design system CSS: `apps/web/src/styles/tokens.css`, `apps/web/src/styles/auth.css`.
+
+## Pre-deploy (blocking for UI changes)
+
+Run the checklist in [`docs/VISUAL_QA.md`](docs/VISUAL_QA.md) before every UI deploy:
+
+1. `cd apps/web && npm run build`
+2. Screenshot `/`, `/home`, `/home/adventure`, `/home/explorations` at 375px + 1280px
+3. Log pass/fail in `docs/VISUAL_QA.md`
+4. Deploy only on PASS
 
 ## Knowledge
 

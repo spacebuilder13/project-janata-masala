@@ -1,0 +1,53 @@
+/* Design system tokens — ported from findow-phase1, JM accents preserved */
+
+:root {
+  --color-sandy-signal-ok: #2f7a4d;
+  --color-sandy-signal-warn: #b27510;
+  --color-sandy-signal-gap: #a0413b;
+  --color-sandy-spatial-deep: #1f2b3a;
+  --color-sandy-spatial-glow: #7dc4d6;
+  --color-sandy-edit-rule: #d7c8a0;
+
+  --radius-2xl: 32px;
+  --grid-size: 28px;
+  --deck-max: 1400px;
+  --shadow-pop: 0 0 0 1px var(--color-sandy-line-strong),
+    0 24px 48px -24px color-mix(in oklab, var(--color-sandy-ink) 25%, transparent);
+
+  --space-1: 4px;
+  --space-5: 20px;
+  --space-10: 40px;
+  --space-16: 64px;
+}
+
+.eyebrow {
+  font-family: var(--font-sandy-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-sandy-ink-faint);
+}
+
+.kicker {
+  font-family: var(--font-sandy-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.card {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-sandy-line);
+  background: var(--color-sandy-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.card-link {
+  display: block;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.card-link:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-pop);
+}

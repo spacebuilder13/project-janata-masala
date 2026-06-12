@@ -7,25 +7,31 @@ export default function Layout() {
   const isHome = pathname.startsWith('/home')
 
   return (
-    <div className="relative min-h-dvh">
-      {isHome && <GraphPaper size={28} className="fixed" />}
+    <div className="relative min-h-dvh flex flex-col">
+      {isHome && <GraphPaper size={28} vignette className="fixed" />}
       {isHome && (
-        <header className="relative z-20 flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: 'var(--color-sandy-line)', background: 'color-mix(in oklab, var(--color-sandy-bg) 92%, transparent)' }}>
-          <Link to="/home" className="flex items-center gap-3">
-            <span className="mono text-[10px]" style={{ color: 'var(--color-jm-spice)' }}>S&A × JM</span>
-            <span className="serif text-lg hidden sm:inline">Janata Masala</span>
+        <header className="jm-topbar">
+          <Link to="/home" className="jm-brand">
+            <span className="jm-dot" aria-hidden="true" />
+            <span className="jm-brand-kicker">S&A × JM</span>
+            <span className="jm-brand-text">Janata Masala</span>
           </Link>
-          <nav className="flex items-center gap-4">
-            <Link to="/home/adventure" className="mono text-[10px] hover:opacity-70" style={{ color: pathname.includes('adventure') ? 'var(--color-jm-spice)' : 'var(--color-sandy-ink-faint)' }}>
+          <nav className="jm-nav">
+            <Link
+              to="/home/adventure"
+              className={`jm-nav-link${pathname.includes('adventure') ? ' jm-nav-link--active' : ''}`}
+            >
               Adventure
             </Link>
-            <Link to="/home/explorations" className="mono text-[10px] hover:opacity-70" style={{ color: pathname.includes('explorations') ? 'var(--color-jm-spice)' : 'var(--color-sandy-ink-faint)' }}>
+            <Link
+              to="/home/explorations"
+              className={`jm-nav-link${pathname.includes('explorations') ? ' jm-nav-link--active' : ''}`}
+            >
               Explorations
             </Link>
             <button
               type="button"
-              className="mono text-[10px] hover:opacity-70"
-              style={{ color: 'var(--color-sandy-ink-faint)' }}
+              className="jm-nav-btn"
               onClick={() => { clearAuth(); window.location.href = '/' }}
             >
               Sign out
@@ -33,7 +39,7 @@ export default function Layout() {
           </nav>
         </header>
       )}
-      <main className="relative z-10">
+      <main className="relative z-10 flex-1 flex flex-col min-w-0">
         <Outlet />
       </main>
     </div>

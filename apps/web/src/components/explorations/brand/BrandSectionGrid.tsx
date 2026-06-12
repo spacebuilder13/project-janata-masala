@@ -18,15 +18,11 @@ export default function BrandSectionGrid() {
           <motion.article
             key={item.id}
             variants={fadeRise}
-            className="p-6 rounded-2xl border min-h-[140px]"
-            style={{ background: 'var(--color-sandy-surface)', borderColor: 'var(--color-sandy-line)' }}
+            className="surface-card"
           >
-            <span className="mono text-[10px]" style={{ color: 'var(--color-jm-spice)' }}>{item.tag}</span>
+            <span className="caption-label caption-label--spice">{item.tag}</span>
             <h3 className="serif text-lg mt-2">{item.title}</h3>
-            <p className="mt-2 text-sm" style={{ color: 'var(--color-sandy-ink-soft)' }}>{item.description}</p>
-            <div className="mt-4 h-16 rounded-xl border border-dashed flex items-center justify-center text-xs" style={{ borderColor: 'var(--color-sandy-line)', color: 'var(--color-sandy-ink-faint)' }}>
-              Visual placeholder
-            </div>
+            <p className="caption-text mt-2">{item.description}</p>
           </motion.article>
         ))}
       </motion.div>

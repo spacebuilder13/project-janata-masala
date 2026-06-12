@@ -1,44 +1,76 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import PageShell from '@/components/sandy/PageShell'
+import PageIntro from '@/components/sandy/PageIntro'
+import StagePanel from '@/components/sandy/StagePanel'
 import { fadeRise, stagger } from '@/components/sandy/motion'
-import { JM_WA_PATTERNS } from '@/data/whatsapp'
+import { JM_WA_PATTERNS, WA_TAGS } from '@/data/whatsapp'
 import ChatAgent from '@/components/explorations/ChatAgent'
-import WAChatFrame from '@/components/explorations/WAChatFrame'
+import WAGalleryCard from '@/components/explorations/wa/WAGalleryCard'
 
-const TAGS = ['all', 'retail', 'B2B', 'B2C', 'conversion', 'CRM', 'channel', 'promotion', 'brand', 'personal', 'trust', 'retention'] as const
+const DOC_REFS = [
+  { href: 'https://developers.facebook.com/docs/whatsapp/cloud-api/messages/interactive-reply-buttons-messages/', label: 'Reply buttons docs' },
+  { href: 'https://developers.facebook.com/docs/whatsapp/cloud-api/messages/interactive-list-messages/', label: 'List messages docs' },
+  { href: 'https://developers.facebook.com/docs/whatsapp/cloud-api/messages/interactive-media-carousel-messages/', label: 'Media carousel docs' },
+  { href: 'https://developers.facebook.com/docs/whatsapp/flows/', label: 'WhatsApp Flows docs' },
+] as const
 
 export default function ExplorationsWhatsapp() {
   const [tag, setTag] = useState<string>('all')
   const filtered = JM_WA_PATTERNS.filter((p) => tag === 'all' || p.tags.includes(tag))
 
   return (
-    <div className="px-6 py-12 md:px-12 max-w-6xl mx-auto">
-      <motion.div initial="hidden" animate="show" variants={{ show: { transition: stagger(0.06) } }}>
-        <motion.p variants={fadeRise} className="mono" style={{ color: 'var(--color-jm-spice)' }}>Explorations · WhatsApp</motion.p>
-        <motion.h1 variants={fadeRise} className="serif text-4xl mt-3 max-w-2xl">WhatsApp campaigns in Janata Masala context</motion.h1>
-        <motion.p variants={fadeRise} className="mt-4 text-sm max-w-2xl" style={{ color: 'var(--color-sandy-ink-soft)' }}>
-          11 patterns — list-dump ordering, channels, CRM segments, payment links. Janta Stores model for Ghatkopar housewives.
-        </motion.p>
+    <PageShell variant="wide">
+      <PageIntro
+        eyebrow="Explorations · WhatsApp"
+        title="WhatsApp campaigns in Janata Masala context"
+        sub="Janata Masala lives inside WhatsApp — list-dump ordering, channels, CRM segments, payment links. Eleven patterns, each in an authentic WA frame, mapped to the Business Cloud API. Janta Stores model for Ghatkopar housewives."
+        accent="spice"
+        wide
+      />
 
-        <motion.div variants={fadeRise} className="mt-6 flex flex-wrap gap-2">
-          {TAGS.map((t) => (
-            <button key={t} type="button" onClick={() => setTag(t)} className="px-3 py-1.5 rounded-full border mono text-[11px] transition-colors" style={{ background: tag === t ? 'var(--color-sandy-ink)' : 'transparent', color: tag === t ? 'var(--color-sandy-bg)' : 'var(--color-sandy-ink-soft)', borderColor: 'var(--color-sandy-line-strong)' }}>
-              {t}
-            </button>
-          ))}
-        </motion.div>
+      <div className="wa-doc-refs">
+        {DOC_REFS.map(({ href, label }) => (
+          <a key={href} href={href} target="_blank" rel="noopener noreferrer" className="wa-doc-ref">
+            ↗ {label}
+          </a>
+        ))}
+      </div>
 
-        <div className="mt-10 grid lg:grid-cols-2 gap-8">
-          <div className="grid sm:grid-cols-2 gap-4 max-h-[600px] overflow-y-auto pr-2">
-            {filtered.map((p) => (
-              <motion.div key={p.id} variants={fadeRise}>
-                <WAChatFrame pattern={p} />
-              </motion.div>
-            ))}
-          </div>
-          <ChatAgent />
-        </div>
+      <div className="jm-tag-row">
+        {WA_TAGS.map((t) => (
+          <button
+            key={t}
+            type="button"
+            onClick={() => setTag(t)}
+            className={`tag${tag === t ? ' tag--active' : ''}`}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+
+      <motion.div
+        className="wa-gallery-grid"
+        initial="hidden"
+        animate="show"
+        variants={{ show: { transition: stagger(0.05) } }}
+      >
+        {filtered.map((p) => (
+          <motion.div key={p.id} variants={fadeRise}>
+            <WAGalleryCard pattern={p} />
+          </motion.div>
+        ))}
       </motion.div>
-    </div>
+
+      <section className="wa-chat-section">
+        <p className="caption-label caption-label--spice">ChatAgent · offline knowledge</p>
+        <StagePanel>
+          <div className="jm-stage-panel jm-chat-panel" style={{ minHeight: 480 }}>
+            <ChatAgent />
+          </div>
+        </StagePanel>
+      </section>
+    </PageShell>
   )
 }

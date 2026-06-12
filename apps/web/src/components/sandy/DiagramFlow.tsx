@@ -30,7 +30,7 @@ export default function DiagramFlow({ phases, animateActive = false }: Props) {
             }}
           >
             <span className="text-[15px] font-medium" style={{ color: 'var(--color-sandy-ink)' }}>{p.label}</span>
-            <span className="mono text-[9.5px] lowercase" style={{ color: 'var(--color-sandy-ink-faint)' }}>{p.tag}</span>
+            <span className="caption-label lowercase" style={{ color: 'var(--color-sandy-ink-faint)' }}>{p.tag}</span>
           </div>
           {i < phases.length - 1 && (
             <div className="w-6 h-7 ml-5 flex-shrink-0" style={{ color: 'var(--color-sandy-line-strong)' }} aria-hidden="true">

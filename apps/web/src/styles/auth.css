@@ -1,0 +1,97 @@
+/* Password gate — ported from findow-phase1 PasswordGate.css */
+
+.pgate {
+  position: relative;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--color-sandy-bg);
+}
+
+.pgate-card {
+  position: relative;
+  z-index: 2;
+  width: min(420px, 100%);
+  min-width: min(380px, 100%);
+  padding: 36px 32px 32px;
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--color-sandy-line);
+  background: color-mix(in oklab, var(--color-sandy-surface) 92%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pgate-eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-jm-spice);
+}
+
+.pgate-title {
+  font-size: 32px;
+  line-height: 1.05;
+}
+
+.pgate-sub {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-sandy-ink-soft);
+  margin-bottom: 4px;
+}
+
+.pgate-input {
+  margin-top: 4px;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-sandy-line-strong);
+  background: var(--color-sandy-surface);
+  font-family: var(--font-sandy-sans);
+  font-size: 14px;
+  color: var(--color-sandy-ink);
+}
+
+.pgate-input:focus {
+  outline: none;
+  border-color: var(--color-sandy-gold);
+}
+
+.pgate-input--err {
+  border-color: var(--color-jm-spice);
+}
+
+.pgate-err {
+  font-size: 12px;
+  color: var(--color-jm-spice);
+}
+
+.pgate-btn {
+  margin-top: 6px;
+  padding: 12px 18px;
+  border-radius: var(--radius-full);
+  background: var(--color-sandy-ink);
+  color: var(--color-sandy-bg);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  transition: background 0.18s ease, transform 0.1s ease;
+}
+
+.pgate-btn:hover {
+  background: var(--color-sandy-gold);
+  color: var(--color-sandy-ink);
+}
+
+.pgate-btn:active {
+  transform: scale(0.98);
+}
+
+.pgate-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

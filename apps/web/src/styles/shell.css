@@ -1,0 +1,252 @@
+/* App shell — findow CampaignPage + Sandy Lab stage */
+
+.jm-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  height: 56px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 4vw, 48px);
+  border-bottom: 1px solid var(--color-sandy-line);
+  background: color-mix(in oklab, var(--color-sandy-bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.jm-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.jm-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-sandy-gold);
+  flex-shrink: 0;
+}
+
+.jm-brand-kicker {
+  font-family: var(--font-sandy-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-jm-spice);
+}
+
+.jm-brand-text {
+  font-family: var(--font-sandy-display);
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+}
+
+.jm-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 20px);
+}
+
+.jm-nav-link {
+  font-family: var(--font-sandy-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-sandy-ink-faint);
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.jm-nav-link:hover {
+  opacity: 0.7;
+}
+
+.jm-nav-link--active {
+  color: var(--color-jm-spice);
+}
+
+.jm-nav-btn {
+  font-family: var(--font-sandy-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-sandy-ink-faint);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.jm-nav-btn:hover {
+  opacity: 0.7;
+}
+
+.jm-page {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 48px) clamp(48px, 8vw, 96px);
+  box-sizing: border-box;
+}
+
+.jm-page.jm-main--wide {
+  max-width: 1400px;
+}
+
+.jm-main {
+  position: relative;
+  width: 100%;
+  padding: clamp(28px, 5vw, 56px) 0 0;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.jm-intro {
+  max-width: 760px;
+  margin-bottom: clamp(28px, 4vw, 44px);
+}
+
+.jm-stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--color-sandy-line);
+  background: color-mix(in oklab, var(--color-sandy-surface) 94%, transparent);
+  padding: clamp(24px, 4vw, 40px);
+  box-shadow: var(--shadow-card);
+}
+
+.jm-stage-ll {
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.jm-stage > *:not(.jm-stage-ll) {
+  position: relative;
+  z-index: 1;
+}
+
+.jm-hub-grid {
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .jm-hub-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.jm-stage-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-sandy-line);
+  background: var(--color-sandy-surface);
+  padding: clamp(20px, 3vw, 32px);
+}
+
+.jm-stage-panel .jm-stage-ll {
+  opacity: 0.2;
+}
+
+.jm-seq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.jm-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.jm-cp-stage {
+  display: grid;
+  gap: clamp(24px, 4vw, 40px);
+  align-items: start;
+  margin-top: clamp(28px, 4vw, 40px);
+}
+
+@media (min-width: 1024px) {
+  .jm-cp-stage {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .jm-cp-stage--chat {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  }
+}
+
+.jm-scroll-col {
+  max-height: 560px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.jm-panel-h {
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .jm-cp-stage--chat .jm-panel-h {
+    position: sticky;
+    top: calc(56px + 16px);
+    align-self: start;
+  }
+}
+
+.jm-chat-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 560px;
+  padding: 0;
+  overflow: visible;
+}
+
+.jm-stage-panel.jm-chat-panel {
+  overflow: visible;
+  padding: 0;
+}
+
+.jm-anchor-nav {
+  position: sticky;
+  top: 56px;
+  z-index: 30;
+  margin: 0 calc(-1 * clamp(16px, 4vw, 48px));
+  padding: 12px clamp(16px, 4vw, 48px);
+  border-bottom: 1px solid var(--color-sandy-line);
+  background: color-mix(in oklab, var(--color-sandy-bg) 92%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.jm-anchor-nav-inner {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.jm-anchor-nav-inner::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .jm-brand-text {
+    display: none;
+  }
+}

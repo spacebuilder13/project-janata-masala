@@ -2,21 +2,17 @@ import SectionHead from '../sandy/SectionHead'
 import StatusChip from '../sandy/StatusChip'
 import { actionItems } from '@/data/actions'
 
-export default function ActionTracker() {
+export default function ActionTracker({ sectionId }: { sectionId?: string }) {
   return (
     <section>
-      <SectionHead eyebrow="Actions" title="Action tracker" />
-      <div className="space-y-2">
+      <SectionHead id={sectionId} eyebrow="Actions" title="Action tracker" />
+      <div className="list-stack">
         {actionItems.map((a) => (
-          <div
-            key={a.id}
-            className="flex flex-wrap items-start gap-3 p-4 rounded-xl border"
-            style={{ background: 'var(--color-sandy-surface)', borderColor: 'var(--color-sandy-line)' }}
-          >
+          <div key={a.id} className="list-row">
             <StatusChip status={a.status} />
-            <div className="flex-1 min-w-[200px]">
-              <p className="text-sm font-medium">{a.item}</p>
-              <p className="mono text-[10px] mt-1" style={{ color: 'var(--color-sandy-ink-faint)' }}>
+            <div className="list-row-body">
+              <p className="list-row-title">{a.item}</p>
+              <p className="list-row-meta">
                 {a.owner}{a.due ? ` · ${a.due}` : ''}
               </p>
             </div>

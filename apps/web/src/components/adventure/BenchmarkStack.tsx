@@ -9,10 +9,10 @@ const layerColors = {
   tech: 'var(--color-sandy-tea)',
 }
 
-export default function BenchmarkStack() {
+export default function BenchmarkStack({ sectionId }: { sectionId?: string }) {
   return (
     <section>
-      <SectionHead eyebrow="Benchmarks" title="The benchmark stack" blurb={stackSummary} />
+      <SectionHead id={sectionId} eyebrow="Benchmarks" title="The benchmark stack" blurb={stackSummary} />
       <motion.div
         className="grid md:grid-cols-3 gap-4"
         initial="hidden"
@@ -24,13 +24,12 @@ export default function BenchmarkStack() {
           <motion.article
             key={b.id}
             variants={fadeRise}
-            className="p-6 rounded-2xl border"
-            style={{ background: 'var(--color-sandy-surface)', borderColor: 'var(--color-sandy-line)' }}
+            className="surface-card surface-card-inner"
           >
-            <span className="mono text-[10px]" style={{ color: layerColors[b.stackLayer] }}>{b.stackLayer} · {b.jmPhase}</span>
-            <h3 className="serif text-xl mt-2">{b.name}</h3>
-            <p className="text-xs mt-1" style={{ color: 'var(--color-sandy-ink-faint)' }}>{b.subtitle}</p>
-            <p className="mt-3 text-sm" style={{ color: 'var(--color-sandy-ink-soft)' }}>{b.lesson}</p>
+            <span className="caption-label" style={{ color: layerColors[b.stackLayer] }}>{b.stackLayer} · {b.jmPhase}</span>
+            <h3 className="serif text-xl">{b.name}</h3>
+            <p className="surface-card-sub">{b.subtitle}</p>
+            <p className="list-row-text">{b.lesson}</p>
           </motion.article>
         ))}
       </motion.div>

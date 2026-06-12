@@ -43,28 +43,23 @@ export default function ArchitectureDiagram() {
           <button
             key={p}
             type="button"
-            className="px-4 py-2 rounded-xl mono text-[11px] border"
-            style={{
-              background: phase === p ? 'var(--color-jm-spice)' : 'transparent',
-              color: phase === p ? 'white' : 'var(--color-sandy-ink-soft)',
-              borderColor: 'var(--color-sandy-line)',
-            }}
+            className={`tag${phase === p ? ' tag--active' : ''}`}
             onClick={() => { setPhase(p); setActiveAgent(-1) }}
           >
             Phase {p}
           </button>
         ))}
-        <button type="button" className="px-4 py-2 rounded-xl mono text-[11px]" style={{ background: 'var(--color-sandy-ink)', color: 'var(--color-sandy-bg)' }} onClick={animate}>
+        <button type="button" className="tag tag--active" onClick={animate}>
           Animate flow →
         </button>
       </div>
 
       <motion.div variants={fadeRise} initial="hidden" animate="show">
-        <p className="mono text-[11px] mb-4" style={{ color: 'var(--color-jm-spice)' }}>Benchmark stack</p>
+        <p className="caption-label caption-label--spice mb-4">Benchmark stack</p>
         <div className="grid md:grid-cols-3 gap-4 mb-8">
           {benchmarks.map((b) => (
             <div key={b.id} className="p-4 rounded-xl border text-sm" style={{ borderColor: 'var(--color-sandy-line)', background: 'var(--color-sandy-elevated)' }}>
-              <span className="mono text-[10px]" style={{ color: 'var(--color-jm-spice)' }}>{b.jmPhase}</span>
+              <span className="caption-label caption-label--spice">{b.jmPhase}</span>
               <p className="font-medium mt-1">{b.name}</p>
               <p className="text-xs mt-1" style={{ color: 'var(--color-sandy-ink-soft)' }}>{b.lesson}</p>
             </div>

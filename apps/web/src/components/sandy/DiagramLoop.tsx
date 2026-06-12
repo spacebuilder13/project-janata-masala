@@ -9,7 +9,7 @@ type Props = {
 
 export default function DiagramLoop({ nodes, centerText, activeIndex = -1 }: Props) {
   return (
-    <div className="flex items-start gap-12">
+    <div className="flex flex-col md:flex-row items-start gap-8 md:gap-12">
       <div className="flex flex-col items-center gap-0 relative">
         {nodes.map((node, i) => (
           <motion.div

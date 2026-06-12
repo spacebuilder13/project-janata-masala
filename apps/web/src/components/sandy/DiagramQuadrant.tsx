@@ -33,7 +33,7 @@ export default function DiagramQuadrant({ xLabel, yLabel, points }: Props) {
           }),
         )}
       </div>
-      <span className="mono text-[10px] block text-center mt-3" style={{ color: 'var(--color-sandy-ink-faint)' }}>{xLabel} ↔ · ↕ {yLabel}</span>
+      <span className="caption-label block text-center mt-3" style={{ color: 'var(--color-sandy-ink-faint)' }}>{xLabel} ↔ · ↕ {yLabel}</span>
     </div>
   )
 }
