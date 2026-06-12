@@ -57,8 +57,8 @@ export default function LiveVoicePanel({
           type="button"
           disabled={!canStart || isBusy}
           onClick={() => {
-            if (status === 'done' || status === 'error') onReset?.()
-            onStart()
+            if (status === 'done' || status === 'error' || status === 'extracting') onReset?.()
+            if (status !== 'extracting') onStart()
           }}
           className="flex-1 min-w-[140px] px-5 py-3 rounded-xl text-sm font-semibold disabled:opacity-40"
           style={{
@@ -66,7 +66,11 @@ export default function LiveVoicePanel({
             color: 'var(--color-sandy-bg)',
           }}
         >
-          {status === 'done' || status === 'error' ? 'New order' : 'Start order'}
+          {status === 'done' || status === 'error'
+            ? 'New order'
+            : status === 'extracting'
+              ? 'Cancel'
+              : 'Start order'}
         </button>
         <button
           type="button"

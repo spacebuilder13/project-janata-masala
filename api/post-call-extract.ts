@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { loadLocalEnv } from './_lib/load-env'
 import { validateSkus } from './_lib/catalog'
+import { fetchConversationTranscript } from './_lib/elevenlabs'
 import { buildExtractionPrompt } from './_lib/prompts'
 import { STRUCTURED_SCHEMA, validateStructured, type StructuredOutput } from './_lib/schema'
 import { estimateClaudeCostUsd, toInr, type ClaudeUsage } from './_lib/usage'
@@ -20,18 +21,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     })
   }
 
-  const { transcript, session_id } = req.body as {
+  const { transcript, session_id, conversation_id } = req.body as {
     transcript?: string
     session_id?: string
+    conversation_id?: string
   }
 
-  if (!transcript?.trim()) {
-    return res.status(400).json({ error: 'transcript required' })
+  let resolvedTranscript = transcript?.trim() ?? ''
+  let transcriptSource: 'client' | 'elevenlabs' = 'client'
+
+  if (!resolvedTranscript && conversation_id) {
+    const elKey = process.env.ELEVENLABS_API_KEY
+    if (elKey) {
+      resolvedTranscript = await fetchConversationTranscript(elKey, conversation_id)
+      if (resolvedTranscript) transcriptSource = 'elevenlabs'
+    }
+  }
+
+  if (!resolvedTranscript) {
+    return res.status(400).json({ error: 'transcript required (client and ElevenLabs both empty)' })
   }
 
   const model =
     process.env.ANTHROPIC_EXTRACT_MODEL || process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514'
-  const prompt = `${buildExtractionPrompt(transcript)}
+  const prompt = `${buildExtractionPrompt(resolvedTranscript)}
 
 Return ONLY valid JSON matching this shape (no markdown):
 ${JSON.stringify(STRUCTURED_SCHEMA.properties, null, 0)}`
@@ -77,7 +90,13 @@ ${JSON.stringify(STRUCTURED_SCHEMA.properties, null, 0)}`
           estimated_cost_usd: estimateClaudeCostUsd(model, usage),
           estimated_cost_inr: toInr(estimateClaudeCostUsd(model, usage)),
         },
-        meta: { model, session_id, catalog_version: process.env.JM_CATALOG_VERSION || 'demo-v1' },
+        meta: {
+          model,
+          session_id,
+          conversation_id: conversation_id ?? null,
+          transcript_source: transcriptSource,
+          catalog_version: process.env.JM_CATALOG_VERSION || 'demo-v1',
+        },
       })
     }
 
@@ -101,6 +120,8 @@ ${JSON.stringify(STRUCTURED_SCHEMA.properties, null, 0)}`
       meta: {
         model,
         session_id,
+        conversation_id: conversation_id ?? null,
+        transcript_source: transcriptSource,
         catalog_version: process.env.JM_CATALOG_VERSION || 'demo-v1',
         prompt_version: process.env.JM_PROMPT_VERSION || 'v1.1.0',
         agent_id: process.env.ELEVENLABS_AGENT_ID ?? null,

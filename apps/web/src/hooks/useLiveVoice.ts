@@ -9,6 +9,7 @@ import type {
 } from '@/types/voice'
 
 const LIVE_VOICE = import.meta.env.VITE_ENABLE_LIVE_VOICE === 'true'
+const EXTRACT_TIMEOUT_MS = 45_000
 
 function uuid() {
   return `jm-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
@@ -18,6 +19,12 @@ function formatTimer(secs: number) {
   const m = Math.floor(secs / 60)
   const s = secs % 60
   return `${m}:${String(s).padStart(2, '0')}`
+}
+
+function fetchWithTimeout(url: string, init: RequestInit, ms: number) {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), ms)
+  return fetch(url, { ...init, signal: controller.signal }).finally(() => clearTimeout(timer))
 }
 
 export function useLiveVoice() {
@@ -34,6 +41,7 @@ export function useLiveVoice() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const startedAtRef = useRef(0)
   const balanceRef = useRef<DevinPayload['balance']>(null)
+  const postCallStartedRef = useRef(false)
 
   const stopTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current)
@@ -49,6 +57,117 @@ export function useLiveVoice() {
       setTimer(formatTimer(secs))
     }, 1000)
   }, [])
+
+  const runPostCall = useCallback(async () => {
+    if (postCallStartedRef.current) return
+    postCallStartedRef.current = true
+
+    setStatus('extracting')
+    setHint('Processing your order… (~10s)')
+    const durationSecs = stopTimer()
+    const transcript = transcriptRef.current.join('\n')
+    const conversationId = conversationIdRef.current
+    const sessionUsage: SessionUsage = {}
+
+    try {
+      const extractRes = await fetchWithTimeout(
+        '/api/post-call-extract',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            transcript,
+            session_id: sessionIdRef.current,
+            conversation_id: conversationId || undefined,
+          }),
+        },
+        EXTRACT_TIMEOUT_MS,
+      )
+      const extractData = await extractRes.json()
+
+      if (!extractRes.ok) {
+        throw new Error(extractData.error || 'post-call-extract failed')
+      }
+
+      Object.assign(sessionUsage, {
+        claude: extractData.usage?.claude,
+        estimated_cost_usd: extractData.usage?.estimated_cost_usd,
+        estimated_cost_inr: extractData.usage?.estimated_cost_inr,
+      })
+
+      let parsed: StructuredOutput | null = null
+      let validation: ValidationResult = { ok: false, errors: ['No data'] }
+      const displayTranscript =
+        transcript ||
+        (extractData.meta?.transcript_source === 'elevenlabs'
+          ? '(transcript fetched server-side from ElevenLabs)'
+          : '')
+
+      if (extractData.structured && typeof extractData.structured === 'object') {
+        parsed = extractData.structured as StructuredOutput
+        validation = extractData.validation ?? { ok: false, errors: [] }
+        setStructured(parsed)
+        setStatus('done')
+        setHint('Order ready — see summary below.')
+      } else {
+        setStatus('error')
+        setHint("Couldn't parse order — try again.")
+      }
+
+      setDevin({
+        sessionId: sessionIdRef.current,
+        conversationId,
+        transcript: displayTranscript,
+        structured: parsed,
+        validation,
+        usage: sessionUsage,
+        meta: extractData.meta ?? {},
+        balance: balanceRef.current,
+      })
+
+      if (conversationId) {
+        fetch(`/api/usage-snapshot?conversation_id=${encodeURIComponent(conversationId)}`)
+          .then(async (r) => ({ ok: r.ok, data: await r.json() }))
+          .then(({ ok, data: usageData }) => {
+            if (!ok) return
+            setDevin((prev) =>
+              prev
+                ? {
+                    ...prev,
+                    usage: {
+                      ...prev.usage,
+                      elevenlabs: {
+                        credits_used: usageData.credits_used,
+                        duration_secs: usageData.duration_secs ?? durationSecs,
+                        charging: usageData.charging,
+                      },
+                    },
+                  }
+                : prev,
+            )
+          })
+          .catch((e) => console.warn('usage snapshot', e))
+      }
+    } catch (e) {
+      console.error('runPostCall', e)
+      setStatus('error')
+      setHint(
+        e instanceof DOMException && e.name === 'AbortError'
+          ? 'Processing timed out — try again.'
+          : 'Processing failed — try again.',
+      )
+      setDevin({
+        sessionId: sessionIdRef.current,
+        conversationId,
+        transcript,
+        structured: null,
+        validation: { ok: false, errors: [String(e)] },
+        usage: sessionUsage,
+        meta: {},
+        balance: balanceRef.current,
+      })
+    }
+  }, [stopTimer])
 
   useEffect(() => {
     if (!LIVE_VOICE) {
@@ -84,6 +203,7 @@ export function useLiveVoice() {
   }, [])
 
   const startCall = useCallback(async () => {
+    postCallStartedRef.current = false
     sessionIdRef.current = uuid()
     conversationIdRef.current = ''
     transcriptRef.current = []
@@ -104,7 +224,9 @@ export function useLiveVoice() {
         setHint('Live — speak your list. Hinglish is fine.')
         startTimer()
       },
-      onDisconnect: () => setStatus('extracting'),
+      onDisconnect: () => {
+        void runPostCall()
+      },
       onMessage: (msg) => {
         const m = msg as { source?: string; message?: string; role?: string; text?: string }
         const text = m.message ?? m.text ?? ''
@@ -117,16 +239,9 @@ export function useLiveVoice() {
         setHint(`Error: ${String(err)}`)
       },
     })
-  }, [startTimer])
+  }, [startTimer, runPostCall])
 
   const endCall = useCallback(async () => {
-    setStatus('extracting')
-    setHint('Processing your order… (~10s)')
-    const durationSecs = stopTimer()
-    const transcript = transcriptRef.current.join('\n')
-    const conversationId = conversationIdRef.current
-    const sessionUsage: SessionUsage = {}
-
     const session = conversationRef.current
     conversationRef.current = null
     if (session) {
@@ -135,91 +250,11 @@ export function useLiveVoice() {
         new Promise((resolve) => setTimeout(resolve, 2500)),
       ])
     }
-
-    try {
-      const extractRes = await fetch('/api/post-call-extract', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ transcript, session_id: sessionIdRef.current }),
-      })
-      const extractData = await extractRes.json()
-
-      if (!extractRes.ok) {
-        throw new Error(extractData.error || 'post-call-extract failed')
-      }
-
-      Object.assign(sessionUsage, {
-        claude: extractData.usage?.claude,
-        estimated_cost_usd: extractData.usage?.estimated_cost_usd,
-        estimated_cost_inr: extractData.usage?.estimated_cost_inr,
-      })
-
-      let parsed: StructuredOutput | null = null
-      let validation: ValidationResult = { ok: false, errors: ['No data'] }
-
-      if (extractData.structured && typeof extractData.structured === 'object') {
-        parsed = extractData.structured as StructuredOutput
-        validation = extractData.validation ?? { ok: false, errors: [] }
-        setStructured(parsed)
-        setStatus('done')
-        setHint('Order ready — see summary below.')
-      } else {
-        setStatus('error')
-        setHint("Couldn't parse order — try again.")
-      }
-
-      setDevin({
-        sessionId: sessionIdRef.current,
-        conversationId,
-        transcript,
-        structured: parsed,
-        validation,
-        usage: sessionUsage,
-        meta: extractData.meta ?? {},
-        balance: balanceRef.current,
-      })
-
-      if (conversationId) {
-        fetch(`/api/usage-snapshot?conversation_id=${encodeURIComponent(conversationId)}`)
-          .then(async (r) => ({ ok: r.ok, data: await r.json() }))
-          .then(({ ok, data: usageData }) => {
-            if (!ok) return
-            setDevin((prev) =>
-              prev
-                ? {
-                    ...prev,
-                    usage: {
-                      ...prev.usage,
-                      elevenlabs: {
-                        credits_used: usageData.credits_used,
-                        duration_secs: usageData.duration_secs ?? durationSecs,
-                        charging: usageData.charging,
-                      },
-                    },
-                  }
-                : prev,
-            )
-          })
-          .catch((e) => console.warn('usage snapshot', e))
-      }
-    } catch (e) {
-      console.error('endCall', e)
-      setStatus('error')
-      setHint('Processing failed — try again.')
-      setDevin({
-        sessionId: sessionIdRef.current,
-        conversationId,
-        transcript,
-        structured: null,
-        validation: { ok: false, errors: [String(e)] },
-        usage: sessionUsage,
-        meta: {},
-        balance: balanceRef.current,
-      })
-    }
-  }, [stopTimer])
+    await runPostCall()
+  }, [runPostCall])
 
   const reset = useCallback(() => {
+    postCallStartedRef.current = false
     setStructured(null)
     setDevin(null)
     setStatus(LIVE_VOICE ? 'ready' : 'unavailable')
@@ -238,7 +273,7 @@ export function useLiveVoice() {
     endCall,
     reset,
     isLive: status === 'live',
-    canStart: status === 'ready' || status === 'done' || status === 'error',
+    canStart: status === 'ready' || status === 'done' || status === 'error' || status === 'extracting',
     canEnd: status === 'live' || status === 'connecting',
   }
 }
