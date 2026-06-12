@@ -1,6 +1,6 @@
 # BUILD — Janata Masala
 
-Status: **M2.4 WA kit + interior frame QA — deployed**
+Status: **M2.5 Live voice — deployed**
 
 **Live:** https://project-janata-masala.vercel.app  
 **Deploy:** Vercel (`vercel.json` at repo root)  
@@ -21,14 +21,15 @@ Status: **M2.4 WA kit + interior frame QA — deployed**
 
 ## Offline mode (default)
 
-ChatAgent uses `chat-memory.ts` keyword router. Voice uses `ConversationSimulator` + hardcoded JSON. Set `VITE_ENABLE_LIVE_CHAT=true` + `ANTHROPIC_API_KEY` for live Claude.
+ChatAgent uses `chat-memory.ts` keyword router. Voice uses live ElevenLabs + Claude post-call extraction when `VITE_ENABLE_LIVE_VOICE=true` + ElevenLabs/Anthropic keys are set. Set `VITE_ENABLE_LIVE_CHAT=true` + `ANTHROPIC_API_KEY` for live Claude chat.
 
 ## Stack
 
 - Vite 7 + React 19 + TypeScript + TanStack Router
 - Tailwind CSS v4 + Sandy design tokens
 - Framer Motion
-- Vercel API: `api/chat.ts`, `api/voice-token.ts`, `api/auth.ts`
+- Vercel API: `api/chat.ts`, `api/voice-token.ts`, `api/post-call-extract.ts`, `api/usage-snapshot.ts`, `api/auth.ts`
+- ElevenLabs browser SDK (`@elevenlabs/client`) for live voice
 
 ## Design
 

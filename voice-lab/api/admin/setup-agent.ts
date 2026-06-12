@@ -1,10 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { loadLocalEnv } from '../_lib/load-env'
+import { buildAgentPatchBody, resolveVoiceId, AGENT_NAME } from '../_lib/agent-config'
 import { buildSystemPrompt } from '../_lib/prompts'
 
 loadLocalEnv()
-
-const AGENT_NAME = 'JM Voice Lab B2C v1'
 
 async function elRequest(apiKey: string, method: string, url: string, body?: unknown) {
   const resp = await fetch(url, {
@@ -18,66 +17,6 @@ async function elRequest(apiKey: string, method: string, url: string, body?: unk
   }
   const raw = await resp.text()
   return raw ? JSON.parse(raw) : null
-}
-
-function buildAgentBody(systemPrompt: string, voiceId?: string) {
-  const patch: Record<string, unknown> = {
-    name: AGENT_NAME,
-    conversation_config: {
-      conversation: { max_duration_seconds: 600 },
-      turn: {
-        turn_timeout: 8,
-        silence_end_call_timeout: 18,
-        turn_eagerness: 'normal',
-        soft_timeout_config: {
-          timeout_seconds: 8,
-          message: 'Ek second, main check karti hoon.',
-          use_llm_generated_message: true,
-        },
-      },
-      agent: {
-        first_message:
-          'Namaste! Janata Masala se bol rahi hoon. Aaj kya chahiye aapko? List bata dijiye.',
-        language: 'hi',
-        hinglish_mode: true,
-        prompt: {
-          prompt: systemPrompt,
-          llm: 'claude-sonnet-4',
-          built_in_tools: {
-            language_detection: {
-              name: 'language_detection',
-              params: { system_tool_type: 'language_detection' },
-            },
-            end_call: {
-              name: 'end_call',
-              params: { system_tool_type: 'end_call' },
-            },
-          },
-        },
-      },
-      language_presets: {
-        hi: {
-          overrides: {
-            agent: {
-              first_message: 'Namaste! Janata Masala se. Aaj kya chahiye? List bata dijiye.',
-            },
-          },
-        },
-        en: {
-          overrides: {
-            agent: {
-              first_message: 'Hello from Janata Masala! What would you like to order today?',
-            },
-          },
-        },
-      },
-      tts: {
-        model_id: 'eleven_flash_v2_5',
-        ...(voiceId ? { voice_id: voiceId } : {}),
-      },
-    },
-  }
-  return patch
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -103,7 +42,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const agentId = process.env.ELEVENLABS_AGENT_ID
-  const voiceId = process.env.ELEVENLABS_VOICE_ID
+  const voiceId = resolveVoiceId(process.env.ELEVENLABS_VOICE_ID)
   const systemPrompt = buildSystemPrompt()
 
   try {
@@ -117,14 +56,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       apiKey,
       'PATCH',
       `https://api.elevenlabs.io/v1/convai/agents/${encodeURIComponent(agentId)}`,
-      buildAgentBody(systemPrompt, voiceId),
+      buildAgentPatchBody(systemPrompt, voiceId),
     )
 
     return res.status(200).json({
       ok: true,
       agent_id: agentId,
       agent_name: AGENT_NAME,
-      prompt_version: process.env.JM_PROMPT_VERSION || 'v1.0.0',
+      voice_id: voiceId,
+      prompt_version: process.env.JM_PROMPT_VERSION || 'v1.1.0',
     })
   } catch (e) {
     return res.status(500).json({ error: String(e) })

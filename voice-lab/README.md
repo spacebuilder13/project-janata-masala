@@ -48,7 +48,7 @@ npm run lab            # build + vercel dev → http://localhost:3000
 ## Scripts
 
 ```bash
-npm run setup-agent          # create/patch ElevenLabs agent
+npm run setup-agent          # create/patch ElevenLabs agent (v1.1: eager turns, Hindi voice)
 npm run test:extract         # offline fixture check
 node scripts/test-extraction.js --live   # needs vercel dev + Anthropic key
 ```
@@ -57,6 +57,12 @@ node scripts/test-extraction.js --live   # needs vercel dev + Anthropic key
 
 Per session: `outputs/runs/{sessionId}/`  
 Ledger: `outputs/analytics/session_ledger.csv`
+
+## Voice (v1.1)
+
+- Hindi voice: `ohvvU75FpBEB8fdaLOMh` (Monika Sogam — added from ElevenLabs library)
+- Persona: Priya, Mumbai counter staff — fast Hinglish, list-dump flow
+- Subjective eval: [VOICE-TUNE-TEST.md](docs/VOICE-TUNE-TEST.md)
 
 ## Docs
 

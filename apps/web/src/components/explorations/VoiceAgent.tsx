@@ -1,58 +1,76 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { fadeRise } from '../sandy/motion'
 import SystemFlowDiagram from './SystemFlowDiagram'
-import ConversationSimulator from './ConversationSimulator'
-import { voiceScenarios } from '@/data/voice-scripts'
-import type { VoiceScenario } from '@/data/voice-scripts'
-
-type StructuredOutput = VoiceScenario['structured']
+import LiveVoicePanel from './voice/LiveVoicePanel'
+import OrderBillCard from './voice/OrderBillCard'
+import ForDevinPanel from './voice/ForDevinPanel'
+import { useLiveVoice } from '@/hooks/useLiveVoice'
 
 export default function VoiceAgent() {
-  const [activeScenario, setActiveScenario] = useState(0)
-  const [structured, setStructured] = useState<StructuredOutput | null>(null)
+  const {
+    status,
+    hint,
+    timer,
+    structured,
+    devin,
+    startCall,
+    endCall,
+    reset,
+    canStart,
+    canEnd,
+    liveEnabled,
+  } = useLiveVoice()
+
+  const handleStart = () => {
+    startCall().catch((e) => console.error('startCall', e))
+  }
+
+  const handleEnd = () => {
+    endCall().catch((e) => console.error('endCall', e))
+  }
 
   return (
     <div className="space-y-8">
-      <motion.div variants={fadeRise} initial="hidden" animate="show" className="p-6 rounded-2xl border" style={{ borderColor: 'var(--color-sandy-line)', background: 'var(--color-sandy-surface)' }}>
-        <p className="mono text-[11px]" style={{ color: 'var(--color-jm-spice)' }}>VoiceAgent · Offline simulator</p>
-        <p className="mt-2 text-sm" style={{ color: 'var(--color-sandy-ink-soft)' }}>
-          Scripted conversations demonstrate order-taking. Structured JSON updates Inventory, Orders, CRM, and Finance — no API keys required.
+      <motion.div
+        variants={fadeRise}
+        initial="hidden"
+        animate="show"
+        className="p-6 rounded-2xl border"
+        style={{ borderColor: 'var(--color-sandy-line)', background: 'var(--color-sandy-surface)' }}
+      >
+        <p className="mono text-[11px]" style={{ color: 'var(--color-jm-spice)' }}>
+          VoiceAgent · Live
         </p>
-        <p className="mt-2 text-xs" style={{ color: 'var(--color-sandy-ink-faint)' }}>Live ElevenLabs voice — coming soon when agent is configured.</p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {voiceScenarios.map((s, i) => (
-            <button
-              key={s.id}
-              type="button"
-              className="px-4 py-2 rounded-xl mono text-[11px] border"
-              style={{
-                background: activeScenario === i ? 'var(--color-sandy-ink)' : 'transparent',
-                color: activeScenario === i ? 'var(--color-sandy-bg)' : 'var(--color-sandy-ink-soft)',
-                borderColor: 'var(--color-sandy-line)',
-              }}
-              onClick={() => { setActiveScenario(i); setStructured(null) }}
-            >
-              {s.title}
-            </button>
-          ))}
-        </div>
+        <p className="mt-2 text-sm" style={{ color: 'var(--color-sandy-ink-soft)' }}>
+          Speak your spice list like you would at a Mumbai kirana counter. Priya confirms quantities,
+          then Claude extracts structured output — Inventory, Orders, CRM, and Finance update below.
+        </p>
+        {!liveEnabled && (
+          <p className="mt-2 text-xs" style={{ color: 'var(--color-sandy-ink-faint)' }}>
+            Set VITE_ENABLE_LIVE_VOICE=true and configure ElevenLabs + Anthropic keys on Vercel.
+          </p>
+        )}
       </motion.div>
 
-      <ConversationSimulator
-        key={voiceScenarios[activeScenario].id}
-        scenario={voiceScenarios[activeScenario]}
-        onComplete={(s) => setStructured(s)}
+      <LiveVoicePanel
+        status={status}
+        hint={hint}
+        timer={timer}
+        canStart={canStart}
+        canEnd={canEnd}
+        onStart={handleStart}
+        onEnd={handleEnd}
+        onReset={reset}
       />
 
       {structured && (
         <>
-          <motion.pre initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 rounded-xl border text-xs overflow-x-auto mono" style={{ borderColor: 'var(--color-sandy-line)', background: 'var(--color-sandy-elevated)' }}>
-            {JSON.stringify(structured, null, 2)}
-          </motion.pre>
+          <OrderBillCard structured={structured} />
           <SystemFlowDiagram structured={structured} />
         </>
       )}
+
+      {devin && <ForDevinPanel devin={devin} />}
     </div>
   )
 }

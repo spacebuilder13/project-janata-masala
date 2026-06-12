@@ -9,7 +9,7 @@ export default function ExplorationsVoice() {
       <PageIntro
         eyebrow="Explorations · Voice"
         title="Voice order-taking & system flow"
-        sub="Demo voice agent for orders and enquiries. Claude returns structured output — watch Inventory, Orders, CRM, and Finance update in sequence."
+        sub="Live voice order-taking with Priya at the counter. Speak your list — Claude extracts structured output and the system flow updates in sequence."
         accent="spice"
         wide
       />

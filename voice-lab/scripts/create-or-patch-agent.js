@@ -9,6 +9,10 @@ import { fileURLToPath } from 'url'
 import './_load-env.js'
 
 const AGENT_NAME = 'JM Voice Lab B2C v1'
+const JM_HINDI_VOICE_ID = 'ohvvU75FpBEB8fdaLOMh'
+const FIRST_MESSAGE_HI = 'Haan bhai, Janata Masala — boliye, kya chahiye?'
+const FIRST_MESSAGE_EN = 'Janata Masala — what do you need today?'
+
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 const snapshotPath = path.join(root, 'workflows/elevenlabs/agents/jm-v1/agent-config.snapshot.json')
 
@@ -22,6 +26,33 @@ function buildSystemPrompt() {
   )
 }
 
+function resolveVoiceId() {
+  return process.env.ELEVENLABS_VOICE_ID || JM_HINDI_VOICE_ID
+}
+
+async function ensureVoiceInAccount(apiKey, voiceId) {
+  const check = await fetch(`https://api.elevenlabs.io/v1/voices/${voiceId}`, {
+    headers: { 'xi-api-key': apiKey },
+  })
+  if (check.ok) return voiceId
+
+  const shared = await elRequest(
+    apiKey,
+    'GET',
+    `https://api.elevenlabs.io/v1/shared-voices?page_size=100&language=hi`,
+  )
+  const hit = shared?.voices?.find((v) => v.voice_id === voiceId)
+  if (!hit?.public_owner_id) {
+    throw new Error(`Voice ${voiceId} not in workspace and not found in shared library`)
+  }
+
+  await elRequest(apiKey, 'POST', `https://api.elevenlabs.io/v1/voices/add/${hit.public_owner_id}/${voiceId}`, {
+    new_name: 'JM Hindi Counter',
+  })
+  console.log(`Added shared voice ${voiceId} (${hit.name}) to workspace`)
+  return voiceId
+}
+
 async function elRequest(apiKey, method, url, body) {
   const resp = await fetch(url, {
     method,
@@ -33,34 +64,24 @@ async function elRequest(apiKey, method, url, body) {
   return text ? JSON.parse(text) : null
 }
 
-async function pickVoice(apiKey) {
-  const envVoice = process.env.ELEVENLABS_VOICE_ID
-  if (envVoice) return envVoice
-  const data = await elRequest(apiKey, 'GET', 'https://api.elevenlabs.io/v1/voices?page_size=100')
-  const voices = data?.voices ?? []
-  const preferred = voices.find((v) =>
-    /india|hindi|indian|priya|rachel|warm/i.test(`${v.name} ${v.labels?.accent ?? ''}`),
-  )
-  return preferred?.voice_id ?? voices[0]?.voice_id ?? null
-}
-
 function buildBody(systemPrompt, voiceId) {
   return {
     name: AGENT_NAME,
     conversation_config: {
       conversation: { max_duration_seconds: 600 },
       turn: {
-        turn_timeout: 8,
-        silence_end_call_timeout: 18,
-        turn_eagerness: 'normal',
+        turn_timeout: 5,
+        silence_end_call_timeout: 12,
+        turn_eagerness: 'eager',
+        speculative_turn: true,
         soft_timeout_config: {
-          timeout_seconds: 8,
-          message: 'Ek second, main check karti hoon.',
-          use_llm_generated_message: true,
+          timeout_seconds: 4,
+          message: 'Haan, sun raha hoon.',
+          use_llm_generated_message: false,
         },
       },
       agent: {
-        first_message: 'Namaste! Janata Masala se bol rahi hoon. Aaj kya chahiye? List bata dijiye.',
+        first_message: FIRST_MESSAGE_HI,
         language: 'hi',
         hinglish_mode: true,
         prompt: {
@@ -79,12 +100,13 @@ function buildBody(systemPrompt, voiceId) {
         },
       },
       language_presets: {
-        hi: { overrides: { agent: { first_message: 'Namaste! Janata Masala se. Aaj kya chahiye?' } } },
-        en: { overrides: { agent: { first_message: 'Hello from Janata Masala! What would you like today?' } } },
+        hi: { overrides: { agent: { first_message: FIRST_MESSAGE_HI } } },
+        en: { overrides: { agent: { first_message: FIRST_MESSAGE_EN } } },
       },
       tts: {
         model_id: 'eleven_flash_v2_5',
-        ...(voiceId ? { voice_id: voiceId } : {}),
+        voice_id: voiceId,
+        speed: 1.08,
       },
     },
   }
@@ -98,7 +120,8 @@ async function main() {
   }
 
   const systemPrompt = buildSystemPrompt()
-  const voiceId = await pickVoice(apiKey)
+  const voiceId = resolveVoiceId()
+  await ensureVoiceInAccount(apiKey, voiceId)
   const body = buildBody(systemPrompt, voiceId)
 
   let agentId = process.env.ELEVENLABS_AGENT_ID
@@ -128,14 +151,17 @@ async function main() {
     }
   }
 
+  const promptVersion = process.env.JM_PROMPT_VERSION || 'v1.1.0'
   const snapshot = {
     agent_id: agentId,
     agent_name: AGENT_NAME,
     voice_id: voiceId,
     llm: 'claude-sonnet-4',
     tts_model: 'eleven_flash_v2_5',
-    languages: ['gu', 'hi', 'mr', 'en', 'hinglish'],
-    prompt_version: process.env.JM_PROMPT_VERSION || 'v1.0.0',
+    tts_speed: 1.08,
+    turn_eagerness: 'eager',
+    languages: ['hi', 'en', 'hinglish'],
+    prompt_version: promptVersion,
     catalog_version: process.env.JM_CATALOG_VERSION || 'demo-v1',
     updated_at: new Date().toISOString(),
   }
@@ -143,11 +169,11 @@ async function main() {
   fs.mkdirSync(path.dirname(snapshotPath), { recursive: true })
   fs.writeFileSync(snapshotPath, JSON.stringify(snapshot, null, 2), 'utf8')
 
-  console.log('\n--- Agent ready ---')
+  console.log('\n--- Agent ready (v1.1 tune) ---')
   console.log(`ELEVENLABS_AGENT_ID=${agentId}`)
-  console.log(`Voice: ${voiceId ?? 'default'}`)
+  console.log(`ELEVENLABS_VOICE_ID=${voiceId}`)
+  console.log(`Prompt: ${promptVersion}`)
   console.log(`Snapshot: ${snapshotPath}`)
-  console.log('\nAdd ELEVENLABS_AGENT_ID to voice-lab/.env.local if not already set.')
 }
 
 main().catch((e) => {

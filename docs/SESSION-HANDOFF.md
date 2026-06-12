@@ -1,7 +1,7 @@
 # Session Handoff — Janata Masala
 
 **Last updated:** 2026-06-12  
-**Status:** M2.4 complete — WA kit, interior frame QA, Sandy shell revamp  
+**Status:** M2.5 — live voice on `/home/explorations/voice`  
 **Live:** https://project-janata-masala.vercel.app  
 **Repo:** https://github.com/spacebuilder13/project-janata-masala  
 **Login:** `masala2026`
@@ -20,7 +20,8 @@
 - [x] Typed data layer: strategy, roadmap, benchmarks, actions, chat-memory, voice-scripts, brand-mockups
 - [x] Adventure: north star, pillars, roadmap, benchmarks, meetings, actions, scope
 - [x] Explorations: brand route, 11 WhatsApp patterns + offline ChatAgent
-- [x] Voice: ConversationSimulator (B2B + B2C list-dump), hardcoded structured JSON + flow diagram
+- [x] Voice: live ElevenLabs agent (Priya) + Claude post-call extraction, bill card + system flow diagram
+- [x] Voice R&D sandbox: `voice-lab/` (standalone lab, prompt v1.1.0)
 - [x] Architecture: benchmark stack, phase overlay, DiagramQuadrant, agent tooltips
 - [x] Offline-first: no API keys required for demos
 
@@ -29,7 +30,7 @@
 - [ ] Jay: product spreadsheet → enrich SKU data in voice/WhatsApp demos
 - [ ] Retry NLM Q4/Q5 if CLI timeout resolves
 - [ ] Optional: `VITE_ENABLE_LIVE_CHAT=true` + `ANTHROPIC_API_KEY` for live Claude
-- [ ] ElevenLabs agent when configured
+- [x] ElevenLabs agent `agent_8101ktx3d3g6ehjr063fhm5yzyr5` — set `VITE_ENABLE_LIVE_VOICE=true` on Vercel
 - [ ] Backport `wa-kit` primitives to zen-money-manager when Sandy Lab adds new surfaces
 
 ## Key docs

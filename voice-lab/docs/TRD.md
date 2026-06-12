@@ -128,12 +128,15 @@ PATCH ElevenLabs agent from repo prompts. Guard: `JM_VOICE_ADMIN_TOKEN`.
 | Setting | Value |
 |---------|-------|
 | Name | `JM Voice Lab B2C v1` |
+| Voice | `ohvvU75FpBEB8fdaLOMh` (Monika Sogam — Hindi hi-IN) |
 | LLM | `claude-sonnet-4` |
-| TTS | `eleven_flash_v2_5` |
+| TTS | `eleven_flash_v2_5`, speed 1.08 |
 | Tools | `language_detection`, `end_call` |
-| Languages | `hi`, `en` presets + `hinglish_mode`; Gujarati/Marathi via detection + prompt |
+| Languages | `hi`, `en` presets + `hinglish_mode`; Gujarati deferred |
 | Max duration | 600s |
-| Turn | 8s timeout, soft filler, 18s silence end |
+| Turn | **eager**, 5s timeout, 4s soft filler, 12s silence end, speculative_turn |
+
+See [VOICE-TUNE-TEST.md](VOICE-TUNE-TEST.md) for subjective eval.
 
 Created/idempotently patched via `scripts/create-or-patch-agent.js`.
 
