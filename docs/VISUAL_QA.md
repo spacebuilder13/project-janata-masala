@@ -20,7 +20,7 @@ Pre-deploy checklist for UI changes. **Blocking** for any polish or layout PR.
 | `/home/explorations` | Explorations index |
 | `/home/explorations/whatsapp` | WhatsApp + ChatAgent |
 | `/home/explorations/voice` | Voice + system flow |
-| `/home/explorations/architecture` | Commerce 101 roadmap + agent diagram |
+| `/home/explorations/architecture` | Commerce 101 roadmap |
 | `/home/explorations/brand` | Brand & content |
 
 ## Checklist
@@ -117,6 +117,16 @@ QA_BASE_URL=http://localhost:4173 DEMO_PASSWORD=masala2026 npm run qa:wa-frames
 ---
 
 ## Log
+
+### 2026-06-12 — Remove Agentic architecture (M2.7 follow-up)
+
+**Build:** `npm run build` — PASS  
+**Route verified:** `/home/explorations/architecture` at 1280px + 375px  
+**Removed:** Target state / Agentic architecture block (benchmark stack, quadrant, agent flow)  
+**Confirmed absent:** "Agentic architecture", "Benchmark stack", phase animate buttons, DiagramQuadrant  
+**Artifacts:** `docs/qa-screenshots/v5-architecture-roadmap-only-1280.png`, `v5-architecture-roadmap-only-375.png`
+
+**Overall: PASS** — architecture page is Commerce 101 roadmap only.
 
 ### 2026-06-12 — Adventure restructure (M2.7)
 

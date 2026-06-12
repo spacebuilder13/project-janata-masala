@@ -16,7 +16,7 @@ Status: **M2.7 Adventure brief + Commerce 101 roadmap + voice run logging**
 | `/home/explorations` | ExplorationsIndex | Explorations hub |
 | `/home/explorations/whatsapp` | ExplorationsWhatsapp | WA gallery (wa-kit) + ChatAgent |
 | `/home/explorations/voice` | ExplorationsVoice | VoiceAgent + system flow |
-| `/home/explorations/architecture` | ExplorationsArchitecture | Commerce 101 roadmap + agentic architecture diagram |
+| `/home/explorations/architecture` | ExplorationsArchitecture | Commerce 101 roadmap |
 | `/home/explorations/brand` | ExplorationsBrand | Brand & content direction |
 
 ## Offline mode (default)

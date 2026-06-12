@@ -12,7 +12,7 @@
 - [x] Removed from Adventure: benchmarks, roadmap, meetings, action/scope trackers, open questions
 - [x] Commerce 101 roadmap in Explorations — CRM, WhatsApp, inward inventory + tech initiatives
 - [x] Explorations hub: voice enabled, brand marked deferred (Walk/Run)
-- [x] Architecture page: CommerceRoadmap + ArchitectureDiagram wired together
+- [x] Architecture page: Commerce 101 roadmap (ArchitectureDiagram unwired — deferred)
 - [x] Voice run logging — Priya/Meera attempts saved to Vercel Blob (`jm-voice-logs`); viewer at `/api/voice-runs?view=html&key=<DEMO_PASSWORD>`
 
 ## What's done (M2.4)
@@ -62,4 +62,4 @@
 | `/home/explorations/brand` | Heritage, workshop, sensory, packaging |
 | `/home/explorations/whatsapp` | 11 patterns (wa-kit gallery) + offline ChatAgent |
 | `/home/explorations/voice` | Priya + Meera live voice, agent picker, run logging |
-| `/home/explorations/architecture` | Commerce 101 roadmap + agentic architecture |
+| `/home/explorations/architecture` | Commerce 101 roadmap |
