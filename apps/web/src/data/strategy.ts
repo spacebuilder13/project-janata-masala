@@ -1,9 +1,9 @@
 export const northStar = {
   question: 'Can Janata Masala run without Jay being physically present?',
   thesis:
-    'Commerce 101 first — a WhatsApp-first, staff-friendly, database-backed operating system. Structure store reality before layering growth or agents.',
+    'Commerce 101 first — structured CRM, WhatsApp backbone, and inward inventory. Systems that capture data and run the store without burning budget on branding before ROI.',
   context:
-    'Jay is 25, 2nd gen, ambitious — trapped in a single-store operational loop. The first product is a calm internal OS for staff, not a customer app.',
+    'Jay is 25, 2nd gen, ambitious — trapped in a single-store operational loop. Crawl before Run: top-line growth funds premium brand later.',
 }
 
 export const heritageFraming = {

@@ -2,13 +2,12 @@ import { motion } from 'framer-motion'
 import { fadeRise, stagger } from '../sandy/motion'
 import SectionHead from '../sandy/SectionHead'
 import ConversionBarChart from './ConversionBarChart'
-import { visionFootnote, visionGoals } from '@/data/commerce-101-brief'
+import { visionGoals } from '@/data/commerce-101-brief'
 
 export default function VisionGoals({ sectionId }: { sectionId?: string }) {
   return (
     <section>
       <SectionHead id={sectionId} eyebrow="Vision" title="Where we want to go" />
-      <p className="caption-text mb-6 max-w-[62ch]">{visionFootnote}</p>
       <motion.div
         className="grid md:grid-cols-2 gap-4"
         initial="hidden"

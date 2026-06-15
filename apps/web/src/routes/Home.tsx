@@ -9,7 +9,7 @@ const sections = [
     eyebrow: '01 — Adventure',
     title: 'Adventure',
     description:
-      'Retail operating system strategy — north star, seven-layer stack, what to build first, and the Crawl/Walk/Run path.',
+      'A living workspace for modernizing Janata Masala — grounded in our conversations, powered by agentic commerce vision.',
     accent: 'var(--color-jm-spice)',
   },
   {

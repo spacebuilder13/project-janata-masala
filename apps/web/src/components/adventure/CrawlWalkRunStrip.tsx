@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { fadeRise, stagger } from '../sandy/motion'
 import SectionHead from '../sandy/SectionHead'
-import ExplorationsLink from './ExplorationsLink'
 import { crawlWalkRun } from '@/data/commerce-101-brief'
 
 const statusClass: Record<string, string> = {
@@ -38,9 +37,6 @@ export default function CrawlWalkRunStrip({ sectionId }: { sectionId?: string })
           </motion.article>
         ))}
       </motion.div>
-      <div className="adv-cwr-footer">
-        <ExplorationsLink to="/home/explorations/architecture">See Commerce 101 roadmap</ExplorationsLink>
-      </div>
     </section>
   )
 }

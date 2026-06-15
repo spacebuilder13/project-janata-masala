@@ -33,7 +33,7 @@ export type CommunityStory = {
 
 export const todayStats: TodayStat[] = [
   { label: 'Annual touchpoints', value: '~30,000', note: 'Across both stores and channels' },
-  { label: 'Tilak Nagar daily', value: '~100 customers', note: 'Newer location still building footfall' },
+  { label: 'Tilak Nagar daily', value: '<100 customers', note: 'Newer location still building footfall' },
   { label: 'Customer records', value: 'Pen & paper', note: 'Names, phones, addresses unstructured' },
   { label: 'Inventory tracking', value: 'Counting cans', note: 'No weeks-of-stock visibility' },
 ]
@@ -43,9 +43,6 @@ export const todayBullets = [
   'Jay is 25, 2nd gen, ambitious — currently trapped in a single-store operational loop.',
   'Phone-call ordering dominates; every interaction is a missed data collection opportunity.',
 ]
-
-export const visionFootnote =
-  '10,000 structured contacts sit in the Priority investments quadrant — high adoption once capture UX exists, high impact on seasonal launches and repeat orders.'
 
 export const visionGoals = [
   {
@@ -85,14 +82,7 @@ export const crawlWalkRun: CrawlWalkRunStep[] = [
     phase: 'Crawl',
     title: 'Commerce 101 foundation',
     summary: 'Stabilize the pop-store model with structured data, WhatsApp commerce, and inward inventory.',
-    items: [
-      'Customer + order capture — digital notebook: new customer, new order, stock inward, follow-up',
-      'WhatsApp backbone — confirmations, digital bills, structured commerce channel',
-      'Core database — customers, orders, products, stock, suppliers, payments (not Sheets long-term)',
-      'Inward inventory — weeks-of-stock visibility on fast-moving SKUs',
-      'Rules-first intelligence — reorder alerts, dormant customer prompts',
-      "Jay's exception summary — daily health view, not raw logs",
-    ],
+    items: ['CRM — pen-and-paper to structured database', 'WhatsApp backbone — orders, bills, data capture', 'Inward inventory — track supplier arrivals'],
     status: 'active',
   },
   {
