@@ -55,7 +55,7 @@ Pre-deploy checklist for UI changes. **Blocking** for any polish or layout PR.
 
 ### Adventure anchor pass (1280px)
 
-For each anchor pill on `/home/adventure`: North star, **Today**, **Vision**, **Crawl/Walk/Run**, **Stores**, **Stories**:
+For each anchor pill on `/home/adventure`: North star, **Today**, **Operating stack**, **Build first**, **Crawl/Walk/Run**, **Vision**, **Stores**, **Stories**:
 
 1. Click anchor link (or navigate to `#id`)
 2. Verify section **heading fully visible** — no clipped serif ascenders under topbar + anchor nav
@@ -65,8 +65,10 @@ For each anchor pill on `/home/adventure`: North star, **Today**, **Vision**, **
 ### Adventure visual pass (1280px)
 
 - **Today:** 4-stat grid + bullet list; stat values readable at mobile
-- **Vision:** 2×2 goal cards + conversion bar chart; chart bars visible at 375px
-- **Crawl/Walk/Run:** 3-column step strip; active step spice border
+- **Operating stack:** 7-layer vertical list; today vs best-bet columns stack on mobile
+- **Build first:** 2×2 prioritization matrix; avoid list; 4-move execution strip; mental models
+- **Vision:** 2×2 goal cards + conversion bar chart; priority-investments footnote; chart bars visible at 375px
+- **Crawl/Walk/Run:** 3-column step strip; active step spice border; Commerce 101 roadmap link
 - **Stores:** hyperlocal banner + 2 store cards
 - **Stories:** 3 quote cards with serif pull quotes
 
