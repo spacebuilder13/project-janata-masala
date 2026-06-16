@@ -15,12 +15,12 @@ Pre-deploy checklist for UI changes. **Blocking** for any polish or layout PR.
 | Route | Purpose |
 |-------|---------|
 | `/` | Login gate |
-| `/home` | Hub — hybrid intro + stage panel |
-| `/home/adventure` | Adventure scroll shell — executive brief |
-| `/home/explorations` | Explorations index |
+| `/home` | Hub — Mission + Explorations cards |
+| `/home/mission` | Mission Center v2 — Falcon 2026 tabbed brief |
+| `/home/adventure` | Redirect → `/home/mission` |
+| `/home/explorations` | Explorations index (demos only) |
 | `/home/explorations/whatsapp` | WhatsApp + ChatAgent |
 | `/home/explorations/voice` | Voice + system flow |
-| `/home/explorations/architecture` | Commerce 101 roadmap |
 | `/home/explorations/brand` | Brand & content |
 
 ## Checklist
@@ -49,30 +49,52 @@ Pre-deploy checklist for UI changes. **Blocking** for any polish or layout PR.
 
 ---
 
-## Section-level QA (v3 — mandatory for Adventure + WhatsApp)
+## Section-level QA (v5 — mandatory for Mission Center + WhatsApp)
 
-**Deploy blocked** unless all section anchor tests below PASS.
+**Deploy blocked** unless all Mission Center panel tests below PASS.
 
-### Adventure anchor pass (1280px)
+### Mission Center pass (375px + 1280px)
 
-For each anchor pill on `/home/adventure`: North star, **Today**, **Vision**, **Crawl/Walk/Run**, **Stores**, **Stories**:
+Route: `/home/mission` (passcode `masala2026`)
 
-1. Click anchor link (or navigate to `#id`)
-2. Verify section **heading fully visible** — no clipped serif ascenders under topbar + anchor nav
-3. Verify first content row has ≥18px internal padding
-4. Screenshot at 1280px → `docs/qa-screenshots/v5-adventure-{section}-1280.png`
+**Header**
 
-### Adventure visual pass (1280px)
+- [ ] v2 badge visible **before** north star chip at 375px
+- [ ] Version picker opens; v1 archive loads; return to v2 works
+- [ ] Whats-new strip dismisses and stays hidden (`jm-mission-v2-seen`)
 
-- **Today:** 4-stat grid + bullet list; stat values readable at mobile
-- **Vision:** 2×2 goal cards + conversion bar chart; chart bars visible at 375px
-- **Crawl/Walk/Run:** 3-column step strip; active step spice border
-- **Stores:** hyperlocal banner + 2 store cards
-- **Stories:** 3 quote cards with serif pull quotes
+**Navigation (375px — blocking)**
 
-### List row pass (1280px) — superseded
+- [ ] Segmented primary nav (Objective · Model · Roadmap) visible without scrolling past intro; active segment obvious
+- [ ] Sticky primary nav does not cover panel content on scroll
+- [ ] Breadcrumb reads e.g. `Engagement Model · Architecture` above sub-nav chips
+- [ ] Sub-nav chips scroll horizontally; active chip has spice fill
 
-- ~~Actions, Scope, Meetings, Open questions~~ — removed from Adventure in M2.7
+**Primary tabs** — one panel visible; panel title visible in frame header
+
+| Tab | Sub-panels | Checks |
+|-----|------------|--------|
+| Business Objective | Today → Locations → Vision → Community | Cards have ≥16px gutter; panel title + blurb visible |
+| Engagement Model | Strategy → Architecture → Momentum | Strategy: thesis + Crawl/Walk/Run summary |
+| Falcon Roadmap | (phase rail inside CommerceRoadmap) | Unchanged Commerce 101 behavior |
+
+**Architecture panel**
+
+- [ ] 7-layer table with horizontal scroll; sticky layer column stays visible
+- [ ] Inventory inward and order journey columns readable at 375px
+- [ ] Global Janata today / Best bet toggle swaps column 4 for all rows
+
+**Momentum panel**
+
+- [ ] 2×2 matrix readable at 375px — axis labels, quadrant titles, priority highlight
+- [ ] Tap quadrant expands examples
+- [ ] Best Bets conclusion visible without scrolling past matrix on desktop; ≤1 scroll on mobile
+
+**v1 archive** (`?version=v1`)
+
+- [ ] Six-section scroll brief inside panel (North star, Today, Vision, C/W/R, Stores, Stories)
+
+Screenshots → `docs/qa-screenshots/v5-mission-{tab}-{panel}-{width}.png`
 
 ### WhatsApp pass (v4 — Zen gallery + interior frames)
 

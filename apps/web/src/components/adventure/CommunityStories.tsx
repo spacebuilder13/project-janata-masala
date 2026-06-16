@@ -3,15 +3,16 @@ import { fadeRise, stagger } from '../sandy/motion'
 import SectionHead from '../sandy/SectionHead'
 import { communityStories } from '@/data/commerce-101-brief'
 
-export default function CommunityStories({ sectionId }: { sectionId?: string }) {
+export default function CommunityStories({ sectionId, embedded }: { sectionId?: string; embedded?: boolean }) {
   return (
-    <section>
-      <SectionHead id={sectionId} eyebrow="Community" title="Stories that matter" />
+    <section className={embedded ? 'mc-embedded-panel' : undefined}>
+      {!embedded && <SectionHead id={sectionId} eyebrow="Community" title="Stories that matter" />}
       <motion.div
-        className="grid md:grid-cols-3 gap-4"
+        className={`grid gap-4${embedded ? ' md:grid-cols-3' : ' md:grid-cols-3'}`}
         initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
+        animate={embedded ? 'show' : undefined}
+        whileInView={embedded ? undefined : 'show'}
+        viewport={embedded ? undefined : { once: true }}
         variants={{ show: { transition: stagger(0.08) } }}
       >
         {communityStories.map((story) => (

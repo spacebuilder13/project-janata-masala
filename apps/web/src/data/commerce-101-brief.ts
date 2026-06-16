@@ -44,6 +44,9 @@ export const todayBullets = [
   'Phone-call ordering dominates; every interaction is a missed data collection opportunity.',
 ]
 
+export const visionFootnote =
+  '10,000 structured contacts sit in the Priority investments quadrant — high adoption once capture UX exists, high impact on seasonal launches and repeat orders.'
+
 export const visionGoals = [
   {
     id: 'contacts',

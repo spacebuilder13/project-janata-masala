@@ -1,6 +1,6 @@
 # BUILD — Janata Masala
 
-Status: **M2.7 Adventure brief + Commerce 101 roadmap + voice run logging**
+Status: **M2.8 Mission Center v2 (Falcon 2026) — local on `adventure-os-review`**
 
 **Live:** https://project-janata-masala.vercel.app  
 **Deploy:** Vercel (`vercel.json` at repo root)  
@@ -11,12 +11,13 @@ Status: **M2.7 Adventure brief + Commerce 101 roadmap + voice run logging**
 | Route | Component | Purpose |
 |-------|-----------|---------|
 | `/` | Login | S&A × JM co-branding, passcode gate |
-| `/home` | Home | Hub — Adventure + Explorations cards |
-| `/home/adventure` | Adventure | Commerce 101 executive brief — north star, today/vision, Crawl/Walk/Run |
+| `/home` | Home | Hub — Mission + Explorations cards |
+| `/home/mission` | Mission | Falcon 2026 Mission Center — tabbed brief (Business Objective, Engagement Model, Falcon Roadmap) |
+| `/home/adventure` | — | Redirect → `/home/mission` |
 | `/home/explorations` | ExplorationsIndex | Explorations hub |
 | `/home/explorations/whatsapp` | ExplorationsWhatsapp | WA gallery (wa-kit) + ChatAgent |
 | `/home/explorations/voice` | ExplorationsVoice | VoiceAgent + system flow |
-| `/home/explorations/architecture` | ExplorationsArchitecture | Commerce 101 roadmap |
+| `/home/explorations/architecture` | — | Redirect → `/home/mission?tab=roadmap` |
 | `/home/explorations/brand` | ExplorationsBrand | Brand & content direction |
 
 ## Offline mode (default)

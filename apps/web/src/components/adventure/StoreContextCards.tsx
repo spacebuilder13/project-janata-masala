@@ -3,10 +3,10 @@ import { fadeRise, stagger } from '../sandy/motion'
 import SectionHead from '../sandy/SectionHead'
 import { stores, hyperLocal } from '@/data/commerce-101-brief'
 
-export default function StoreContextCards({ sectionId }: { sectionId?: string }) {
+export default function StoreContextCards({ sectionId, embedded }: { sectionId?: string; embedded?: boolean }) {
   return (
-    <section>
-      <SectionHead id={sectionId} eyebrow="Locations" title="Two stores, one hyperlocal strategy" />
+    <section className={embedded ? 'mc-embedded-panel' : undefined}>
+      {!embedded && <SectionHead id={sectionId} eyebrow="Locations" title="Two stores, one hyperlocal strategy" />}
       <div className="adv-hyperlocal-banner surface-card mb-6">
         <p className="caption-label caption-label--gold">Hyper-local focus</p>
         <p className="caption-text mt-2">
@@ -19,8 +19,9 @@ export default function StoreContextCards({ sectionId }: { sectionId?: string })
       <motion.div
         className="grid md:grid-cols-2 gap-4"
         initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
+        animate={embedded ? 'show' : undefined}
+        whileInView={embedded ? undefined : 'show'}
+        viewport={embedded ? undefined : { once: true }}
         variants={{ show: { transition: stagger(0.08) } }}
       >
         {stores.map((store) => (

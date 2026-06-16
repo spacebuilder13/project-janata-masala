@@ -18,10 +18,10 @@ export default function Layout() {
           </Link>
           <nav className="jm-nav">
             <Link
-              to="/home/adventure"
-              className={`jm-nav-link${pathname.includes('adventure') ? ' jm-nav-link--active' : ''}`}
+              to="/home/mission"
+              className={`jm-nav-link${pathname.includes('mission') || pathname.includes('adventure') ? ' jm-nav-link--active' : ''}`}
             >
-              Adventure
+              Mission
             </Link>
             <Link
               to="/home/explorations"

@@ -3,15 +3,16 @@ import { fadeRise, stagger } from '../sandy/motion'
 import SectionHead from '../sandy/SectionHead'
 import { todayStats, todayBullets } from '@/data/commerce-101-brief'
 
-export default function TodaySnapshot({ sectionId }: { sectionId?: string }) {
+export default function TodaySnapshot({ sectionId, embedded }: { sectionId?: string; embedded?: boolean }) {
   return (
-    <section>
-      <SectionHead id={sectionId} eyebrow="Today" title="Where we are today" />
+    <section className={embedded ? 'mc-embedded-panel' : undefined}>
+      {!embedded && <SectionHead id={sectionId} eyebrow="Today" title="Where we are today" />}
       <motion.div
         className="adv-stat-grid"
         initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
+        animate={embedded ? 'show' : undefined}
+        whileInView={embedded ? undefined : 'show'}
+        viewport={embedded ? undefined : { once: true }}
         variants={{ show: { transition: stagger(0.06) } }}
       >
         {todayStats.map((s) => (
@@ -25,8 +26,9 @@ export default function TodaySnapshot({ sectionId }: { sectionId?: string }) {
       <motion.ul
         className="adv-bullet-list mt-6"
         initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
+        animate={embedded ? 'show' : undefined}
+        whileInView={embedded ? undefined : 'show'}
+        viewport={embedded ? undefined : { once: true }}
         variants={{ show: { transition: stagger(0.08) } }}
       >
         {todayBullets.map((b) => (
