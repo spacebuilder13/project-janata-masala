@@ -4,16 +4,17 @@ import SectionHead from '../sandy/SectionHead'
 import ConversionBarChart from './ConversionBarChart'
 import { visionFootnote, visionGoals } from '@/data/commerce-101-brief'
 
-export default function VisionGoals({ sectionId }: { sectionId?: string }) {
+export default function VisionGoals({ sectionId, embedded }: { sectionId?: string; embedded?: boolean }) {
   return (
-    <section>
-      <SectionHead id={sectionId} eyebrow="Vision" title="Where we want to go" />
-      <p className="caption-text mb-6 max-w-[62ch]">{visionFootnote}</p>
+    <section className={embedded ? 'mc-embedded-panel' : undefined}>
+      {!embedded && <SectionHead id={sectionId} eyebrow="Vision" title="Where we want to go" />}
+      <p className={`caption-text${embedded ? ' mb-4' : ' mb-6'} max-w-[62ch]`}>{visionFootnote}</p>
       <motion.div
         className="grid md:grid-cols-2 gap-4"
         initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
+        animate={embedded ? 'show' : undefined}
+        whileInView={embedded ? undefined : 'show'}
+        viewport={embedded ? undefined : { once: true }}
         variants={{ show: { transition: stagger(0.08) } }}
       >
         {visionGoals.map((g) => (
@@ -23,7 +24,7 @@ export default function VisionGoals({ sectionId }: { sectionId?: string }) {
           </motion.article>
         ))}
       </motion.div>
-      <div className="mt-8">
+      <div className={embedded ? 'mt-4' : 'mt-8'}>
         <ConversionBarChart />
       </div>
     </section>

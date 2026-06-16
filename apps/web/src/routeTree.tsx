@@ -2,11 +2,10 @@ import { createRootRoute, createRoute, createRouter, redirect, Outlet } from '@t
 import Layout from '@/components/Layout'
 import Login from '@/routes/Login'
 import Home from '@/routes/Home'
-import Adventure from '@/routes/Adventure'
+import Mission from '@/routes/Mission'
 import ExplorationsIndex from '@/routes/ExplorationsIndex'
 import ExplorationsWhatsapp from '@/routes/ExplorationsWhatsapp'
 import ExplorationsVoice from '@/routes/ExplorationsVoice'
-import ExplorationsArchitecture from '@/routes/ExplorationsArchitecture'
 import ExplorationsBrand from '@/routes/ExplorationsBrand'
 import { isAuthed } from '@/lib/auth'
 
@@ -35,13 +34,22 @@ const homeRoute = createRoute({
   component: Home,
 })
 
+const missionRoute = createRoute({
+  getParentRoute: () => layoutRoute,
+  path: '/home/mission',
+  beforeLoad: () => {
+    if (!isAuthed()) throw redirect({ to: '/' })
+  },
+  component: Mission,
+})
+
 const adventureRoute = createRoute({
   getParentRoute: () => layoutRoute,
   path: '/home/adventure',
   beforeLoad: () => {
     if (!isAuthed()) throw redirect({ to: '/' })
+    throw redirect({ to: '/home/mission' })
   },
-  component: Adventure,
 })
 
 const explorationsRoute = createRoute({
@@ -76,8 +84,8 @@ const explorationsArchitectureRoute = createRoute({
   path: '/home/explorations/architecture',
   beforeLoad: () => {
     if (!isAuthed()) throw redirect({ to: '/' })
+    throw redirect({ href: '/home/mission?tab=roadmap' })
   },
-  component: ExplorationsArchitecture,
 })
 
 const explorationsBrandRoute = createRoute({
@@ -93,6 +101,7 @@ const routeTree = rootRoute.addChildren([
   layoutRoute.addChildren([
     indexRoute,
     homeRoute,
+    missionRoute,
     adventureRoute,
     explorationsRoute,
     explorationsWhatsappRoute,

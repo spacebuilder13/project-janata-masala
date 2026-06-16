@@ -5,19 +5,20 @@ import StagePanel from '@/components/sandy/StagePanel'
 
 const sections = [
   {
-    to: '/home/adventure' as const,
-    eyebrow: '01 — Adventure',
-    title: 'Adventure',
+    to: '/home/mission' as const,
+    eyebrow: '01 — Mission',
+    title: 'Mission',
+    badge: 'v2',
     description:
-      'Retail operating system strategy — north star, seven-layer stack, what to build first, and the Crawl/Walk/Run path.',
+      'Falcon 2026 — current objective. Operating stack, prioritization, and Commerce 101 roadmap in one place.',
+    subline: 'Updated Jun 2026 — tabbed Mission Center, not a scroll brief.',
     accent: 'var(--color-jm-spice)',
   },
   {
     to: '/home/explorations' as const,
     eyebrow: '02 — Explorations',
     title: 'Explorations',
-    description:
-      'Commerce 101 roadmap, WhatsApp campaigns, voice order-taking, and agentic commerce demos.',
+    description: 'WhatsApp campaigns, voice order-taking, and brand demos — interactive explorations only.',
     accent: 'var(--color-sandy-gold)',
   },
 ]
@@ -27,18 +28,28 @@ export default function Home() {
     <PageShell variant="hub">
       <PageIntro
         eyebrow="S&A × Janata Masala"
-        title="Welcome to the adventure."
-        sub="A living workspace for modernizing Janata Masala — grounded in your conversations, powered by agentic commerce."
+        title="Mission workspace"
+        sub="Falcon 2026 engagement hub — strategy in Mission, demos in Explorations."
         accent="spice"
       />
       <StagePanel livingLines>
         <div className="jm-hub-grid">
           {sections.map((s) => (
             <Link key={s.to} to={s.to} className="obj-card">
-              <span className="obj-card-label" style={{ color: s.accent }}>{s.eyebrow}</span>
+              <span className="obj-card-label" style={{ color: s.accent }}>
+                {s.eyebrow}
+                {'badge' in s && s.badge && (
+                  <span className="mc-hub-badge">{s.badge}</span>
+                )}
+              </span>
               <h2 className="obj-card-title">{s.title}</h2>
               <p className="obj-card-body">{s.description}</p>
-              <span className="obj-card-cta">Explore →</span>
+              {'subline' in s && s.subline && (
+                <p className="obj-card-body" style={{ color: 'var(--color-sandy-ink-faint)', marginTop: 8 }}>
+                  {s.subline}
+                </p>
+              )}
+              <span className="obj-card-cta">Open →</span>
             </Link>
           ))}
         </div>

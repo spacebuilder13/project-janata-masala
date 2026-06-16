@@ -10,15 +10,16 @@ const statusClass: Record<string, string> = {
   deferred: 'adv-cwr-step--deferred',
 }
 
-export default function CrawlWalkRunStrip({ sectionId }: { sectionId?: string }) {
+export default function CrawlWalkRunStrip({ sectionId, embedded }: { sectionId?: string; embedded?: boolean }) {
   return (
-    <section>
-      <SectionHead id={sectionId} eyebrow="Strategy" title="Crawl, Walk, Run" />
+    <section className={embedded ? 'mc-embedded-panel' : undefined}>
+      {!embedded && <SectionHead id={sectionId} eyebrow="Strategy" title="Crawl, Walk, Run" />}
       <motion.div
         className="adv-cwr-strip"
         initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
+        animate={embedded ? 'show' : undefined}
+        whileInView={embedded ? undefined : 'show'}
+        viewport={embedded ? undefined : { once: true }}
         variants={{ show: { transition: stagger(0.1) } }}
       >
         {crawlWalkRun.map((step) => (
@@ -38,9 +39,11 @@ export default function CrawlWalkRunStrip({ sectionId }: { sectionId?: string })
           </motion.article>
         ))}
       </motion.div>
-      <div className="adv-cwr-footer">
-        <ExplorationsLink to="/home/explorations/architecture">See Commerce 101 roadmap</ExplorationsLink>
-      </div>
+      {!embedded && (
+        <div className="adv-cwr-footer">
+          <ExplorationsLink href="/home/mission?tab=roadmap">See Falcon Roadmap</ExplorationsLink>
+        </div>
+      )}
     </section>
   )
 }

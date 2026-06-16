@@ -4,23 +4,13 @@ import PageIntro from '@/components/sandy/PageIntro'
 
 type ModuleLink = {
   kind: 'link'
-  to:
-    | '/home/explorations/architecture'
-    | '/home/explorations/whatsapp'
-    | '/home/explorations/voice'
-    | '/home/explorations/brand'
+  to: '/home/explorations/whatsapp' | '/home/explorations/voice' | '/home/explorations/brand'
   title: string
   desc: string
   badge?: string
 }
 
 const modules: ModuleLink[] = [
-  {
-    kind: 'link',
-    to: '/home/explorations/architecture',
-    title: 'Commerce 101 Roadmap',
-    desc: 'Three operational pillars — CRM, WhatsApp backbone, inward inventory — plus tech initiatives',
-  },
   {
     kind: 'link',
     to: '/home/explorations/whatsapp',
@@ -47,11 +37,17 @@ export default function ExplorationsIndex() {
     <PageShell variant="scroll">
       <PageIntro
         eyebrow="02 — Explorations"
-        title="What can we find during the adventure"
-        sub="Commerce 101 roadmap, WhatsApp campaigns, voice demos, and the agentic commerce target state."
+        title="Interactive demos"
+        sub="WhatsApp patterns, voice agents, and brand explorations. Strategy and roadmap live in Mission."
         accent="gold"
         wide
       />
+      <p className="caption-text mb-6">
+        <Link to="/home/mission" className="adv-explorations-link" style={{ marginTop: 0 }}>
+          Falcon Roadmap &amp; engagement model
+        </Link>
+        {' '}— Commerce 101 pillars, operating stack, and best bets.
+      </p>
       <div className="jm-seq-list">
         {modules.map((m) => (
           <Link key={m.to} to={m.to} className="cp-seq-item">

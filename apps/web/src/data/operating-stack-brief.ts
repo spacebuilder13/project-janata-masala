@@ -4,9 +4,12 @@ export type OperatingLayer = {
   id: string
   order: number
   name: string
+  concept: string
   jobToday: string
   janataToday: string
   bestBet: string
+  inventoryInward: string
+  orderJourney: string
 }
 
 export type MatrixQuadrant = {
@@ -30,57 +33,78 @@ export const operatingLayers: OperatingLayer[] = [
     id: 'world-inputs',
     order: 1,
     name: 'World inputs',
+    concept: 'Capture store reality',
     jobToday: 'Capture what happens in the store and around it',
     janataToday: 'Footfall, phone calls, supplier deliveries, shelf checks, staff memory.',
     bestBet: 'Start with human capture, not sensors or over-automation.',
+    inventoryInward: 'Supplier truck arrives; staff notices delivery at the back door.',
+    orderJourney: 'Customer calls or WhatsApp messages asking for atta and masala.',
   },
   {
     id: 'capture-ux',
     order: 2,
     name: 'Capture UX',
+    concept: 'Fast data entry',
     jobToday: 'Make data entry simple enough to use during rush hour',
     janataToday: 'Pen, paper, verbal coordination.',
     bestBet: 'Mobile-first internal workflows with fast search, defaults, and minimal fields.',
+    inventoryInward: 'Rush-hour scribble — qty and SKU names while unloading cartons.',
+    orderJourney: 'Staff writes order on counter pad while serving other customers.',
   },
   {
     id: 'system-of-record',
     order: 3,
     name: 'System of record',
+    concept: 'Canonical data core',
     jobToday: 'Store canonical business data',
     janataToday: 'Records are fragmented or informal.',
     bestBet: 'A real database core for customers, orders, products, stock, suppliers, and payments.',
+    inventoryInward: 'SKU, qty, and supplier saved as a canonical inward line.',
+    orderJourney: 'Customer profile and order line items linked in one record.',
   },
   {
     id: 'workflow-logic',
     order: 4,
     name: 'Workflow logic',
+    concept: 'Repeatable operations',
     jobToday: 'Standardize repeatable store operations',
     janataToday: 'Founder-dependent execution.',
     bestBet: 'Rules for orders, stock inward, billing, follow-ups, and exceptions.',
+    inventoryInward: 'Inward entry updates stock; triggers weeks-of-stock estimate.',
+    orderJourney: 'Confirm order → digital bill → pick/pack → payment link.',
   },
   {
     id: 'intelligence',
     order: 5,
     name: 'Intelligence',
+    concept: 'Records → decisions',
     jobToday: 'Turn records into decisions',
     janataToday: 'Ad hoc judgment and memory.',
     bestBet: 'Reorder alerts, repeat-cycle memory, dormant customer prompts, top-SKU tracking.',
+    inventoryInward: 'Weeks-of-stock calc; reorder alert when atta runs low.',
+    orderJourney: 'Repeat-order memory; dormant customer nudge for haldi.',
   },
   {
     id: 'action-surfaces',
     order: 6,
     name: 'Action surfaces',
+    concept: 'Intelligence in the flow',
     jobToday: 'Get intelligence back into the flow of work',
     janataToday: 'Mostly calls and in-person communication.',
     bestBet: 'WhatsApp for customers, staff console for operations, daily summary for Jay.',
+    inventoryInward: 'Low-stock ping to staff console before shelf goes empty.',
+    orderJourney: 'WhatsApp confirmation and digital bill sent to customer.',
   },
   {
     id: 'management',
     order: 7,
     name: 'Management layer',
+    concept: 'Founder visibility',
     jobToday: 'Give visibility and control',
     janataToday: 'Limited reporting structure today.',
     bestBet: 'A lightweight ops dashboard with daily health, stock risk, and customer activity.',
+    inventoryInward: 'Stock risk and inward gaps on Jay\'s daily summary.',
+    orderJourney: 'Order volume, exceptions, and repeat cycles on founder dashboard.',
   },
 ]
 

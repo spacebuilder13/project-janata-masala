@@ -1,17 +1,16 @@
 import type { ReactNode } from 'react'
-import { Link } from '@tanstack/react-router'
 
-type ExplorationsLinkProps = {
-  to: '/home/explorations/architecture' | '/home/explorations/whatsapp' | '/home/explorations/voice' | '/home/explorations'
+type Props = {
+  href: string
   children: ReactNode
   className?: string
 }
 
-export default function ExplorationsLink({ to, children, className = '' }: ExplorationsLinkProps) {
+export default function ExplorationsLink({ href, children, className = '' }: Props) {
   return (
-    <Link to={to} className={`adv-explorations-link ${className}`.trim()}>
+    <a href={href} className={`adv-explorations-link ${className}`.trim()}>
       {children}
       <span aria-hidden="true"> →</span>
-    </Link>
+    </a>
   )
 }

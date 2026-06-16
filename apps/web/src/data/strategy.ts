@@ -3,7 +3,7 @@ export const northStar = {
   thesis:
     'Commerce 101 first — a WhatsApp-first, staff-friendly, database-backed operating system. Structure store reality before layering growth or agents.',
   context:
-    'Jay is 25, 2nd gen, ambitious — trapped in a single-store operational loop. The first product is a calm internal OS for staff, not a customer app.',
+    'Jun 2026 synthesis — discovery sessions + tech executive report. Jay is 25, 2nd gen, ambitious — trapped in a single-store operational loop. Falcon 2026 frames the first product as a calm internal OS for staff, not a customer app.',
 }
 
 export const heritageFraming = {
