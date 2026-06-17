@@ -18,6 +18,7 @@ B2B engagement pod for modernizing Janata Masala through agentic commerce.
 - "update adventure module"
 - "update explorations"
 - "update whatsapp" / "wa-kit" → load `docs/WA_KIT.md` + `docs/VISUAL_QA.md`
+- "voice costing report" / "voice cost report" → `docs/VOICE_COSTING_V1.md` + `npm run report:voice-cost`
 
 ## WhatsApp / wa-kit
 

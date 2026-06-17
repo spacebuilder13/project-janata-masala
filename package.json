@@ -1,6 +1,9 @@
 {
   "name": "project-janata-masala",
   "private": true,
+  "scripts": {
+    "report:voice-cost": "node scripts/voice-cost-report.mjs"
+  },
   "devDependencies": {
     "@vercel/node": "^5.0.0"
   },

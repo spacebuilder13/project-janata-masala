@@ -1,10 +1,17 @@
 # Session Handoff — Janata Masala
 
-**Last updated:** 2026-06-12  
-**Status:** M2.7 — Adventure executive brief + Commerce 101 roadmap + voice run logging  
+**Last updated:** 2026-06-17  
+**Status:** M2.9 — Voice costing report v1 + voice run logging  
 **Live:** https://project-janata-masala.vercel.app  
 **Repo:** https://github.com/spacebuilder13/project-janata-masala  
 **Login:** `masala2026`
+
+## What's done (M2.9)
+
+- [x] **Voice costing report v1** — recurring INR spend report from live voice-runs + EL dashboard
+- [x] `npm run report:voice-cost` → `outputs/voice-costing/latest.md` (commit for diff over time)
+- [x] Methodology: `docs/VOICE_COSTING_V1.md` — Creator plan economics (₹/credit from pool, no double-count)
+- [x] Agent skill: `.cursor/skills/voice-costing-report/SKILL.md` — bootstrap: **"voice costing report"**
 
 ## What's done (M2.7)
 
@@ -48,6 +55,7 @@
 |-----|---------|
 | `docs/WA_KIT.md` | WhatsApp kit structure, tokens, frame-safe rules |
 | `docs/VISUAL_QA.md` | Pre-deploy checklist (interior frame pass blocking for WhatsApp) |
+| `docs/VOICE_COSTING_V1.md` | Voice demo INR costing — formulas, report template, `npm run report:voice-cost` |
 | `BUILD.md` | Routes, stack, deploy commands |
 
 ## NLM notebook
@@ -61,5 +69,5 @@
 | `/home/adventure` | Strategy executive brief, Crawl/Walk/Run storytelling |
 | `/home/explorations/brand` | Heritage, workshop, sensory, packaging |
 | `/home/explorations/whatsapp` | 11 patterns (wa-kit gallery) + offline ChatAgent |
-| `/home/explorations/voice` | Priya + Meera live voice, agent picker, run logging |
+| `/home/explorations/voice` | Priya + Meera live voice, agent picker, run logging, costing report |
 | `/home/explorations/architecture` | Commerce 101 roadmap |

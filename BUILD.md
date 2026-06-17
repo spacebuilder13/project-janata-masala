@@ -42,6 +42,22 @@ Every Priya/Meera call is saved to Vercel Blob (`jm-voice-logs`) via `post-call-
 | JSON list | `/api/voice-runs?key=<DEMO_PASSWORD>` |
 | Single run | `/api/voice-runs?session_id=<id>&key=<DEMO_PASSWORD>` |
 
+### Voice costing report (v1)
+
+Recurring INR spend report for voice demos. Methodology: `docs/VOICE_COSTING_V1.md`.
+
+```bash
+npm run report:voice-cost   # writes outputs/voice-costing/latest.md
+```
+
+| Env var | Default | Purpose |
+|---------|---------|---------|
+| `DEMO_PASSWORD` | *(required)* | Auth for voice-runs API |
+| `VOICE_COST_BASE_URL` | `https://project-janata-masala.vercel.app` | API base |
+| `EL_PLAN_USD` | `22` | Creator subscription USD |
+| `EL_PLAN_CREDITS` | `248000` | Monthly EL credit pool |
+| `USD_INR_FX` | `83` | FX for ₹ display |
+
 ## Design
 
 See `knowledge/brand_guidelines.md`. Graph paper background with vignette, JM spice accent on Sandy base.
